@@ -1,0 +1,51 @@
+# --- Gerenciamento de Dependências ---
+node_modules/
+.pnpm-debug.log*
+
+# --- Turborepo ---
+.turbo/
+
+# --- Artefatos de Build (Geral) ---
+dist/
+build/
+*.tsbuildinfo
+
+# --- Prisma ---
+# Ignora o cliente gerado localmente (geralmente em node_modules, mas pode ser customizado)
+/packages/database/generated/
+# Bancos de dados SQLite gerados em testes
+*.db
+*.db-journal
+
+# --- TypeORM ---
+# Logs de queries e arquivos de log do driver
+ormlogs.log
+# Se usar migrations em JS (compiladas do TS)
+/apps/server/migrations/*.js
+
+# --- React + Vite (Front-end) ---
+/apps/web/dist/
+*.local
+coverage/
+
+# --- Variáveis de Ambiente ---
+# Importante: Prisma e TypeORM usam arquivos .env para strings de conexão
+.env
+.env.local
+.env.*.local
+
+# --- IDEs e Sistema ---
+.vscode/*
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Docker (Caso suba containers de Postgres/MySQL para teste) ---
+.docker/
+
+infra/signoz/
+/worktrees/
+.data/
