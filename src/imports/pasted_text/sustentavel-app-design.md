@@ -3,7 +3,7 @@ O sistema deve ser simples, rápido, confiável e focado em sustentabilidade.
 IMPORTANTE:
 Não há login complexo (apenas nome e telefone)
 Considerar que o usuário já está validado por telefone
-O contato é feito diretamente via WhatsApp
+O contato é feito diretamente pelo chat da plataforma
 O sistema não realiza pagamentos dentro da plataforma
 MODELO DE USUÁRIO
 Existe apenas um tipo de usuário
@@ -96,9 +96,9 @@ Exibir mensagem:
 "Este item pode evitar o descarte de X kg de resíduos."
 AÇÃO PRINCIPAL
 Botão destacado:
-"Falar no WhatsApp"
+"Entrar em contato"
 Comportamento:
-Abrir WhatsApp com mensagem pré-preenchida:
+Abrir canal de contato com mensagem pré-preenchida:
 "Olá, tenho interesse no item anunciado."
 Exibir:
 "Contato protegido"
@@ -177,7 +177,7 @@ Facilidade de uso
 DADOS MOCK
 Criar exemplos realistas:
 Itens:
-Geladeira Brastemp
+Geladeira duplex
 Sofá 3 lugares
 Fogão 4 bocas
 Máquina de lavar

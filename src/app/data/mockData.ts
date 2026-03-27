@@ -125,7 +125,7 @@ export const USERS: User[] = [
 export const ITEMS: Item[] = [
   {
     id: 'i1',
-    name: 'Geladeira Brastemp Frost Free',
+    name: 'Geladeira Duplex Frost Free',
     description:
       'Geladeira duplex em ótimo estado, funcionando perfeitamente. Compramos uma nova por isso estamos doando. Pequeno amassado na lateral que não compromete o funcionamento.',
     category: 'geladeiras',
@@ -172,7 +172,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: 'i3',
-    name: 'Fogão 4 Bocas Consul',
+    name: 'Fogão 4 Bocas',
     description:
       'Fogão em bom estado com acendimento automático. Todas as bocas funcionando. Mesa de vidro impecável. Vendo pois comprei fogão maior.',
     category: 'eletrodomesticos',
@@ -196,7 +196,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: 'i4',
-    name: 'Máquina de Lavar Electrolux 11kg',
+    name: 'Máquina de Lavar 11kg',
     description:
       'Máquina de lavar em excelente estado, função turbo secagem, 11kg. Acompanha mangueira. Saindo por mudança de estado.',
     category: 'eletrodomesticos',
@@ -219,7 +219,7 @@ export const ITEMS: Item[] = [
   },
   {
     id: 'i5',
-    name: 'Liquidificador Walita',
+    name: 'Liquidificador 1200W',
     description:
       'Liquidificador de 1200W com 3 velocidades e função pulsar. Copo de vidro sem rachaduras. Funcionando perfeitamente.',
     category: 'eletrodomesticos',

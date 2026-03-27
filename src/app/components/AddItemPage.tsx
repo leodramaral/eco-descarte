@@ -69,7 +69,7 @@ export function AddItemPage() {
         </div>
         <h2 className="text-gray-800 mb-2" style={{ fontSize: "1.3rem" }}>Anúncio publicado!</h2>
         <p className="text-gray-500 text-sm max-w-xs mb-3">
-          Seu item foi anunciado com sucesso. Você receberá contatos pelo WhatsApp.
+          Seu item foi anunciado com sucesso. Você receberá contatos pelo chat da plataforma.
         </p>
         <div className="bg-green-50 rounded-xl p-4 w-full max-w-xs mb-8 border border-green-200">
           <div className="flex items-center gap-2 mb-1">
@@ -145,7 +145,7 @@ export function AddItemPage() {
           </label>
           <input
             type="text"
-            placeholder="Ex: Geladeira Brastemp 340L"
+            placeholder="Ex: Geladeira duplex 340L"
             value={form.name}
             onChange={(e) => handleChange("name", e.target.value)}
             className="w-full px-4 py-3 bg-white rounded-xl border border-gray-200 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 text-sm transition-all"
@@ -224,7 +224,7 @@ export function AddItemPage() {
             <div>
               <input
                 type="number"
-                placeholder="Peso (kg)"
+                placeholder="Ex: 25 kg"
                 value={form.weight}
                 onChange={(e) => handleChange("weight", e.target.value)}
                 className="w-full px-3 py-3 bg-white rounded-xl border border-gray-200 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 text-sm text-center transition-all"
@@ -234,7 +234,7 @@ export function AddItemPage() {
             <div>
               <input
                 type="number"
-                placeholder="Alt"
+                placeholder="Ex: 120 cm"
                 value={form.height}
                 onChange={(e) => handleChange("height", e.target.value)}
                 className="w-full px-3 py-3 bg-white rounded-xl border border-gray-200 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 text-sm text-center transition-all"
@@ -244,7 +244,7 @@ export function AddItemPage() {
             <div>
               <input
                 type="number"
-                placeholder="Larg"
+                placeholder="Ex: 60 cm"
                 value={form.width}
                 onChange={(e) => handleChange("width", e.target.value)}
                 className="w-full px-3 py-3 bg-white rounded-xl border border-gray-200 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 text-sm text-center transition-all"
@@ -254,7 +254,7 @@ export function AddItemPage() {
             <div>
               <input
                 type="number"
-                placeholder="Prof"
+                placeholder="Ex: 45 cm"
                 value={form.depth}
                 onChange={(e) => handleChange("depth", e.target.value)}
                 className="w-full px-3 py-3 bg-white rounded-xl border border-gray-200 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 text-sm text-center transition-all"
