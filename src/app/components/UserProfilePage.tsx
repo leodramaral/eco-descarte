@@ -39,6 +39,10 @@ export function UserProfilePage() {
   const userItems = ITEMS.filter((item) => item.userId === user.id);
   const activeItems = userItems.filter((_, i) => i === 0);
   const historyItems = userItems.slice(1);
+  const discardedItemsCount = historyItems.length;
+  const collectedItemsCount = 0;
+  const wasteAvoidedKg = historyItems.reduce((total, item) => total + item.wasteWeight, 0);
+  const superEcoProgress = Math.min((discardedItemsCount / 20) * 100, 100);
   const formattedPhone = formatPhoneForDisplay(user.phone);
   const userNeighborhoods = [...new Set(userItems.map((item) => item.neighborhood))];
   const neighborhoodsSummary =
@@ -124,7 +128,7 @@ export function UserProfilePage() {
               <div className="flex items-center justify-between mb-1.5">
                 <Package className="w-4 h-4 text-blue-600" />
                 <p className="text-gray-800" style={{ fontWeight: 700 }}>
-                  {user.itemsDiscarded}
+                  {discardedItemsCount}
                 </p>
               </div>
               <p className="text-gray-500 text-xs">Itens descartados</p>
@@ -134,7 +138,7 @@ export function UserProfilePage() {
               <div className="flex items-center justify-between mb-1.5">
                 <Truck className="w-4 h-4 text-amber-600" />
                 <p className="text-gray-800" style={{ fontWeight: 700 }}>
-                  {user.itemsCollected}
+                  {collectedItemsCount}
                 </p>
               </div>
               <p className="text-gray-500 text-xs">Itens coletados</p>
@@ -174,7 +178,7 @@ export function UserProfilePage() {
                   </div>
                 </div>
                 <p className="text-green-800" style={{ fontWeight: 700, fontSize: "1.1rem" }}>
-                  {user.wasteAvoided}kg
+                  {wasteAvoidedKg}kg
                 </p>
               </div>
             </div>
@@ -359,12 +363,12 @@ export function UserProfilePage() {
                 <div>
                   <div className="flex justify-between text-xs text-gray-500 mb-1">
                     <span>Super Eco (20 descartes)</span>
-                    <span style={{ fontWeight: 600 }}>{user.itemsDiscarded}/20</span>
+                    <span style={{ fontWeight: 600 }}>{discardedItemsCount}/20</span>
                   </div>
                   <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-green-500 rounded-full transition-all"
-                      style={{ width: `${(user.itemsDiscarded / 20) * 100}%` }}
+                      style={{ width: `${superEcoProgress}%` }}
                     />
                   </div>
                 </div>
