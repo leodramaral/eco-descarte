@@ -1,6 +1,7 @@
 # --- Gerenciamento de Dependencias ---
 node_modules/
 .pnpm-debug.log*
+package-lock.json
 
 # --- Turborepo ---
 .turbo/
