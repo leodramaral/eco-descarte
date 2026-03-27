@@ -330,29 +330,70 @@ export function UserProfilePage() {
             <p className="text-gray-500 text-sm mb-4">
               Continue engajado para desbloquear mais conquistas! 🏆
             </p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-wrap justify-center gap-6">
               {user.badges.map((badge) => (
                 <div
                   key={badge.id}
-                  className={`p-4 rounded-xl border-2 flex flex-col items-center gap-2 ${badge.color}`}
-                  style={{ borderColor: "transparent" }}
+                  className="flex flex-col items-center gap-2"
                 >
-                  <span className="text-3xl">{badge.icon}</span>
-                  <p className="text-sm text-center" style={{ fontWeight: 700 }}>{badge.label}</p>
-                  <span className="text-xs opacity-70 text-center">Conquistado ✓</span>
+                  <div
+                    className={`w-24 h-24 rounded-full border-2 flex flex-col items-center justify-center gap-1 relative ${badge.color}`}
+                    style={{ borderColor: "transparent" }}
+                  >
+                    <span className="text-3xl">{badge.icon}</span>
+                    <span className="text-lg opacity-70 absolute -bottom-1 -right-1 bg-white rounded-full w-7 h-7 flex items-center justify-center">✓</span>
+                  </div>
+                  <p className="text-xs text-center leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
+                    {badge.label}
+                  </p>
                 </div>
               ))}
 
               {/* Locked badges */}
-              <div className="p-4 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 flex flex-col items-center gap-2">
-                <span className="text-3xl grayscale opacity-40">🏆</span>
-                <p className="text-sm text-gray-400 text-center" style={{ fontWeight: 600 }}>Super Eco</p>
-                <span className="text-xs text-gray-400 text-center">Descarte 20 itens</span>
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center gap-1 cursor-not-allowed opacity-60 transition-opacity hover:opacity-80 relative">
+                  <span className="text-2xl grayscale opacity-60">🏆</span>
+                  <span className="text-lg absolute -bottom-1 -right-1 bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center">🔒</span>
+                </div>
+                <p className="text-xs text-center text-gray-400 leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
+                  Super Eco
+                </p>
               </div>
-              <div className="p-4 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 flex flex-col items-center gap-2">
-                <span className="text-3xl grayscale opacity-40">⭐</span>
-                <p className="text-sm text-gray-400 text-center" style={{ fontWeight: 600 }}>5 Estrelas</p>
-                <span className="text-xs text-gray-400 text-center">Alcance 50 avaliações</span>
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center gap-1 cursor-not-allowed opacity-60 transition-opacity hover:opacity-80 relative">
+                  <span className="text-2xl grayscale opacity-60">⭐</span>
+                  <span className="text-lg absolute -bottom-1 -right-1 bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center">🔒</span>
+                </div>
+                <p className="text-xs text-center text-gray-400 leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
+                  5 Estrelas
+                </p>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center gap-1 cursor-not-allowed opacity-60 transition-opacity hover:opacity-80 relative">
+                  <span className="text-2xl grayscale opacity-60">🌱</span>
+                  <span className="text-lg absolute -bottom-1 -right-1 bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center">🔒</span>
+                </div>
+                <p className="text-xs text-center text-gray-400 leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
+                  Ecologista
+                </p>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center gap-1 cursor-not-allowed opacity-60 transition-opacity hover:opacity-80 relative">
+                  <span className="text-2xl grayscale opacity-60">🎯</span>
+                  <span className="text-lg absolute -bottom-1 -right-1 bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center">🔒</span>
+                </div>
+                <p className="text-xs text-center text-gray-400 leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
+                  Objetivo
+                </p>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center gap-1 cursor-not-allowed opacity-60 transition-opacity hover:opacity-80 relative">
+                  <span className="text-2xl grayscale opacity-60">🚀</span>
+                  <span className="text-lg absolute -bottom-1 -right-1 bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center">🔒</span>
+                </div>
+                <p className="text-xs text-center text-gray-400 leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
+                  Velocista
+                </p>
               </div>
             </div>
 
