@@ -10,10 +10,26 @@ import {
   ChevronRight,
   MapPin,
   Edit3,
+  Phone,
+  Calendar,
 } from "lucide-react";
 import { CURRENT_USER, ITEMS } from "../data/mockData";
 
 type Tab = "descartando" | "historico" | "conquistas";
+
+function formatPhoneForDisplay(phone: string) {
+  const digits = phone.replace(/\D/g, "");
+
+  if (digits.length < 10) return phone;
+
+  const localNumber = digits.slice(-11);
+  const countryCode = digits.slice(0, -11);
+  const ddd = localNumber.slice(0, 2);
+  const prefix = localNumber.slice(2, 7);
+  const suffix = localNumber.slice(7);
+
+  return `${countryCode ? `+${countryCode} ` : ""}(${ddd}) ${prefix.slice(0, 2)}***-${suffix}`;
+}
 
 export function UserProfilePage() {
   const navigate = useNavigate();
@@ -23,6 +39,12 @@ export function UserProfilePage() {
   const userItems = ITEMS.filter((item) => item.userId === user.id);
   const activeItems = userItems.filter((_, i) => i === 0);
   const historyItems = userItems.slice(1);
+  const formattedPhone = formatPhoneForDisplay(user.phone);
+  const userNeighborhoods = [...new Set(userItems.map((item) => item.neighborhood))];
+  const neighborhoodsSummary =
+    userNeighborhoods.length <= 2
+      ? userNeighborhoods.join(" • ")
+      : `${userNeighborhoods.slice(0, 2).join(" • ")} +${userNeighborhoods.length - 2}`;
 
   const TABS: { value: Tab; label: string }[] = [
     { value: "descartando", label: "Descartando" },
@@ -33,105 +55,135 @@ export function UserProfilePage() {
   return (
     <div className="pb-8">
       {/* Profile Header */}
-      <div className="bg-gradient-to-br from-green-600 to-green-700 px-4 pt-6 pb-8 relative">
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <img
-                src={user.photo}
-                alt={user.name}
-                className="w-16 h-16 rounded-full object-cover border-3 border-white shadow-lg"
-                style={{ borderWidth: 3 }}
-              />
-              <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white" />
-            </div>
-            <div>
-              <h2 className="text-white" style={{ fontSize: "1.1rem" }}>{user.name}</h2>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                {user.verified && (
-                  <span className="flex items-center gap-0.5 bg-white/20 text-white text-xs px-2 py-0.5 rounded-full" style={{ fontWeight: 600 }}>
-                    <CheckCircle className="w-3 h-3" /> Telefone verificado
-                  </span>
-                )}
+      <div className="px-4 pt-5">
+        <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-4">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <img
+                  src={user.photo}
+                  alt={user.name}
+                  className="w-[72px] h-[72px] rounded-full object-cover border-3 border-white shadow-lg ring-2 ring-gray-100"
+                  style={{ borderWidth: 3 }}
+                />
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white" />
               </div>
-              <p className="text-green-200 text-xs mt-1">Membro desde {user.memberSince}</p>
+              <div>
+                <h2 className="text-gray-900 leading-tight" style={{ fontSize: "1.2rem", fontWeight: 700 }}>
+                  {user.name}
+                </h2>
+                <p className="text-gray-500 text-xs mt-0.5">Perfil público</p>
+                <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                  {user.verified && (
+                    <span className="flex items-center gap-1 bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full" style={{ fontWeight: 600 }}>
+                      <CheckCircle className="w-3 h-3" /> Conta verificada
+                    </span>
+                  )}
+                  {user.respondsQuickly && (
+                    <span className="flex items-center gap-1 bg-amber-50 text-amber-700 text-xs px-2 py-1 rounded-full" style={{ fontWeight: 600 }}>
+                      <Zap className="w-3 h-3" /> Responde rápido
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+            <button className="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200">
+              <Edit3 className="w-4 h-4 text-gray-600" />
+            </button>
+          </div>
+
+          <div className="rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 mb-3">
+            <div className="flex items-center gap-1.5">
+              <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+              <span className="text-gray-800 text-sm" style={{ fontWeight: 700 }}>
+                {user.rating.toFixed(1)}
+              </span>
+              <span className="text-gray-500 text-xs">({user.reviewCount} avaliações)</span>
             </div>
           </div>
-          <button className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-            <Edit3 className="w-4 h-4 text-white" />
-          </button>
-        </div>
 
-        {/* Rating & Response */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1.5">
-            <Star className="w-4 h-4 text-yellow-300 fill-yellow-300" />
-            <span className="text-white text-sm" style={{ fontWeight: 700 }}>
-              {user.rating}
-            </span>
-            <span className="text-white/70 text-xs">({user.reviewCount} avaliações)</span>
+          <div className="space-y-2 mb-3">
+            <div className="flex items-center gap-2 text-gray-500 text-xs">
+              <Calendar className="w-3.5 h-3.5 text-gray-400" />
+              <span>Membro desde {user.memberSince}</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-500 text-xs">
+              <Phone className="w-3.5 h-3.5 text-gray-400" />
+              <span>{formattedPhone}</span>
+            </div>
+            {neighborhoodsSummary && (
+              <div className="flex items-center gap-2 text-gray-500 text-xs">
+                <MapPin className="w-3.5 h-3.5 text-gray-400" />
+                <span>Atua em {neighborhoodsSummary}</span>
+              </div>
+            )}
           </div>
-          {user.respondsQuickly && (
-            <div className="flex items-center gap-1 bg-white/20 rounded-full px-3 py-1.5">
-              <Zap className="w-3.5 h-3.5 text-yellow-300" />
-              <span className="text-white text-xs" style={{ fontWeight: 600 }}>Responde rápido</span>
-            </div>
-          )}
-        </div>
-      </div>
 
-      {/* Activity Stats */}
-      <div className="px-4 -mt-4">
-        <div className="bg-white rounded-2xl shadow-md p-4 border border-gray-100">
-          <div className="grid grid-cols-3 gap-3">
-            <div className="text-center">
-              <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-2">
-                <Package className="w-5 h-5 text-blue-600" />
+          <div className="grid grid-cols-2 gap-2.5">
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-3">
+              <div className="flex items-center justify-between mb-1.5">
+                <Package className="w-4 h-4 text-blue-600" />
+                <p className="text-gray-800" style={{ fontWeight: 700 }}>
+                  {user.itemsDiscarded}
+                </p>
               </div>
-              <p className="text-gray-800" style={{ fontWeight: 700, fontSize: "1.2rem" }}>
-                {user.itemsDiscarded}
-              </p>
-              <p className="text-gray-400 text-xs">Descartados</p>
+              <p className="text-gray-500 text-xs">Itens descartados</p>
             </div>
-            <div className="text-center">
-              <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center mx-auto mb-2">
-                <Truck className="w-5 h-5 text-amber-600" />
-              </div>
-              <p className="text-gray-800" style={{ fontWeight: 700, fontSize: "1.2rem" }}>
-                {user.itemsCollected}
-              </p>
-              <p className="text-gray-400 text-xs">Coletados</p>
-            </div>
-            <div className="text-center">
-              <div className="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center mx-auto mb-2">
-                <Leaf className="w-5 h-5 text-green-600" />
-              </div>
-              <p className="text-green-700" style={{ fontWeight: 700, fontSize: "1.2rem" }}>
-                {user.wasteAvoided}kg
-              </p>
-              <p className="text-green-500 text-xs">Resíduos evitados</p>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Environmental Impact Message */}
-      <div className="px-4 mt-4">
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200 flex items-start gap-3">
-          <div className="text-2xl">🌱</div>
-          <div>
-            <p className="text-green-800 text-sm" style={{ fontWeight: 700 }}>Seu impacto no planeta!</p>
-            <p className="text-green-700 text-xs mt-0.5 leading-relaxed">
-              Você já ajudou a evitar o descarte de{" "}
-              <span style={{ fontWeight: 700 }}>{user.wasteAvoided}kg de resíduos</span> no meio
-              ambiente. Continue assim!
-            </p>
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-3">
+              <div className="flex items-center justify-between mb-1.5">
+                <Truck className="w-4 h-4 text-amber-600" />
+                <p className="text-gray-800" style={{ fontWeight: 700 }}>
+                  {user.itemsCollected}
+                </p>
+              </div>
+              <p className="text-gray-500 text-xs">Itens coletados</p>
+            </div>
+
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-3">
+              <div className="flex items-center justify-between mb-1.5">
+                <Package className="w-4 h-4 text-gray-600" />
+                <p className="text-gray-800" style={{ fontWeight: 700 }}>
+                  {activeItems.length}
+                </p>
+              </div>
+              <p className="text-gray-500 text-xs">Anúncios ativos</p>
+            </div>
+
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-3">
+              <div className="flex items-center justify-between mb-1.5">
+                <Star className="w-4 h-4 text-gray-600" />
+                <p className="text-gray-800" style={{ fontWeight: 700 }}>
+                  {user.badges.length}
+                </p>
+              </div>
+              <p className="text-gray-500 text-xs">Conquistas</p>
+            </div>
+
+            <div className="col-span-2 rounded-xl border border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-3">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
+                    <Leaf className="w-4 h-4 text-green-700" />
+                  </div>
+                  <div>
+                    <p className="text-green-800 text-xs" style={{ fontWeight: 700 }}>
+                      Resíduos evitados
+                    </p>
+                    <p className="text-green-700 text-[11px]">Seu maior impacto ambiental</p>
+                  </div>
+                </div>
+                <p className="text-green-800" style={{ fontWeight: 700, fontSize: "1.1rem" }}>
+                  {user.wasteAvoided}kg
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="px-4 mt-5">
+      <div className="px-4 mt-4">
         <div className="flex bg-gray-100 rounded-xl p-1">
           {TABS.map((tab) => (
             <button
