@@ -21,25 +21,27 @@ export function Layout() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Top Header */}
       <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
-          <button onClick={() => navigate("/")} className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-              <Leaf className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-green-700" style={{ fontWeight: 700, fontSize: "1.1rem" }}>
-              Eco<span className="text-green-500">Descarte</span>
-            </span>
-          </button>
-          <button
-            onClick={() => navigate(`/profile/${CURRENT_USER.id}`)}
-            className="w-8 h-8 rounded-full overflow-hidden border-2 border-green-500"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1710357956769-232ef8e9e1aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=80"
-              alt="Perfil"
-              className="w-full h-full object-cover"
-            />
-          </button>
+        <div className="max-w-2xl mx-auto px-4 py-3 space-y-3">
+          <div className="flex items-center justify-between">
+            <button onClick={() => navigate("/")} className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+                <Leaf className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-green-700" style={{ fontWeight: 700, fontSize: "1.1rem" }}>
+                Eco<span className="text-green-500">Descarte</span>
+              </span>
+            </button>
+            <button
+              onClick={() => navigate(`/profile/${CURRENT_USER.id}`)}
+              className="w-8 h-8 rounded-full overflow-hidden border-2 border-green-500"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1710357956769-232ef8e9e1aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=80"
+                alt="Perfil"
+                className="w-full h-full object-cover"
+              />
+            </button>
+          </div>
         </div>
       </header>
 

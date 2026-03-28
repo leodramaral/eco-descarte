@@ -69,7 +69,7 @@ export function AddItemPage() {
         </div>
         <h2 className="text-gray-800 mb-2" style={{ fontSize: "1.3rem" }}>Anúncio publicado!</h2>
         <p className="text-gray-500 text-sm max-w-xs mb-3">
-          Seu item foi anunciado com sucesso. Você receberá contatos pelo chat da plataforma.
+          Seu item foi anunciado com sucesso. Pessoas no modo coletor poderão entrar em contato pelo chat.
         </p>
         <div className="bg-green-50 rounded-xl p-4 w-full max-w-xs mb-8 border border-green-200">
           <div className="flex items-center gap-2 mb-1">
@@ -113,6 +113,11 @@ export function AddItemPage() {
       <div className="mb-6">
         <h1 className="text-gray-900" style={{ fontSize: "1.3rem" }}>Anunciar item</h1>
         <p className="text-gray-500 text-sm mt-1">Preencha os dados do item que deseja descartar</p>
+        <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3 py-1">
+          <span className="text-[11px] text-gray-600" style={{ fontWeight: 600 }}>
+            Seu perfil também pode coletar itens no catálogo
+          </span>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -347,7 +352,7 @@ export function AddItemPage() {
               style={{ fontWeight: form.transport === "retirada" ? 700 : 400 }}
             >
               📍 Retirada no local
-              <span className="text-xs opacity-70">Receptor busca</span>
+              <span className="text-xs opacity-70">Coletor busca</span>
             </button>
             <button
               type="button"

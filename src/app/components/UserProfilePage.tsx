@@ -69,7 +69,7 @@ export function UserProfilePage() {
       : `${userNeighborhoods.slice(0, 2).join(" • ")} +${userNeighborhoods.length - 2}`;
 
   const TABS: { value: Tab; label: string }[] = [
-    { value: "descartando", label: "Descartando" },
+    { value: "descartando", label: "Ativos" },
     { value: "historico", label: "Histórico" },
     { value: "conquistas", label: "Conquistas" },
   ];
@@ -150,6 +150,7 @@ export function UserProfilePage() {
                 </p>
               </div>
               <p className="text-gray-500 text-xs">Itens descartados</p>
+              <p className="text-[10px] text-gray-400 mt-0.5">Papel Anunciante</p>
             </div>
 
             <div className="rounded-xl border border-gray-200 bg-gray-50 p-3">
@@ -231,7 +232,7 @@ export function UserProfilePage() {
             {activeItems.length === 0 ? (
               <div className="text-center py-10">
                 <div className="text-4xl mb-3">📦</div>
-                <p className="text-gray-500 text-sm">Nenhum item sendo descartado</p>
+                <p className="text-gray-500 text-sm">Nenhum item ativo no momento</p>
                 <button
                   onClick={() => navigate("/add")}
                   className="mt-4 bg-green-600 text-white px-6 py-2 rounded-xl text-sm"
@@ -296,7 +297,7 @@ export function UserProfilePage() {
           <div>
             <div className="mb-4">
               <p className="text-sm text-gray-500 mb-2" style={{ fontWeight: 600 }}>
-                📦 Itens descartados
+                📦 Histórico de anúncios
               </p>
               {historyItems.length > 0 ? (
                 <div className="space-y-2">

@@ -180,7 +180,7 @@ export function ItemDetailPage() {
               </div>
               <div>
                 <p className="text-sm text-gray-800" style={{ fontWeight: 600 }}>
-                  {item.transport === "entrega" ? "Expositor entrega" : "Receptor busca"}
+                  {item.transport === "entrega" ? "Anunciante entrega" : "Coletor busca"}
                 </p>
                 <p className="text-xs text-gray-500">
                   {item.transport === "entrega"
