@@ -1,5 +1,6 @@
 import { Outlet, useNavigate, useLocation } from "react-router";
 import { Home, Plus, User, Leaf } from "lucide-react";
+import { CURRENT_USER } from "../data/mockData";
 
 export function Layout() {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ export function Layout() {
   const navItems = [
     { path: "/", icon: Home, label: "Início" },
     { path: "/add", icon: Plus, label: "Anunciar" },
-    { path: "/profile", icon: User, label: "Perfil" },
+    { path: `/profile/${CURRENT_USER.id}`, icon: User, label: "Perfil" },
   ];
 
   const isActive = (path: string) => {
@@ -30,7 +31,7 @@ export function Layout() {
             </span>
           </button>
           <button
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate(`/profile/${CURRENT_USER.id}`)}
             className="w-8 h-8 rounded-full overflow-hidden border-2 border-green-500"
           >
             <img

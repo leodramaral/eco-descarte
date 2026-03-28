@@ -252,11 +252,17 @@ export function ItemDetailPage() {
         <div className="bg-white rounded-xl p-4 border border-gray-100">
           <h3 className="text-gray-800 mb-3">Anunciante</h3>
           <div className="flex items-center gap-3 mb-3">
-            <img
-              src={user.photo}
-              alt={user.name}
-              className="w-14 h-14 rounded-full object-cover border-2 border-green-200"
-            />
+            <button
+              onClick={() => navigate(`/profile/${user.id}`)}
+              className="rounded-full cursor-pointer"
+              aria-label={`Ver perfil de ${user.name}`}
+            >
+              <img
+                src={user.photo}
+                alt={user.name}
+                className="w-14 h-14 rounded-full object-cover border-2 border-green-200"
+              />
+            </button>
             <div className="flex-1">
               <div className="flex items-center gap-1.5 mb-0.5">
                 <p className="text-gray-900" style={{ fontWeight: 700 }}>{user.name}</p>

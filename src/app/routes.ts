@@ -14,6 +14,7 @@ export const router = createBrowserRouter([
       { path: "item/:id", Component: ItemDetailPage },
       { path: "add", Component: AddItemPage },
       { path: "profile", Component: UserProfilePage },
+      { path: "profile/:id", Component: UserProfilePage },
     ],
   },
 ]);

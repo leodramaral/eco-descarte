@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   Star,
   CheckCircle,
@@ -13,7 +13,7 @@ import {
   Phone,
   Calendar,
 } from "lucide-react";
-import { BADGES, CURRENT_USER, ITEMS } from "../data/mockData";
+import { CURRENT_USER, ITEMS, USERS } from "../data/mockData";
 import { AchievementBadge } from "./AchievementBadge";
 
 type Tab = "descartando" | "historico" | "conquistas";
@@ -34,9 +34,26 @@ function formatPhoneForDisplay(phone: string) {
 
 export function UserProfilePage() {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState<Tab>("descartando");
 
-  const user = CURRENT_USER;
+  const user = id ? USERS.find((candidate) => candidate.id === id) ?? null : CURRENT_USER;
+
+  if (!user) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 px-4 text-center">
+        <p className="text-gray-500">Perfil não encontrado.</p>
+        <button
+          onClick={() => navigate("/")}
+          className="mt-4 text-green-600"
+          style={{ fontWeight: 600 }}
+        >
+          Voltar ao início
+        </button>
+      </div>
+    );
+  }
+
   const userItems = ITEMS.filter((item) => item.userId === user.id);
   const activeItems = userItems.filter((_, i) => i === 0);
   const historyItems = userItems.slice(1);
