@@ -3,6 +3,7 @@ export interface Badge {
   label: string;
   icon: string;
   color: string;
+  description: string;
 }
 
 export interface User {
@@ -18,6 +19,7 @@ export interface User {
   itemsCollected: number;
   wasteAvoided: number;
   badges: Badge[];
+  badgesLocked?: Badge[];
   memberSince: string;
 }
 
@@ -52,25 +54,85 @@ export const BADGES: Record<string, Badge> = {
     id: 'ecoIniciante',
     label: 'Eco Iniciante',
     icon: '🌱',
-    color: 'bg-green-100 text-green-700',
+    color: 'green',
+    description: 'Primeiro descarte',
   },
   reaproveitador: {
     id: 'reaproveitador',
     label: 'Reaproveitador',
     icon: '♻️',
-    color: 'bg-blue-100 text-blue-700',
+    color: 'blue',
+    description: '5 itens descartados',
   },
   usuarioConfiavel: {
     id: 'usuarioConfiavel',
     label: 'Usuário Confiável',
     icon: '🛡️',
-    color: 'bg-amber-100 text-amber-700',
+    color: 'amber',
+    description: '10 avaliações',
   },
   ativoComunidade: {
     id: 'ativoComunidade',
     label: 'Ativo na Comunidade',
     icon: '🤝',
-    color: 'bg-purple-100 text-purple-700',
+    color: 'purple',
+    description: '15 interações',
+  },
+  guardiaoVerde: {
+    id: 'guardiaoVerde',
+    label: 'Guardião Verde',
+    icon: '🌿',
+    color: 'teal',
+    description: '100kg evitados',
+  },
+  especialistaDescarte: {
+    id: 'especialistaDescarte',
+    label: 'Especialista em Descarte',
+    icon: '📦',
+    color: 'indigo',
+    description: '10 descartes',
+  },
+  economiaCircular: {
+    id: 'economiaCircular',
+    label: 'Economia Circular',
+    icon: '🔄',
+    color: 'pink',
+    description: '5 coletados',
+  },
+  heroeLocal: {
+    id: 'heroeLocal',
+    label: 'Herói Local',
+    icon: '⭐',
+    color: 'orange',
+    description: 'Avaliação 4.5+',
+  },
+  conscienciaAmbiental: {
+    id: 'conscienciaAmbiental',
+    label: 'Consciência Ambiental',
+    icon: '🌍',
+    color: 'blue',
+    description: '200kg evitados',
+  },
+  superEco: {
+    id: 'superEco',
+    label: 'Super Eco',
+    icon: '🏆',
+    color: 'amber',
+    description: 'Descarte 20 itens',
+  },
+  cincoEstrelas: {
+    id: 'cincoEstrelas',
+    label: '5 Estrelas',
+    icon: '✨',
+    color: 'purple',
+    description: '50 avaliações',
+  },
+  mestre: {
+    id: 'mestre',
+    label: 'Mestre do Descarte',
+    icon: '👑',
+    color: 'amber',
+    description: '500kg evitados',
   },
 };
 
@@ -88,6 +150,7 @@ export const USERS: User[] = [
     itemsCollected: 0,
     wasteAvoided: 340,
     badges: [BADGES.usuarioConfiavel, BADGES.reaproveitador, BADGES.ativoComunidade, BADGES.ecoIniciante],
+    badgesLocked: [BADGES.guardiaoVerde, BADGES.especialistaDescarte, BADGES.economiaCircular, BADGES.heroeLocal, BADGES.conscienciaAmbiental, BADGES.superEco, BADGES.cincoEstrelas, BADGES.mestre], 
     memberSince: 'Jan 2023',
   },
   {
@@ -103,6 +166,7 @@ export const USERS: User[] = [
     itemsCollected: 14,
     wasteAvoided: 210,
     badges: [BADGES.ecoIniciante, BADGES.reaproveitador, BADGES.ativoComunidade],
+    badgesLocked: [BADGES.guardiaoVerde, BADGES.especialistaDescarte, BADGES.economiaCircular, BADGES.heroeLocal, BADGES.conscienciaAmbiental, BADGES.superEco, BADGES.cincoEstrelas, BADGES.mestre],
     memberSince: 'Mar 2023',
   },
   {
@@ -118,6 +182,7 @@ export const USERS: User[] = [
     itemsCollected: 3,
     wasteAvoided: 120,
     badges: [BADGES.ecoIniciante, BADGES.usuarioConfiavel],
+    badgesLocked: [BADGES.guardiaoVerde, BADGES.especialistaDescarte, BADGES.economiaCircular, BADGES.heroeLocal, BADGES.conscienciaAmbiental, BADGES.superEco, BADGES.cincoEstrelas, BADGES.mestre],
     memberSince: 'Jun 2023',
   },
 ];

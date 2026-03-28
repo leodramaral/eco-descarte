@@ -13,7 +13,8 @@ import {
   Phone,
   Calendar,
 } from "lucide-react";
-import { CURRENT_USER, ITEMS } from "../data/mockData";
+import { BADGES, CURRENT_USER, ITEMS } from "../data/mockData";
+import { AchievementBadge } from "./AchievementBadge";
 
 type Tab = "descartando" | "historico" | "conquistas";
 
@@ -330,86 +331,41 @@ export function UserProfilePage() {
             <p className="text-gray-500 text-sm mb-4">
               Continue engajado para desbloquear mais conquistas! 🏆
             </p>
-            <div className="flex flex-wrap justify-center gap-6">
+            <div className="grid grid-cols-3 gap-4">
               {user.badges.map((badge) => (
-                <div
+                <AchievementBadge
                   key={badge.id}
-                  className="flex flex-col items-center gap-2"
-                >
-                  <div
-                    className={`w-24 h-24 rounded-full border-2 flex flex-col items-center justify-center gap-1 relative ${badge.color}`}
-                    style={{ borderColor: "transparent" }}
-                  >
-                    <span className="text-3xl">{badge.icon}</span>
-                    <span className="text-lg opacity-70 absolute -bottom-1 -right-1 bg-white rounded-full w-7 h-7 flex items-center justify-center">✓</span>
-                  </div>
-                  <p className="text-xs text-center leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
-                    {badge.label}
-                  </p>
-                </div>
+                  icon={badge.icon}
+                  label={badge.label}
+                  color={badge.color}
+                  unlocked={true}
+                  description={badge.description}
+                />
               ))}
-
-              {/* Locked badges */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center gap-1 cursor-not-allowed opacity-60 transition-opacity hover:opacity-80 relative">
-                  <span className="text-2xl grayscale opacity-60">🏆</span>
-                  <span className="text-lg absolute -bottom-1 -right-1 bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center">🔒</span>
-                </div>
-                <p className="text-xs text-center text-gray-400 leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
-                  Super Eco
-                </p>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center gap-1 cursor-not-allowed opacity-60 transition-opacity hover:opacity-80 relative">
-                  <span className="text-2xl grayscale opacity-60">⭐</span>
-                  <span className="text-lg absolute -bottom-1 -right-1 bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center">🔒</span>
-                </div>
-                <p className="text-xs text-center text-gray-400 leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
-                  5 Estrelas
-                </p>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center gap-1 cursor-not-allowed opacity-60 transition-opacity hover:opacity-80 relative">
-                  <span className="text-2xl grayscale opacity-60">🌱</span>
-                  <span className="text-lg absolute -bottom-1 -right-1 bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center">🔒</span>
-                </div>
-                <p className="text-xs text-center text-gray-400 leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
-                  Ecologista
-                </p>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center gap-1 cursor-not-allowed opacity-60 transition-opacity hover:opacity-80 relative">
-                  <span className="text-2xl grayscale opacity-60">🎯</span>
-                  <span className="text-lg absolute -bottom-1 -right-1 bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center">🔒</span>
-                </div>
-                <p className="text-xs text-center text-gray-400 leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
-                  Objetivo
-                </p>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center gap-1 cursor-not-allowed opacity-60 transition-opacity hover:opacity-80 relative">
-                  <span className="text-2xl grayscale opacity-60">🚀</span>
-                  <span className="text-lg absolute -bottom-1 -right-1 bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center">🔒</span>
-                </div>
-                <p className="text-xs text-center text-gray-400 leading-tight" style={{ fontWeight: 600, maxWidth: "90px" }}>
-                  Velocista
-                </p>
-              </div>
+              {user.badgesLocked?.map((badge) => (
+                <AchievementBadge
+                  key={badge.id}
+                  icon={badge.icon}
+                  label={badge.label}
+                  color={badge.color}
+                  unlocked={false}
+                  description={badge.description}
+                />
+              ))}
             </div>
-
             {/* Progress */}
-            <div className="mt-4 bg-white rounded-xl p-4 border border-gray-100">
+            <div className="mt-5 bg-white rounded-xl p-4 border border-gray-100">
               <p className="text-sm text-gray-700 mb-3" style={{ fontWeight: 600 }}>Seu progresso</p>
               <div className="space-y-3">
                 <div>
                   <div className="flex justify-between text-xs text-gray-500 mb-1">
                     <span>Super Eco (20 descartes)</span>
-                    <span style={{ fontWeight: 600 }}>{discardedItemsCount}/20</span>
+                    <span style={{ fontWeight: 600 }}>{user.itemsDiscarded}/20</span>
                   </div>
                   <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-green-500 rounded-full transition-all"
-                      style={{ width: `${superEcoProgress}%` }}
+                      style={{ width: `${(user.itemsDiscarded / 20) * 100}%` }}
                     />
                   </div>
                 </div>
@@ -422,6 +378,18 @@ export function UserProfilePage() {
                     <div
                       className="h-full bg-yellow-400 rounded-full transition-all"
                       style={{ width: `${(user.reviewCount / 50) * 100}%` }}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className="flex justify-between text-xs text-gray-500 mb-1">
+                    <span>Mestre do Descarte (500kg)</span>
+                    <span style={{ fontWeight: 600 }}>{user.wasteAvoided}/500kg</span>
+                  </div>
+                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-purple-500 rounded-full transition-all"
+                      style={{ width: `${(user.wasteAvoided / 500) * 100}%` }}
                     />
                   </div>
                 </div>
