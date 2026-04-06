@@ -50,3 +50,5 @@ Thumbs.db
 infra/signoz/
 /worktrees/
 .data/
+
+.codex
