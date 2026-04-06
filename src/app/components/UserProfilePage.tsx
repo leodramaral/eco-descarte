@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { Navigate, useNavigate, useParams } from "react-router";
 import {
   Star,
   CheckCircle,
@@ -12,32 +12,27 @@ import {
   Edit3,
   Phone,
   Calendar,
+  LogOut,
 } from "lucide-react";
-import { useAppSelector } from "../store/hooks";
+import { logout } from "../store/appSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { formatPhoneForMask } from "../utils/phone";
 import { AchievementBadge } from "./AchievementBadge";
 
 type Tab = "descartando" | "historico" | "conquistas";
 
-function formatPhoneForDisplay(phone: string) {
-  const digits = phone.replace(/\D/g, "");
-
-  if (digits.length < 10) return phone;
-
-  const localNumber = digits.slice(-11);
-  const countryCode = digits.slice(0, -11);
-  const ddd = localNumber.slice(0, 2);
-  const prefix = localNumber.slice(2, 7);
-  const suffix = localNumber.slice(7);
-
-  return `${countryCode ? `+${countryCode} ` : ""}(${ddd}) ${prefix.slice(0, 2)}***-${suffix}`;
-}
-
 export function UserProfilePage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const { currentUserId, items, users } = useAppSelector((state) => state.appData);
   const [activeTab, setActiveTab] = useState<Tab>("descartando");
   const currentUser = users.find((candidate) => candidate.id === currentUserId) ?? null;
+  const isOwnProfile = !id || id === currentUser?.id;
+
+  if (!id && !currentUser) {
+    return <Navigate to="/login?next=%2Fprofile" replace />;
+  }
 
   const user = id ? users.find((candidate) => candidate.id === id) ?? null : currentUser;
 
@@ -63,7 +58,7 @@ export function UserProfilePage() {
   const collectedItemsCount = 0;
   const wasteAvoidedKg = historyItems.reduce((total, item) => total + item.wasteWeight, 0);
   const superEcoProgress = Math.min((discardedItemsCount / 20) * 100, 100);
-  const formattedPhone = formatPhoneForDisplay(user.phone);
+  const formattedPhone = formatPhoneForMask(user.phone);
   const userNeighborhoods = [...new Set(userItems.map((item) => item.neighborhood))];
   const neighborhoodsSummary =
     userNeighborhoods.length <= 2
@@ -111,9 +106,23 @@ export function UserProfilePage() {
                 </div>
               </div>
             </div>
-            <button className="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200">
-              <Edit3 className="w-4 h-4 text-gray-600" />
-            </button>
+            {isOwnProfile ? (
+              <button
+                onClick={() => {
+                  dispatch(logout());
+                  navigate("/", { replace: true });
+                }}
+                className="inline-flex h-9 items-center gap-1 rounded-xl border border-gray-200 bg-gray-100 px-3 text-sm text-gray-700"
+                style={{ fontWeight: 600 }}
+              >
+                <LogOut className="w-4 h-4" />
+                Sair
+              </button>
+            ) : (
+              <button className="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200">
+                <Edit3 className="w-4 h-4 text-gray-600" />
+              </button>
+            )}
           </div>
 
           <div className="rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 mb-3">

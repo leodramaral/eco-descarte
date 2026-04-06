@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import {
   Camera,
   ChevronDown,
@@ -82,6 +82,10 @@ export function AddItemPage() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState<ItemFormState>(createInitialForm());
 
+  if (!currentUser) {
+    return <Navigate to="/login?next=%2Fadd" replace />;
+  }
+
   const handleChange = (field: string, value: string | boolean) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
@@ -95,7 +99,7 @@ export function AddItemPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isFormValid || !currentUser || !form.category) return;
+    if (!isFormValid || !form.category) return;
 
     const weight = Number(form.weight) || 0;
     const dimensions = {
@@ -184,17 +188,6 @@ export function AddItemPage() {
           </span>
         </div>
       </div>
-
-      {!currentUser && (
-        <div className="mb-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
-          <p className="text-sm text-amber-800" style={{ fontWeight: 600 }}>
-            Entre com um perfil local para publicar itens.
-          </p>
-          <p className="mt-1 text-xs text-amber-700">
-            A etapa de entrada por telefone ainda nao foi implementada, entao o anuncio depende de um usuario ativo no store.
-          </p>
-        </div>
-      )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Photo Upload */}

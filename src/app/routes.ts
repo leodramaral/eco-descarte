@@ -4,6 +4,7 @@ import { CatalogPage } from "./components/CatalogPage";
 import { ItemDetailPage } from "./components/ItemDetailPage";
 import { AddItemPage } from "./components/AddItemPage";
 import { UserProfilePage } from "./components/UserProfilePage";
+import { LoginPage } from "./components/LoginPage";
 
 export const router = createHashRouter([
   {
@@ -11,6 +12,7 @@ export const router = createHashRouter([
     Component: Layout,
     children: [
       { index: true, Component: CatalogPage },
+      { path: "login", Component: LoginPage },
       { path: "item/:id", Component: ItemDetailPage },
       { path: "add", Component: AddItemPage },
       { path: "profile", Component: UserProfilePage },

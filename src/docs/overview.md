@@ -51,16 +51,17 @@ Hoje o app já entrega:
 - catálogo visual com filtros;
 - tela de detalhe do item;
 - perfil de usuário;
-- formulário visual de anúncio.
+- persistência local com Redux;
+- leitura centralizada das telas a partir do store;
+- criação real de item no store;
+- login local por telefone para usuários já existentes.
 
 Mas ainda não entrega de forma completa:
 
-- estado global real;
-- persistência local estruturada;
-- autenticação local por telefone;
 - criação real de usuário;
-- criação real de item;
-- leitura centralizada a partir do store.
+- upload real de imagens;
+- CTA de contato via WhatsApp;
+- métricas de perfil totalmente derivadas do store.
 
 Em resumo, o sistema hoje funciona muito bem como **protótipo navegável**, mas ainda não como **MVP funcional local**.
 
@@ -87,7 +88,7 @@ A home já permite:
 - alternar visualização;
 - abrir o detalhe de um item.
 
-**Status:** implementado com leitura de mocks.
+**Status:** implementado com leitura do Redux persistido.
 
 ### 3.3. Detalhe do item
 
@@ -99,7 +100,7 @@ A tela já mostra:
 - dados do anunciante;
 - navegação para o perfil do anunciante.
 
-**Status:** implementado com leitura de mocks.
+**Status:** implementado com leitura do Redux persistido.
 
 ### 3.4. Perfil do usuário
 
@@ -110,15 +111,15 @@ A tela já apresenta:
 - métricas e reputação;
 - abas de itens ativos, histórico e conquistas.
 
-**Status:** implementado visualmente, com dados mockados e cálculos simplificados.
+**Status:** parcialmente implementado, com leitura do Redux e métricas ainda simplificadas.
 
 ### 3.5. Cadastro de item
 
 A tela `/add` já possui formulário para cadastro do item e tela de confirmação visual.
 
-**Status:** parcialmente implementado.
+**Status:** parcialmente implementado, com criação real no Redux e upload de imagens ainda pendente.
 
-**Limitação atual:** o envio ainda não cria item real no estado da aplicação.
+**Limitação atual:** o envio já cria item real no estado da aplicação, mas o upload real de imagens ainda não existe.
 
 ---
 
@@ -150,7 +151,7 @@ Ao iniciar a aplicação, **não deve haver mistura entre mocks e dados persisti
 - execuções seguintes: catálogo usa apenas o que já estiver persistido;
 - sem duplicidade, sem mistura, sem divergência entre tela e storage.
 
-**Status atual:** não implementado.
+**Status atual:** implementado.
 
 ---
 
@@ -176,7 +177,14 @@ Na primeira abertura, **não existe usuário logado**.
 - sem backend;
 - telefone funcionando como identificador único local.
 
-**Status atual:** não implementado.
+**Status atual:** parcialmente implementado.
+
+### Observação de status
+
+- a aplicação agora inicia com `currentUserId = null` no seed;
+- recursos dependentes de sessão redirecionam para `/login`;
+- o login local por telefone já funciona para usuários seedados;
+- quando o telefone não existe, o app ainda não cria o usuário e apenas informa que o cadastro será a próxima etapa.
 
 ---
 
@@ -246,7 +254,7 @@ Isso significa que:
 
 Como este MVP não terá encerramento de item, a lista principal exibirá os itens existentes no store conforme a regra de exibição adotada para o catálogo.
 
-**Status atual:** parcialmente implementado.
+**Status atual:** implementado.
 
 ---
 
@@ -298,7 +306,14 @@ Opcionais:
 
 O formulário deixa de ser apenas visual e passa a produzir dados reais no store.
 
-**Status atual:** parcialmente implementado, apenas na interface.
+**Status atual:** parcialmente implementado.
+
+### Observação de status
+
+- o formulário já cria item real no Redux;
+- o item é persistido no `localStorage`;
+- o item aparece imediatamente no catálogo;
+- o upload real de imagens ainda não foi implementado.
 
 ---
 
@@ -365,25 +380,31 @@ O fluxo de **encerramento do item não fará parte deste MVP**. Portanto, a docu
 
 **Status atual:** parcialmente implementado.
 
+### Observação de status
+
+- o perfil já lê usuário e itens a partir do Redux persistido;
+- o telefone já aparece mascarado;
+- ainda existem métricas e agrupamentos simplificados que precisam ser refinados.
+
 ---
 
 ## 5. Resumo dos fluxos
 
 | Fluxo | Situação atual | Situação esperada no MVP |
 |---|---|---|
-| Inicialização com seed | Não implementado corretamente | Seed só na primeira execução, sem mescla |
-| Entrada por telefone | Não implementado | Login local simples por telefone |
+| Inicialização com seed | Implementado | Seed só na primeira execução, sem mescla |
+| Entrada por telefone | Parcial | Login local simples por telefone para usuários existentes |
 | Cadastro de usuário | Não implementado | Nome, telefone e foto opcional com placeholder |
-| Catálogo | Parcial | Leitura exclusiva do Redux persistido |
+| Catálogo | Implementado | Leitura exclusiva do Redux persistido |
 | Detalhe do item | Parcial | CTA abrindo WhatsApp |
-| Cadastro de item | Parcial | Criação real no Redux + persistência |
+| Cadastro de item | Parcial | Criação real no Redux + persistência; upload real ainda pendente |
 | Imagens | Parcial | Opcionais com placeholders |
 | Perfil | Parcial | Dados derivados do Redux persistido |
 | Encerramento do item | Fora do escopo | Não será implementado no MVP |
 
 ---
 
-# Parte 2 — Descrição técnica do que falta e como implementar
+# Parte 2 — Estado técnico atual e próximos passos
 
 ## 6. Diretriz técnica principal
 
@@ -531,19 +552,18 @@ Não deve existir lógica como:
 
 ---
 
-## 10. Session slice
+## 10. Sessão no store atual
 
 Responsável por:
 
 - guardar `currentUserId`;
 - fazer login local por telefone;
-- logout local, se desejar;
-- indicar se a aplicação já foi inicializada.
+- fazer logout local;
+- indicar que a aplicação já foi inicializada.
 
-### Ações sugeridas
+### Ações atuais
 
 ```ts
-initializeApp()
 loginByPhone(phone: string)
 setCurrentUser(userId: string | null)
 logout()
@@ -553,7 +573,13 @@ logout()
 
 - `loginByPhone` deve normalizar o telefone;
 - se encontrar usuário com aquele telefone, define `currentUserId`;
-- se não encontrar, o frontend redireciona para o cadastro.
+- se não encontrar, o frontend deve redirecionar para o cadastro assim que esse fluxo for implementado.
+
+### Status atual
+
+- login local por telefone implementado para usuários existentes;
+- logout local implementado;
+- o redirecionamento para cadastro ainda está pendente, então hoje o fluxo apenas informa essa próxima etapa.
 
 ---
 
@@ -633,22 +659,24 @@ createItem(payload: {
 
 ## 13. Persistência no localStorage
 
-## 13.1. Estratégia recomendada
+## 13.1. Estratégia atual
 
 Persistir um único objeto serializado da aplicação, por exemplo:
 
 ```ts
-const STORAGE_KEY = "eco-descarte-store";
+const STORAGE_KEY = "eco-descarte-redux";
 ```
 
 ### Estrutura salva
 
 ```ts
 {
-  appInitialized: true,
-  currentUserId: "..." | null,
-  users: [...],
-  items: [...]
+  appData: {
+    appInitialized: true,
+    currentUserId: "..." | null,
+    users: [...],
+    items: [...]
+  }
 }
 ```
 
@@ -659,13 +687,20 @@ const STORAGE_KEY = "eco-descarte-store";
 - validar o parse ao carregar;
 - se o parse falhar, cair para o seed.
 
+### Status atual
+
+- persistência local via Redux já implementada;
+- seed de primeira execução já implementado;
+- as telas principais já leem do store persistido;
+- existe uma migração simples para estado legado, removendo o login automático que existia antes do fluxo por telefone.
+
 ---
 
 ## 14. Ajustes necessários nas telas
 
 ## 14.1. `CatalogPage.tsx`
 
-Hoje lê mocks.
+Hoje já lê o Redux persistido.
 
 Deve passar a:
 
@@ -675,7 +710,7 @@ Deve passar a:
 
 ## 14.2. `ItemDetailPage.tsx`
 
-Hoje lê item e usuário a partir de mocks.
+Hoje já lê item e usuário a partir do Redux.
 
 Deve passar a:
 
@@ -691,7 +726,7 @@ const whatsappUrl = `https://wa.me/${normalizedPhone}?text=${encodeURIComponent(
 
 ## 14.3. `UserProfilePage.tsx`
 
-Hoje usa `CURRENT_USER`, `USERS` e `ITEMS`.
+Hoje já usa `currentUserId`, `users` e `items` a partir do Redux.
 
 Deve passar a:
 
@@ -701,9 +736,15 @@ Deve passar a:
 - buscar itens do usuário no Redux;
 - recalcular métricas a partir dos itens armazenados.
 
+### Status atual
+
+- leitura do store implementada;
+- acesso a `/profile` sem sessão agora redireciona para o login;
+- métricas e separação entre ativos/histórico ainda precisam de refinamento.
+
 ## 14.4. `AddItemPage.tsx`
 
-Hoje só confirma visualmente.
+Hoje já cria item real no store.
 
 Deve passar a:
 
@@ -713,19 +754,26 @@ Deve passar a:
 - persistir via Redux;
 - redirecionar ou exibir sucesso com dados reais já salvos.
 
-## 14.5. Nova tela de entrada
+### Status atual
 
-Criar uma tela simples de login local por telefone.
+- criação real do item implementada;
+- persistência implementada;
+- acesso protegido por login implementado;
+- upload real de imagens ainda pendente.
+
+## 14.5. Tela de entrada
+
+Já existe uma tela simples de login local por telefone.
 
 Sugestão:
 
 - `/login` ou `/start`
 
-Fluxo:
+Fluxo atual:
 
 - informa telefone;
 - se existir, entra;
-- se não existir, segue para cadastro.
+- se não existir, recebe aviso de que o cadastro será a próxima etapa.
 
 ## 14.6. Nova tela de cadastro de usuário
 
@@ -739,6 +787,10 @@ Pode ser:
 
 - `/register`
 - ou um fluxo integrado ao login.
+
+### Status atual
+
+- ainda pendente.
 
 ---
 
@@ -773,35 +825,33 @@ Assim o fallback fica centralizado e reaproveitável.
 
 ---
 
-## 16. Ordem sugerida de implementação
+## 16. Próxima ordem sugerida de implementação
 
-1. Criar store Redux e persistência.
-2. Transformar mocks em seed.
-3. Implementar hidratação inicial sem mescla.
-4. Implementar `sessionSlice` com login por telefone.
-5. Implementar cadastro de usuário com foto opcional.
-6. Migrar catálogo para ler do Redux.
-7. Migrar detalhe do item para ler do Redux.
-8. Implementar criação real de item.
-9. Migrar perfil para ler do Redux.
-10. Ajustar CTA para abrir WhatsApp.
+1. Implementar cadastro de usuário com foto opcional.
+2. Conectar o login para redirecionar automaticamente ao cadastro quando o telefone não existir.
+3. Ajustar CTA do detalhe para abrir o WhatsApp do anunciante.
+4. Refinar métricas e agrupamentos do perfil a partir do store real.
+5. Implementar upload real de imagens para usuário e item, mantendo placeholders como fallback.
 
 ---
 
-## 17. Critérios de pronto do MVP
+## 17. Critérios ainda pendentes para o MVP
 
-O MVP pode ser considerado funcional quando:
+O projeto já atende os seguintes critérios:
 
 - ao abrir pela primeira vez, o app cria o estado inicial a partir do seed;
 - ao abrir novamente, o app usa apenas o estado persistido;
 - não existe usuário logado por padrão;
-- o login local acontece por telefone;
-- um usuário novo pode ser criado com nome, telefone e foto opcional;
+- o login local acontece por telefone para usuários existentes;
 - o catálogo lê apenas do Redux persistido;
 - o cadastro de item realmente cria itens no store;
-- itens sem imagem recebem placeholders;
-- o perfil reflete os dados reais do store;
-- o botão de contato abre o WhatsApp do anunciante.
+- itens sem imagem recebem placeholders.
+
+Ainda faltam estes critérios para fechar o MVP:
+
+- um usuário novo pode ser criado com nome, telefone e foto opcional;
+- o perfil refletir completamente os dados reais do store sem métricas simplificadas;
+- o botão de contato abrir o WhatsApp do anunciante.
 
 ---
 

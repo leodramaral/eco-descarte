@@ -5,7 +5,7 @@ import { createSeedState, type AppDataState } from "../data/mockData";
 const STORAGE_KEY = "eco-descarte-redux";
 
 type PersistedState = {
-  appData: AppDataState;
+  appData: Omit<AppDataState, "appInitialized"> & Partial<Pick<AppDataState, "appInitialized">>;
 };
 
 function isValidPersistedState(value: unknown): value is PersistedState {
@@ -23,7 +23,19 @@ function isValidPersistedState(value: unknown): value is PersistedState {
   );
 }
 
-function saveState(state: PersistedState) {
+function migratePersistedState(state: PersistedState): { appData: AppDataState } {
+  const isLegacyState = typeof state.appData.appInitialized !== "boolean";
+
+  return {
+    appData: {
+      ...state.appData,
+      appInitialized: true,
+      currentUserId: isLegacyState ? null : state.appData.currentUserId,
+    },
+  };
+}
+
+function saveState(state: { appData: AppDataState }) {
   if (typeof window === "undefined") {
     return;
   }
@@ -31,7 +43,7 @@ function saveState(state: PersistedState) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-function loadState(): PersistedState | undefined {
+function loadState(): { appData: AppDataState } | undefined {
   if (typeof window === "undefined") {
     return undefined;
   }
@@ -43,7 +55,7 @@ function loadState(): PersistedState | undefined {
       const parsedState = JSON.parse(storedState);
 
       if (isValidPersistedState(parsedState)) {
-        return parsedState;
+        return migratePersistedState(parsedState);
       }
     }
   } catch (error) {

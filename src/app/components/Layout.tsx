@@ -7,12 +7,13 @@ export function Layout() {
   const location = useLocation();
   const { currentUserId, users } = useAppSelector((state) => state.appData);
   const currentUser = users.find((user) => user.id === currentUserId) ?? null;
-  const profilePath = currentUser ? `/profile/${currentUser.id}` : "/profile";
+  const profileTarget = currentUser ? "/profile" : "/login?next=%2Fprofile";
+  const addTarget = currentUser ? "/add" : "/login?next=%2Fadd";
 
   const navItems = [
-    { path: "/", icon: Home, label: "Início" },
-    { path: "/add", icon: Plus, label: "Anunciar" },
-    { path: profilePath, icon: User, label: "Perfil" },
+    { path: "/", target: "/", icon: Home, label: "Início" },
+    { path: "/add", target: addTarget, icon: Plus, label: "Anunciar" },
+    { path: "/profile", target: profileTarget, icon: User, label: "Perfil" },
   ];
 
   const isActive = (path: string) => {
@@ -35,17 +36,21 @@ export function Layout() {
               </span>
             </button>
             <button
-              onClick={() => navigate(profilePath)}
-              className="w-8 h-8 rounded-full overflow-hidden border-2 border-green-500"
+              onClick={() => navigate(profileTarget)}
+              aria-label={currentUser ? `Abrir perfil de ${currentUser.name}` : "Entrar ou abrir perfil"}
+              className={`flex h-8 w-8 items-center justify-center rounded-full overflow-hidden border-2 transition-colors ${
+                currentUser ? "border-green-500" : "border-gray-200 bg-gray-100 text-gray-500"
+              }`}
             >
-              <img
-                src={
-                  currentUser?.photo ??
-                  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=80"
-                }
-                alt={currentUser ? `Perfil de ${currentUser.name}` : "Perfil"}
-                className="w-full h-full object-cover"
-              />
+              {currentUser ? (
+                <img
+                  src={currentUser.photo}
+                  alt={`Perfil de ${currentUser.name}`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <User className="h-4 w-4" />
+              )}
             </button>
           </div>
         </div>
@@ -65,7 +70,7 @@ export function Layout() {
             return (
               <button
                 key={item.path}
-                onClick={() => navigate(item.path)}
+                onClick={() => navigate(item.target)}
                 className={`flex-1 flex flex-col items-center py-2 gap-0.5 transition-colors ${
                   active ? "text-green-600" : "text-gray-400"
                 }`}

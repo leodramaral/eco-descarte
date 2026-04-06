@@ -50,6 +50,7 @@ export interface Item {
 }
 
 export interface AppDataState {
+  appInitialized: boolean;
   users: User[];
   items: Item[];
   currentUserId: string | null;
@@ -594,6 +595,7 @@ export const ITEMS: Item[] = [
 
 export function createSeedState(): AppDataState {
   return {
+    appInitialized: true,
     users: USERS.map((user) => ({
       ...user,
       badges: user.badges.map((badge) => ({ ...badge })),
@@ -604,6 +606,6 @@ export function createSeedState(): AppDataState {
       images: [...item.images],
       dimensions: { ...item.dimensions },
     })),
-    currentUserId: USERS[0]?.id ?? null,
+    currentUserId: null,
   };
 }
