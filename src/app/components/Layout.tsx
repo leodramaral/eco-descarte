@@ -1,15 +1,18 @@
 import { Outlet, useNavigate, useLocation } from "react-router";
 import { Home, Plus, User, Leaf } from "lucide-react";
-import { CURRENT_USER } from "../data/mockData";
+import { useAppSelector } from "../store/hooks";
 
 export function Layout() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { currentUserId, users } = useAppSelector((state) => state.appData);
+  const currentUser = users.find((user) => user.id === currentUserId) ?? null;
+  const profilePath = currentUser ? `/profile/${currentUser.id}` : "/profile";
 
   const navItems = [
     { path: "/", icon: Home, label: "Início" },
     { path: "/add", icon: Plus, label: "Anunciar" },
-    { path: `/profile/${CURRENT_USER.id}`, icon: User, label: "Perfil" },
+    { path: profilePath, icon: User, label: "Perfil" },
   ];
 
   const isActive = (path: string) => {
@@ -32,12 +35,15 @@ export function Layout() {
               </span>
             </button>
             <button
-              onClick={() => navigate(`/profile/${CURRENT_USER.id}`)}
+              onClick={() => navigate(profilePath)}
               className="w-8 h-8 rounded-full overflow-hidden border-2 border-green-500"
             >
               <img
-                src="https://images.unsplash.com/photo-1710357956769-232ef8e9e1aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=80"
-                alt="Perfil"
+                src={
+                  currentUser?.photo ??
+                  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=80"
+                }
+                alt={currentUser ? `Perfil de ${currentUser.name}` : "Perfil"}
                 className="w-full h-full object-cover"
               />
             </button>

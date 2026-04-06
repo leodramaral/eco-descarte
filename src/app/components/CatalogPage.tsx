@@ -14,7 +14,8 @@ import {
   Clock,
   X,
 } from "lucide-react";
-import { ITEMS, USERS, type Category, type ItemType } from "../data/mockData";
+import { type Category, type ItemType } from "../data/mockData";
+import { useAppSelector } from "../store/hooks";
 
 type ViewMode = "grid" | "list";
 
@@ -29,6 +30,7 @@ const CATEGORIES: { value: Category | "todos"; label: string }[] = [
 
 export function CatalogPage() {
   const navigate = useNavigate();
+  const { items, users } = useAppSelector((state) => state.appData);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<Category | "todos">("todos");
@@ -36,7 +38,7 @@ export function CatalogPage() {
   const [showFilters, setShowFilters] = useState(false);
 
   const filteredItems = useMemo(() => {
-    return ITEMS.filter((item) => {
+    return items.filter((item) => {
       const matchSearch =
         !search ||
         item.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -46,9 +48,9 @@ export function CatalogPage() {
       const matchType = selectedType === "todos" || item.type === selectedType;
       return matchSearch && matchCategory && matchType;
     });
-  }, [search, selectedCategory, selectedType]);
+  }, [items, search, selectedCategory, selectedType]);
 
-  const getUser = (userId: string) => USERS.find((u) => u.id === userId)!;
+  const getUser = (userId: string) => users.find((user) => user.id === userId) ?? null;
 
   const clearFilters = () => {
     setSelectedCategory("todos");
@@ -187,6 +189,11 @@ export function CatalogPage() {
         <div className="grid grid-cols-2 gap-3">
           {filteredItems.map((item) => {
             const user = getUser(item.userId);
+
+            if (!user) {
+              return null;
+            }
+
             return (
               <div
                 key={item.id}

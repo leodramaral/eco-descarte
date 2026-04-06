@@ -17,15 +17,16 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
-import { ITEMS, USERS } from "../data/mockData";
+import { useAppSelector } from "../store/hooks";
 
 export function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { items, users } = useAppSelector((state) => state.appData);
   const [currentImage, setCurrentImage] = useState(0);
 
-  const item = ITEMS.find((i) => i.id === id);
-  const user = item ? USERS.find((u) => u.id === item.userId) : null;
+  const item = items.find((candidate) => candidate.id === id);
+  const user = item ? users.find((candidate) => candidate.id === item.userId) ?? null : null;
 
   if (!item || !user) {
     return (

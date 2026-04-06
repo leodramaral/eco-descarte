@@ -49,6 +49,12 @@ export interface Item {
   postedAt: string;
 }
 
+export interface AppDataState {
+  users: User[];
+  items: Item[];
+  currentUserId: string | null;
+}
+
 export const BADGES: Record<string, Badge> = {
   ecoIniciante: {
     id: 'ecoIniciante',
@@ -586,4 +592,18 @@ export const ITEMS: Item[] = [
   },
 ];
 
-export const CURRENT_USER = USERS[0];
+export function createSeedState(): AppDataState {
+  return {
+    users: USERS.map((user) => ({
+      ...user,
+      badges: user.badges.map((badge) => ({ ...badge })),
+      badgesLocked: user.badgesLocked?.map((badge) => ({ ...badge })),
+    })),
+    items: ITEMS.map((item) => ({
+      ...item,
+      images: [...item.images],
+      dimensions: { ...item.dimensions },
+    })),
+    currentUserId: USERS[0]?.id ?? null,
+  };
+}

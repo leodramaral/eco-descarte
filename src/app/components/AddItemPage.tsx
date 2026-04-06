@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import {
   Camera,
-  X,
   ChevronDown,
   CheckCircle,
   Leaf,
   AlertCircle,
 } from "lucide-react";
-import { type Category } from "../data/mockData";
+import { type Category, type Item } from "../data/mockData";
+import { addItem } from "../store/appSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const CATEGORIES: { value: Category; label: string; icon: string }[] = [
   { value: "moveis", label: "Móveis", icon: "🪑" },
@@ -24,10 +25,38 @@ const NEIGHBORHOODS = [
   "Petrópolis", "São Geraldo", "Vieiralves",
 ];
 
-export function AddItemPage() {
-  const navigate = useNavigate();
-  const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({
+const CATEGORY_PLACEHOLDERS: Record<Category, string> = {
+  moveis:
+    "https://images.unsplash.com/photo-1617104678098-de229db51175?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  geladeiras:
+    "https://images.unsplash.com/photo-1758488438758-5e2eedf769ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  tvs:
+    "https://images.unsplash.com/photo-1593784991095-a205069470b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  eletrodomesticos:
+    "https://images.unsplash.com/photo-1754732693535-7ffb5e1a51d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  outros:
+    "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+};
+
+type ItemFormState = {
+  name: string;
+  description: string;
+  timeOfUse: string;
+  material: string;
+  weight: string;
+  height: string;
+  width: string;
+  depth: string;
+  category: Category | "";
+  neighborhood: string;
+  type: "doacao" | "pago";
+  price: string;
+  transport: "retirada" | "entrega";
+  urgent: boolean;
+};
+
+function createInitialForm(): ItemFormState {
+  return {
     name: "",
     description: "",
     timeOfUse: "",
@@ -36,13 +65,22 @@ export function AddItemPage() {
     height: "",
     width: "",
     depth: "",
-    category: "" as Category | "",
+    category: "",
     neighborhood: "",
-    type: "doacao" as "doacao" | "pago",
+    type: "doacao",
     price: "",
-    transport: "retirada" as "retirada" | "entrega",
+    transport: "retirada",
     urgent: false,
-  });
+  };
+}
+
+export function AddItemPage() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { currentUserId, users } = useAppSelector((state) => state.appData);
+  const currentUser = users.find((user) => user.id === currentUserId) ?? null;
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState<ItemFormState>(createInitialForm());
 
   const handleChange = (field: string, value: string | boolean) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -57,7 +95,39 @@ export function AddItemPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isFormValid) return;
+    if (!isFormValid || !currentUser || !form.category) return;
+
+    const weight = Number(form.weight) || 0;
+    const dimensions = {
+      height: Number(form.height) || 0,
+      width: Number(form.width) || 0,
+      depth: Number(form.depth) || 0,
+    };
+    const largestDimension = Math.max(dimensions.height, dimensions.width, dimensions.depth);
+
+    const newItem: Item = {
+      id: crypto.randomUUID(),
+      name: form.name.trim(),
+      description: form.description.trim(),
+      category: form.category,
+      images: [CATEGORY_PLACEHOLDERS[form.category]],
+      neighborhood: form.neighborhood,
+      distance: 0,
+      type: form.type,
+      price: form.type === "pago" ? Number(form.price) : undefined,
+      transport: form.transport,
+      fitsInCar: weight <= 20 && largestDimension <= 100,
+      urgent: form.urgent,
+      userId: currentUser.id,
+      timeOfUse: form.timeOfUse.trim() || "Não informado",
+      material: form.material.trim() || "Não informado",
+      weight,
+      dimensions,
+      wasteWeight: weight,
+      postedAt: "Agora",
+    };
+
+    dispatch(addItem(newItem));
     setSubmitted(true);
   };
 
@@ -84,12 +154,7 @@ export function AddItemPage() {
           <button
             onClick={() => {
               setSubmitted(false);
-              setForm({
-                name: "", description: "", timeOfUse: "", material: "",
-                weight: "", height: "", width: "", depth: "",
-                category: "", neighborhood: "", type: "doacao", price: "",
-                transport: "retirada", urgent: false,
-              });
+              setForm(createInitialForm());
             }}
             className="w-full bg-green-600 text-white py-3 rounded-xl"
             style={{ fontWeight: 700 }}
@@ -119,6 +184,17 @@ export function AddItemPage() {
           </span>
         </div>
       </div>
+
+      {!currentUser && (
+        <div className="mb-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
+          <p className="text-sm text-amber-800" style={{ fontWeight: 600 }}>
+            Entre com um perfil local para publicar itens.
+          </p>
+          <p className="mt-1 text-xs text-amber-700">
+            A etapa de entrada por telefone ainda nao foi implementada, entao o anuncio depende de um usuario ativo no store.
+          </p>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Photo Upload */}
@@ -410,15 +486,19 @@ export function AddItemPage() {
         {/* Submit */}
         <button
           type="submit"
-          disabled={!isFormValid}
+          disabled={!isFormValid || !currentUser}
           className={`w-full py-4 rounded-2xl text-white transition-all ${
-            isFormValid
+            isFormValid && currentUser
               ? "bg-green-600 hover:bg-green-700 active:scale-95 shadow-lg shadow-green-200"
               : "bg-gray-300 cursor-not-allowed"
           }`}
           style={{ fontWeight: 700, fontSize: "1rem" }}
         >
-          {isFormValid ? "🌱 Publicar Anúncio" : "Preencha os campos obrigatórios"}
+          {currentUser
+            ? isFormValid
+              ? "🌱 Publicar Anúncio"
+              : "Preencha os campos obrigatórios"
+            : "Perfil necessário para publicar"}
         </button>
       </form>
     </div>

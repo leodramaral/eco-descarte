@@ -13,7 +13,7 @@ import {
   Phone,
   Calendar,
 } from "lucide-react";
-import { CURRENT_USER, ITEMS, USERS } from "../data/mockData";
+import { useAppSelector } from "../store/hooks";
 import { AchievementBadge } from "./AchievementBadge";
 
 type Tab = "descartando" | "historico" | "conquistas";
@@ -35,9 +35,11 @@ function formatPhoneForDisplay(phone: string) {
 export function UserProfilePage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const { currentUserId, items, users } = useAppSelector((state) => state.appData);
   const [activeTab, setActiveTab] = useState<Tab>("descartando");
+  const currentUser = users.find((candidate) => candidate.id === currentUserId) ?? null;
 
-  const user = id ? USERS.find((candidate) => candidate.id === id) ?? null : CURRENT_USER;
+  const user = id ? users.find((candidate) => candidate.id === id) ?? null : currentUser;
 
   if (!user) {
     return (
@@ -54,7 +56,7 @@ export function UserProfilePage() {
     );
   }
 
-  const userItems = ITEMS.filter((item) => item.userId === user.id);
+  const userItems = items.filter((item) => item.userId === user.id);
   const activeItems = userItems.filter((_, i) => i === 0);
   const historyItems = userItems.slice(1);
   const discardedItemsCount = historyItems.length;
