@@ -52,11 +52,11 @@ export function UserProfilePage() {
   }
 
   const userItems = items.filter((item) => item.userId === user.id);
-  const activeItems = userItems.filter((_, i) => i === 0);
-  const historyItems = userItems.slice(1);
-  const discardedItemsCount = historyItems.length;
-  const collectedItemsCount = 0;
-  const wasteAvoidedKg = historyItems.reduce((total, item) => total + item.wasteWeight, 0);
+  const activeItems = userItems;
+  const historyItems: typeof userItems = [];
+  const discardedItemsCount = user.itemsDiscarded;
+  const collectedItemsCount = user.itemsCollected;
+  const wasteAvoidedKg = user.wasteAvoided;
   const superEcoProgress = Math.min((discardedItemsCount / 20) * 100, 100);
   const formattedPhone = formatPhoneForMask(user.phone);
   const userNeighborhoods = [...new Set(userItems.map((item) => item.neighborhood))];

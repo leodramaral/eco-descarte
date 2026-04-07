@@ -177,14 +177,15 @@ Na primeira abertura, **não existe usuário logado**.
 - sem backend;
 - telefone funcionando como identificador único local.
 
-**Status atual:** parcialmente implementado.
+**Status atual:** implementado.
 
 ### Observação de status
 
-- a aplicação agora inicia com `currentUserId = null` no seed;
+- a aplicação inicia com `currentUserId = null` no seed;
 - recursos dependentes de sessão redirecionam para `/login`;
-- o login local por telefone já funciona para usuários seedados;
-- quando o telefone não existe, o app ainda não cria o usuário e apenas informa que o cadastro será a próxima etapa.
+- o login local por telefone funciona para usuários existentes;
+- quando o telefone não existe, o app redireciona automaticamente para `/register` passando telefone e próxima página como parâmetros;
+- o fluxo de entrada e cadastro está completamente integrado e funcional.
 
 ---
 
@@ -226,7 +227,17 @@ Se o usuário não enviar foto:
 - foto opcional;
 - usuário criado já entra autenticado localmente.
 
-**Status atual:** não implementado.
+**Status atual:** implementado.
+
+### Observação de status
+
+- Tela `RegisterPage` completamente funcional com validação de campos;
+- Suporte a upload de foto com preview em tempo real;
+- Foto é convertida para base64 e armazenada no Redux;
+- Fallback para foto padrão quando não fornecida;
+- Validação de unicidade de telefone normalizado;
+- Feedback visual de sucesso após criação;
+- Redirecionamento automático para próxima página após sucesso.
 
 ---
 
@@ -378,13 +389,15 @@ Isso evita:
 
 O fluxo de **encerramento do item não fará parte deste MVP**. Portanto, a documentação do perfil não depende desse fechamento de ciclo.
 
-**Status atual:** parcialmente implementado.
+**Status atual:** implementado.
 
 ### Observação de status
 
-- o perfil já lê usuário e itens a partir do Redux persistido;
-- o telefone já aparece mascarado;
-- ainda existem métricas e agrupamentos simplificados que precisam ser refinados.
+- o perfil lê usuário e itens a partir do Redux persistido;
+- o telefone aparece mascarado;
+- métricas são corretamente derivadas dos dados do usuário no Redux (itemsDiscarded, itemsCollected, wasteAvoided);
+- agrupamentos entre itens ativos e histórico funcionam conforme esperado;
+- progresso das conquistas é calculado com base nos dados reais do usuário.
 
 ---
 
@@ -393,13 +406,13 @@ O fluxo de **encerramento do item não fará parte deste MVP**. Portanto, a docu
 | Fluxo | Situação atual | Situação esperada no MVP |
 |---|---|---|
 | Inicialização com seed | Implementado | Seed só na primeira execução, sem mescla |
-| Entrada por telefone | Parcial | Login local simples por telefone para usuários existentes |
-| Cadastro de usuário | Não implementado | Nome, telefone e foto opcional com placeholder |
+| Entrada por telefone | Implementado | Login local simples por telefone para usuários existentes |
+| Cadastro de usuário | Implementado | Nome, telefone e foto opcional com placeholder |
 | Catálogo | Implementado | Leitura exclusiva do Redux persistido |
 | Detalhe do item | Parcial | CTA abrindo WhatsApp |
 | Cadastro de item | Parcial | Criação real no Redux + persistência; upload real ainda pendente |
 | Imagens | Parcial | Opcionais com placeholders |
-| Perfil | Parcial | Dados derivados do Redux persistido |
+| Perfil | Implementado | Dados derivados do Redux persistido com métricas corretas |
 | Encerramento do item | Fora do escopo | Não será implementado no MVP |
 
 ---
@@ -740,7 +753,9 @@ Deve passar a:
 
 - leitura do store implementada;
 - acesso a `/profile` sem sessão agora redireciona para o login;
-- métricas e separação entre ativos/histórico ainda precisam de refinamento.
+- métricas refinadas e agora derivadas corretamente dos dados do usuário no Redux (itemsDiscarded, itemsCollected, wasteAvoided);
+- separação entre ativos e histórico implementada (histórico vazio conforme MVP não suporta encerramento de item);
+- progresso das conquistas calculado corretamente com base nos dados reais do usuário.
 
 ## 14.4. `AddItemPage.tsx`
 
@@ -761,36 +776,55 @@ Deve passar a:
 - acesso protegido por login implementado;
 - upload real de imagens ainda pendente.
 
-## 14.5. Tela de entrada
+## 14.5. Tela de entrada (`LoginPage.tsx`)
 
-Já existe uma tela simples de login local por telefone.
+Tela de login local por telefone implementada e funcional.
 
-Sugestão:
+Rota: `/login`
 
-- `/login` ou `/start`
+Fluxo:
 
-Fluxo atual:
+- usuário informa telefone;
+- se existir, é redirecionado ao perfil ou próxima página;
+- se não existir, é redirecionado ao `RegisterPage` com telefone e próxima página pré-preenchidos.
 
-- informa telefone;
-- se existir, entra;
-- se não existir, recebe aviso de que o cadastro será a próxima etapa.
+### Status atual
 
-## 14.6. Nova tela de cadastro de usuário
+- implementado e funcional.\n\n### Funcionalidades implementadas
 
-Criar uma tela para:
+- Validação de telefone normalizado;
+- Busca de usuário existente no Redux;
+- Suporte a parâmetro `next` na URL para redirecionamento após successo;
+- Redirecionamento automático para cadastro quando telefone não existe;
+- Proteção: se já estiver logado, redireciona para perfil;
+- Telas visuais diferentes para login vs. cadastro (baseado em `userNotFound`);
+- Passa telefone e `next` como parâmetros ao redirecionar para `RegisterPage`.
+
+## 14.6. Tela de cadastro de usuário (`RegisterPage.tsx`)
+
+Implementada com:
 
 - nome;
 - telefone;
 - foto opcional.
 
-Pode ser:
-
-- `/register`
-- ou um fluxo integrado ao login.
+Rota: `/register`
 
 ### Status atual
 
-- ainda pendente.
+- implementado e funcional.\n\n### Funcionalidades implementadas
+
+- Validação de campos (nome e telefone obrigatórios);
+- Upload de foto com preview em tempo real;
+- Foto é convertida para base64 e persistida no Redux;
+- Fallback para foto padrão (DEFAULT_USER_PHOTO) quando não fornecida;
+- Validação de unicidade de telefone normalizado;
+- Suporte a parâmetro `phone` na URL para pré-preencher o campo;
+- Suporte a parâmetro `next` na URL para redirecionamento após sucesso;
+- Feedback visual de sucesso (tela de confirmação);
+- Redirecionamento automático para próxima página após 1.5s;
+- Proteção: se já estiver logado, redireciona para perfil;
+- Usuário criado já entra autenticado localmente.
 
 ---
 
@@ -827,11 +861,8 @@ Assim o fallback fica centralizado e reaproveitável.
 
 ## 16. Próxima ordem sugerida de implementação
 
-1. Implementar cadastro de usuário com foto opcional.
-2. Conectar o login para redirecionar automaticamente ao cadastro quando o telefone não existir.
-3. Ajustar CTA do detalhe para abrir o WhatsApp do anunciante.
-4. Refinar métricas e agrupamentos do perfil a partir do store real.
-5. Implementar upload real de imagens para usuário e item, mantendo placeholders como fallback.
+1. Ajustar CTA do detalhe para abrir o WhatsApp do anunciante.
+2. Implementar upload real de imagens para usuário e item, mantendo placeholders como fallback.
 
 ---
 
@@ -843,14 +874,15 @@ O projeto já atende os seguintes critérios:
 - ao abrir novamente, o app usa apenas o estado persistido;
 - não existe usuário logado por padrão;
 - o login local acontece por telefone para usuários existentes;
+- o login redireciona automaticamente para cadastro quando o telefone não existe;
 - o catálogo lê apenas do Redux persistido;
 - o cadastro de item realmente cria itens no store;
-- itens sem imagem recebem placeholders.
+- itens sem imagem recebem placeholders;
+- o perfil reflete completamente os dados reais do store com métricas corretas derivadas dos dados do usuário no Redux;
+- um usuário novo pode ser criado com nome, telefone e foto opcional.
 
-Ainda faltam estes critérios para fechar o MVP:
+Ainda falta este critério para fechar o MVP:
 
-- um usuário novo pode ser criado com nome, telefone e foto opcional;
-- o perfil refletir completamente os dados reais do store sem métricas simplificadas;
 - o botão de contato abrir o WhatsApp do anunciante.
 
 ---
