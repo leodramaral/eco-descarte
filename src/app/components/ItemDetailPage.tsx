@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useAppSelector } from "../store/hooks";
+import { normalizePhone } from "../utils/phone";
 
 export function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -47,6 +48,11 @@ export function ItemDetailPage() {
     eletrodomesticos: "Eletrodomésticos",
     outros: "Outros",
   };
+
+  const whatsappMessage = encodeURIComponent(
+    `Olá, vi o anúncio de ${item.name} no EcoDescarte e gostaria de combinar a retirada.`
+  );
+  const whatsappUrl = `https://wa.me/${normalizePhone(user.phone)}?text=${whatsappMessage}`;
 
   return (
     <div className="pb-28">
@@ -333,13 +339,16 @@ export function ItemDetailPage() {
       {/* Sticky Contact CTA */}
       <div className="fixed bottom-16 left-0 right-0 z-40 px-4 pb-3">
         <div className="max-w-2xl mx-auto">
-          <button
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
             className="w-full bg-green-500 hover:bg-green-600 active:scale-95 text-white py-4 rounded-2xl flex items-center justify-center gap-3 shadow-xl transition-all"
             style={{ fontWeight: 700, fontSize: "1rem" }}
           >
             <MessageCircle className="w-6 h-6" />
-            Entrar em contato
-          </button>
+            Falar no WhatsApp
+          </a>
         </div>
       </div>
     </div>

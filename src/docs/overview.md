@@ -58,9 +58,7 @@ Hoje o app já entrega:
 
 Mas ainda não entrega de forma completa:
 
-- criação real de usuário;
 - upload real de imagens;
-- CTA de contato via WhatsApp;
 - métricas de perfil totalmente derivadas do store.
 
 Em resumo, o sistema hoje funciona muito bem como **protótipo navegável**, mas ainda não como **MVP funcional local**.
@@ -100,7 +98,7 @@ A tela já mostra:
 - dados do anunciante;
 - navegação para o perfil do anunciante.
 
-**Status:** implementado com leitura do Redux persistido.
+**Status:** implementado com leitura do Redux persistido e CTA abrindo WhatsApp do anunciante.
 
 ### 3.4. Perfil do usuário
 
@@ -111,7 +109,7 @@ A tela já apresenta:
 - métricas e reputação;
 - abas de itens ativos, histórico e conquistas.
 
-**Status:** parcialmente implementado, com leitura do Redux e métricas ainda simplificadas.
+**Status:** implementado com leitura do Redux persistido e métricas derivadas do store.
 
 ### 3.5. Cadastro de item
 
@@ -356,7 +354,7 @@ Exemplo de intenção:
 
 Neste MVP não haverá chat interno. O canal de contato será externo, via WhatsApp.
 
-**Status atual:** parcial; o CTA ainda precisa ser ajustado para abrir o WhatsApp.
+**Status atual:** implementado; o CTA já abre o WhatsApp do anunciante com mensagem pré-preenchida.
 
 ---
 
@@ -409,7 +407,7 @@ O fluxo de **encerramento do item não fará parte deste MVP**. Portanto, a docu
 | Entrada por telefone | Implementado | Login local simples por telefone para usuários existentes |
 | Cadastro de usuário | Implementado | Nome, telefone e foto opcional com placeholder |
 | Catálogo | Implementado | Leitura exclusiva do Redux persistido |
-| Detalhe do item | Parcial | CTA abrindo WhatsApp |
+| Detalhe do item | Implementado | CTA abrindo WhatsApp do anunciante |
 | Cadastro de item | Parcial | Criação real no Redux + persistência; upload real ainda pendente |
 | Imagens | Parcial | Opcionais com placeholders |
 | Perfil | Implementado | Dados derivados do Redux persistido com métricas corretas |
@@ -725,7 +723,9 @@ Deve passar a:
 
 Hoje já lê item e usuário a partir do Redux.
 
-Deve passar a:
+Já está alinhada ao MVP para o CTA de contato.
+
+Deve manter:
 
 - buscar item por `id` no Redux;
 - buscar usuário dono do item no Redux;
@@ -790,7 +790,9 @@ Fluxo:
 
 ### Status atual
 
-- implementado e funcional.\n\n### Funcionalidades implementadas
+- implementado e funcional.
+
+### Funcionalidades implementadas
 
 - Validação de telefone normalizado;
 - Busca de usuário existente no Redux;
@@ -812,7 +814,9 @@ Rota: `/register`
 
 ### Status atual
 
-- implementado e funcional.\n\n### Funcionalidades implementadas
+- implementado e funcional.
+
+### Funcionalidades implementadas
 
 - Validação de campos (nome e telefone obrigatórios);
 - Upload de foto com preview em tempo real;
@@ -861,8 +865,8 @@ Assim o fallback fica centralizado e reaproveitável.
 
 ## 16. Próxima ordem sugerida de implementação
 
-1. Ajustar CTA do detalhe para abrir o WhatsApp do anunciante.
-2. Implementar upload real de imagens para usuário e item, mantendo placeholders como fallback.
+1. Implementar upload real de imagens para usuário e item, mantendo placeholders como fallback.
+2. Refinar as métricas e badges do perfil se o produto evoluir para novos estados de item.
 
 ---
 
@@ -881,9 +885,7 @@ O projeto já atende os seguintes critérios:
 - o perfil reflete completamente os dados reais do store com métricas corretas derivadas dos dados do usuário no Redux;
 - um usuário novo pode ser criado com nome, telefone e foto opcional.
 
-Ainda falta este critério para fechar o MVP:
-
-- o botão de contato abrir o WhatsApp do anunciante.
+O botão de contato já abre o WhatsApp do anunciante, então essa pendência foi concluída.
 
 ---
 
