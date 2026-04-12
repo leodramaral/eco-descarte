@@ -67,7 +67,7 @@ export function LoginPage() {
             <p className="mt-2 text-sm leading-relaxed text-gray-600">
               {userNotFound
                 ? "Não encontramos uma conta com este telefone. Crie uma agora para começar!"
-                : "Use o seu telefone para entrar localmente e continuar anunciando no EcoDescarte."}
+                : "Use o seu telefone para entrar localmente e continuar anunciando no Recolhe Aí."}
             </p>
           </div>
           <div className="rounded-2xl border border-green-100 bg-white/80 p-3">
@@ -97,7 +97,7 @@ export function LoginPage() {
                   </div>
                   <div className="text-left">
                     <div className="font-bold text-sm">Criar cadastro</div>
-                    <div className="text-xs opacity-90">Nova conta no EcoDescarte</div>
+                    <div className="text-xs opacity-90">Nova conta no Recolhe Aí</div>
                   </div>
                 </div>
                 <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />

@@ -32,7 +32,7 @@ export function Layout() {
                 <Leaf className="w-4 h-4 text-white" />
               </div>
               <span className="text-green-700" style={{ fontWeight: 700, fontSize: "1.1rem" }}>
-                Eco<span className="text-green-500">Descarte</span>
+                Recolhe <span className="text-green-500">Aí</span>
               </span>
             </button>
             <button

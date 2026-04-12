@@ -157,7 +157,7 @@ export function RegisterPage() {
               Criar cadastro
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-gray-600">
-              Complete seus dados para começar a anunciar no EcoDescarte.
+              Complete seus dados para começar a anunciar no Recolhe Aí.
             </p>
           </div>
           <div className="rounded-2xl border border-green-100 bg-white/80 p-3">

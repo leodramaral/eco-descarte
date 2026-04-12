@@ -50,7 +50,7 @@ export function ItemDetailPage() {
   };
 
   const whatsappMessage = encodeURIComponent(
-    `Olá, vi o anúncio de ${item.name} no EcoDescarte e gostaria de combinar a retirada.`
+    `Olá, vi o anúncio de ${item.name} no Recolhe Aí e gostaria de combinar a retirada.`
   );
   const whatsappUrl = `https://wa.me/${normalizePhone(user.phone)}?text=${whatsappMessage}`;
 

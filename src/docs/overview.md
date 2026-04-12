@@ -1,8 +1,8 @@
-# Documentação de Fluxos do MVP — EcoDescarte
+# Documentação de Fluxos do MVP — Recolhe Aí
 
 ## 1. Objetivo deste documento
 
-Este documento descreve o estado atual do projeto **EcoDescarte** e define o comportamento esperado do MVP, dividido em duas partes:
+Este documento descreve o estado atual do projeto **Recolhe Aí** e define o comportamento esperado do MVP, dividido em duas partes:
 
 1. **Fluxo funcional final do MVP**: como as jornadas devem funcionar quando a aplicação estiver fechada como produto local.
 2. **Descrição técnica do que ainda precisa ser implementado**: arquitetura, persistência e responsabilidades de cada parte.
@@ -348,7 +348,7 @@ O botão deve montar uma URL do WhatsApp com o telefone do anunciante, por exemp
 
 Exemplo de intenção:
 
-- “Olá, vi seu item no EcoDescarte e tenho interesse.”
+- “Olá, vi seu item no Recolhe Aí e tenho interesse.”
 
 ### Observação
 
@@ -675,7 +675,7 @@ createItem(payload: {
 Persistir um único objeto serializado da aplicação, por exemplo:
 
 ```ts
-const STORAGE_KEY = "eco-descarte-redux";
+const STORAGE_KEY = "recolhe-ai-redux";
 ```
 
 ### Estrutura salva
@@ -897,4 +897,4 @@ A decisão mais importante para evitar inconsistências é esta:
 
 > usar o **Redux persistido como fonte única de dados** e deixar os mocks apenas como **seed de primeira execução**.
 
-Com isso, o EcoDescarte passa de protótipo navegável para um MVP local coerente, previsível e fácil de evoluir depois para backend, autenticação real e APIs.
+Com isso, o Recolhe Aí passa de protótipo navegável para um MVP local coerente, previsível e fácil de evoluir depois para backend, autenticação real e APIs.

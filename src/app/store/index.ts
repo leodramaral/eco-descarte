@@ -2,7 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import appReducer from "./appSlice";
 import { createSeedState, type AppDataState } from "../data/mockData";
 
-const STORAGE_KEY = "eco-descarte-redux";
+const STORAGE_KEY = "recolhe-ai-redux";
+const LEGACY_STORAGE_KEY = "eco-descarte-redux";
 
 type PersistedState = {
   appData: Omit<AppDataState, "appInitialized"> & Partial<Pick<AppDataState, "appInitialized">>;
@@ -43,20 +44,40 @@ function saveState(state: { appData: AppDataState }) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+function readStoredState(key: string): { appData: AppDataState } | undefined {
+  const storedState = window.localStorage.getItem(key);
+
+  if (!storedState) {
+    return undefined;
+  }
+
+  const parsedState = JSON.parse(storedState);
+
+  if (!isValidPersistedState(parsedState)) {
+    return undefined;
+  }
+
+  return migratePersistedState(parsedState);
+}
+
 function loadState(): { appData: AppDataState } | undefined {
   if (typeof window === "undefined") {
     return undefined;
   }
 
   try {
-    const storedState = window.localStorage.getItem(STORAGE_KEY);
+    const currentState = readStoredState(STORAGE_KEY);
 
-    if (storedState) {
-      const parsedState = JSON.parse(storedState);
+    if (currentState) {
+      return currentState;
+    }
 
-      if (isValidPersistedState(parsedState)) {
-        return migratePersistedState(parsedState);
-      }
+    const legacyState = readStoredState(LEGACY_STORAGE_KEY);
+
+    if (legacyState) {
+      saveState(legacyState);
+      window.localStorage.removeItem(LEGACY_STORAGE_KEY);
+      return legacyState;
     }
   } catch (error) {
     console.warn("Nao foi possivel carregar o estado persistido.", error);
