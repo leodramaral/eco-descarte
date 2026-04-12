@@ -42,7 +42,7 @@ export function UserProfilePage() {
         <p className="text-gray-500">Perfil não encontrado.</p>
         <button
           onClick={() => navigate("/")}
-          className="mt-4 text-green-600"
+          className="mt-4 text-brand"
           style={{ fontWeight: 600 }}
         >
           Voltar ao início
@@ -75,31 +75,31 @@ export function UserProfilePage() {
     <div className="pb-8">
       {/* Profile Header */}
       <div className="px-4 pt-5">
-        <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-4">
+        <div className="rounded-3xl border border-border bg-white p-4 shadow-[0_18px_38px_rgba(56,45,34,0.08)]">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="relative">
                 <img
                   src={user.photo}
                   alt={user.name}
-                  className="w-[72px] h-[72px] rounded-full object-cover border-3 border-white shadow-lg ring-2 ring-gray-100"
+                  className="h-[72px] w-[72px] rounded-full border-3 border-white object-cover shadow-lg ring-2 ring-[#f0ebe4]"
                   style={{ borderWidth: 3 }}
                 />
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white" />
+                <div className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full border-2 border-white bg-brand-primary" />
               </div>
               <div>
-                <h2 className="text-gray-900 leading-tight" style={{ fontSize: "1.2rem", fontWeight: 700 }}>
+                <h2 className="leading-tight text-[#201814]" style={{ fontSize: "1.2rem", fontWeight: 700 }}>
                   {user.name}
                 </h2>
-                <p className="text-gray-500 text-xs mt-0.5">Perfil público</p>
+                <p className="mt-0.5 text-xs text-[#8d8379]">Perfil público</p>
                 <div className="flex flex-wrap items-center gap-1.5 mt-2">
                   {user.verified && (
-                    <span className="flex items-center gap-1 bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full" style={{ fontWeight: 600 }}>
+                    <span className="chip-earth px-2 py-1 text-xs" style={{ fontWeight: 600 }}>
                       <CheckCircle className="w-3 h-3" /> Conta verificada
                     </span>
                   )}
                   {user.respondsQuickly && (
-                    <span className="flex items-center gap-1 bg-amber-50 text-amber-700 text-xs px-2 py-1 rounded-full" style={{ fontWeight: 600 }}>
+                    <span className="chip-accent px-2 py-1 text-xs" style={{ fontWeight: 600 }}>
                       <Zap className="w-3 h-3" /> Responde rápido
                     </span>
                   )}
@@ -112,102 +112,102 @@ export function UserProfilePage() {
                   dispatch(logout());
                   navigate("/", { replace: true });
                 }}
-                className="inline-flex h-9 items-center gap-1 rounded-xl border border-gray-200 bg-gray-100 px-3 text-sm text-gray-700"
+                className="surface-earth inline-flex h-9 items-center gap-1 rounded-xl px-3 text-sm text-brand-earth"
                 style={{ fontWeight: 600 }}
               >
                 <LogOut className="w-4 h-4" />
                 Sair
               </button>
             ) : (
-              <button className="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200">
-                <Edit3 className="w-4 h-4 text-gray-600" />
+              <button className="surface-earth flex h-9 w-9 items-center justify-center rounded-xl">
+                <Edit3 className="w-4 h-4 text-brand-earth" />
               </button>
             )}
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 mb-3">
+          <div className="mb-3 rounded-xl border border-border bg-[#faf7f2] px-3 py-2.5">
             <div className="flex items-center gap-1.5">
-              <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-              <span className="text-gray-800 text-sm" style={{ fontWeight: 700 }}>
+              <Star className="h-4 w-4 fill-brand-accent text-brand-accent" />
+              <span className="text-sm text-[#2a211c]" style={{ fontWeight: 700 }}>
                 {user.rating.toFixed(1)}
               </span>
-              <span className="text-gray-500 text-xs">({user.reviewCount} avaliações)</span>
+              <span className="text-xs text-[#8d8379]">({user.reviewCount} avaliações)</span>
             </div>
           </div>
 
           <div className="space-y-2 mb-3">
-            <div className="flex items-center gap-2 text-gray-500 text-xs">
-              <Calendar className="w-3.5 h-3.5 text-gray-400" />
+            <div className="flex items-center gap-2 text-xs text-[#7e7369]">
+              <Calendar className="h-3.5 w-3.5 text-[#9a9188]" />
               <span>Membro desde {user.memberSince}</span>
             </div>
-            <div className="flex items-center gap-2 text-gray-500 text-xs">
-              <Phone className="w-3.5 h-3.5 text-gray-400" />
+            <div className="flex items-center gap-2 text-xs text-[#7e7369]">
+              <Phone className="h-3.5 w-3.5 text-[#9a9188]" />
               <span>{formattedPhone}</span>
             </div>
             {neighborhoodsSummary && (
-              <div className="flex items-center gap-2 text-gray-500 text-xs">
-                <MapPin className="w-3.5 h-3.5 text-gray-400" />
+              <div className="flex items-center gap-2 text-xs text-[#7e7369]">
+                <MapPin className="h-3.5 w-3.5 text-brand-primary" />
                 <span>Atua em {neighborhoodsSummary}</span>
               </div>
             )}
           </div>
 
           <div className="grid grid-cols-2 gap-2.5">
-            <div className="rounded-xl border border-gray-200 bg-gray-50 p-3">
+            <div className="rounded-xl border border-border bg-[#faf7f2] p-3">
               <div className="flex items-center justify-between mb-1.5">
-                <Package className="w-4 h-4 text-blue-600" />
-                <p className="text-gray-800" style={{ fontWeight: 700 }}>
+                <Package className="h-4 w-4 text-brand-earth" />
+                <p className="text-[#2a211c]" style={{ fontWeight: 700 }}>
                   {discardedItemsCount}
                 </p>
               </div>
-              <p className="text-gray-500 text-xs">Itens descartados</p>
-              <p className="text-[10px] text-gray-400 mt-0.5">Papel Anunciante</p>
+              <p className="text-xs text-[#7e7369]">Itens descartados</p>
+              <p className="mt-0.5 text-[10px] text-[#a0978d]">Papel Anunciante</p>
             </div>
 
-            <div className="rounded-xl border border-gray-200 bg-gray-50 p-3">
+            <div className="rounded-xl border border-border bg-[#faf7f2] p-3">
               <div className="flex items-center justify-between mb-1.5">
-                <Truck className="w-4 h-4 text-amber-600" />
-                <p className="text-gray-800" style={{ fontWeight: 700 }}>
+                <Truck className="h-4 w-4 text-brand-accent" />
+                <p className="text-[#2a211c]" style={{ fontWeight: 700 }}>
                   {collectedItemsCount}
                 </p>
               </div>
-              <p className="text-gray-500 text-xs">Itens coletados</p>
+              <p className="text-xs text-[#7e7369]">Itens coletados</p>
             </div>
 
-            <div className="rounded-xl border border-gray-200 bg-gray-50 p-3">
+            <div className="rounded-xl border border-border bg-[#faf7f2] p-3">
               <div className="flex items-center justify-between mb-1.5">
-                <Package className="w-4 h-4 text-gray-600" />
-                <p className="text-gray-800" style={{ fontWeight: 700 }}>
+                <Package className="h-4 w-4 text-[#7e7369]" />
+                <p className="text-[#2a211c]" style={{ fontWeight: 700 }}>
                   {activeItems.length}
                 </p>
               </div>
-              <p className="text-gray-500 text-xs">Anúncios ativos</p>
+              <p className="text-xs text-[#7e7369]">Anúncios ativos</p>
             </div>
 
-            <div className="rounded-xl border border-gray-200 bg-gray-50 p-3">
+            <div className="rounded-xl border border-border bg-[#faf7f2] p-3">
               <div className="flex items-center justify-between mb-1.5">
-                <Star className="w-4 h-4 text-gray-600" />
-                <p className="text-gray-800" style={{ fontWeight: 700 }}>
+                <Star className="h-4 w-4 text-brand-accent" />
+                <p className="text-[#2a211c]" style={{ fontWeight: 700 }}>
                   {user.badges.length}
                 </p>
               </div>
-              <p className="text-gray-500 text-xs">Conquistas</p>
+              <p className="text-xs text-[#7e7369]">Conquistas</p>
             </div>
 
-            <div className="col-span-2 rounded-xl border border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-3">
+            <div className="impact-card col-span-2 rounded-xl p-3">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
-                    <Leaf className="w-4 h-4 text-green-700" />
+                  <div className="surface-soft flex h-8 w-8 items-center justify-center rounded-lg">
+                    <Leaf className="h-4 w-4 text-brand-primary-strong" />
                   </div>
                   <div>
-                    <p className="text-green-800 text-xs" style={{ fontWeight: 700 }}>
+                    <p className="text-xs text-brand" style={{ fontWeight: 700 }}>
                       Resíduos evitados
                     </p>
-                    <p className="text-green-700 text-[11px]">Seu maior impacto ambiental</p>
+                    <p className="text-[11px] text-[#4d6f46]">Seu maior impacto ambiental</p>
                   </div>
                 </div>
-                <p className="text-green-800" style={{ fontWeight: 700, fontSize: "1.1rem" }}>
+                <p className="text-brand" style={{ fontWeight: 700, fontSize: "1.1rem" }}>
                   {wasteAvoidedKg}kg
                 </p>
               </div>
@@ -218,15 +218,15 @@ export function UserProfilePage() {
 
       {/* Tabs */}
       <div className="px-4 mt-4">
-        <div className="flex bg-gray-100 rounded-xl p-1">
+        <div className="flex rounded-xl bg-[#ece5dc] p-1">
           {TABS.map((tab) => (
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
               className={`flex-1 py-2 rounded-lg text-sm transition-all ${
                 activeTab === tab.value
-                  ? "bg-white text-gray-800 shadow-sm"
-                  : "text-gray-500"
+                  ? "bg-white text-brand shadow-sm"
+                  : "text-[#7e7369]"
               }`}
               style={{ fontWeight: activeTab === tab.value ? 600 : 400 }}
             >
@@ -243,10 +243,10 @@ export function UserProfilePage() {
             {activeItems.length === 0 ? (
               <div className="text-center py-10">
                 <div className="text-4xl mb-3">📦</div>
-                <p className="text-gray-500 text-sm">Nenhum item ativo no momento</p>
+                <p className="text-sm text-[#7e7369]">Nenhum item ativo no momento</p>
                 <button
                   onClick={() => navigate("/add")}
-                  className="mt-4 bg-green-600 text-white px-6 py-2 rounded-xl text-sm"
+                  className="cta-primary mt-4 rounded-xl px-6 py-2 text-sm"
                   style={{ fontWeight: 600 }}
                 >
                   Anunciar item
@@ -258,7 +258,7 @@ export function UserProfilePage() {
                   <div
                     key={item.id}
                     onClick={() => navigate(`/item/${item.id}`)}
-                    className="bg-white rounded-xl border border-gray-100 overflow-hidden flex cursor-pointer active:scale-95 transition-transform"
+                    className="flex cursor-pointer overflow-hidden rounded-xl border border-border bg-white transition-transform active:scale-95"
                   >
                     <img
                       src={item.images[0]}
@@ -266,35 +266,33 @@ export function UserProfilePage() {
                       className="w-24 h-24 object-cover flex-shrink-0"
                     />
                     <div className="p-3 flex-1">
-                      <p className="text-gray-800 text-sm mb-1" style={{ fontWeight: 600 }}>{item.name}</p>
+                      <p className="mb-1 text-sm text-[#2a211c]" style={{ fontWeight: 600 }}>{item.name}</p>
                       <div className="flex items-center gap-1 mb-1.5">
-                        <MapPin className="w-3 h-3 text-green-500" />
-                        <span className="text-xs text-gray-400">{item.neighborhood}</span>
+                        <MapPin className="h-3 w-3 text-brand-primary" />
+                        <span className="text-xs text-[#9a9188]">{item.neighborhood}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <span
-                          className={`text-xs px-2 py-0.5 rounded-full ${
-                            item.type === "doacao"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-blue-100 text-blue-700"
+                          className={`rounded-full px-2 py-0.5 text-xs ${
+                            item.type === "doacao" ? "chip-brand" : "chip-earth"
                           }`}
                           style={{ fontWeight: 600 }}
                         >
                           {item.type === "doacao" ? "Doação" : `R$ ${item.price}`}
                         </span>
                         {item.urgent && (
-                          <span className="text-xs text-orange-500" style={{ fontWeight: 600 }}>🔥 Urgente</span>
+                          <span className="text-xs text-accent" style={{ fontWeight: 600 }}>🔥 Urgente</span>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center pr-3">
-                      <ChevronRight className="w-4 h-4 text-gray-300" />
+                      <ChevronRight className="w-4 h-4 text-[#c8bdb2]" />
                     </div>
                   </div>
                 ))}
                 <button
                   onClick={() => navigate("/add")}
-                  className="w-full border-2 border-dashed border-green-300 rounded-xl py-4 flex flex-col items-center gap-1 text-green-600"
+                  className="surface-soft flex w-full flex-col items-center gap-1 rounded-xl border-2 border-dashed border-brand-primary py-4 text-brand"
                 >
                   <span className="text-xl">+</span>
                   <span className="text-sm" style={{ fontWeight: 600 }}>Anunciar novo item</span>
@@ -307,7 +305,7 @@ export function UserProfilePage() {
         {activeTab === "historico" && (
           <div>
             <div className="mb-4">
-              <p className="text-sm text-gray-500 mb-2" style={{ fontWeight: 600 }}>
+              <p className="mb-2 text-sm text-[#7e7369]" style={{ fontWeight: 600 }}>
                 📦 Histórico de anúncios
               </p>
               {historyItems.length > 0 ? (
@@ -316,7 +314,7 @@ export function UserProfilePage() {
                     <div
                       key={item.id}
                       onClick={() => navigate(`/item/${item.id}`)}
-                      className="bg-white rounded-xl border border-gray-100 overflow-hidden flex cursor-pointer active:scale-95 transition-transform"
+                      className="flex cursor-pointer overflow-hidden rounded-xl border border-border bg-white transition-transform active:scale-95"
                     >
                       <img
                         src={item.images[0]}
@@ -324,18 +322,18 @@ export function UserProfilePage() {
                         className="w-20 h-20 object-cover flex-shrink-0 opacity-80"
                       />
                       <div className="p-3 flex-1">
-                        <p className="text-gray-700 text-sm mb-0.5" style={{ fontWeight: 600 }}>{item.name}</p>
+                        <p className="mb-0.5 text-sm text-[#584d45]" style={{ fontWeight: 600 }}>{item.name}</p>
                         <div className="flex items-center gap-1 mb-1">
-                          <MapPin className="w-3 h-3 text-gray-300" />
-                          <span className="text-xs text-gray-400">{item.neighborhood}</span>
+                          <MapPin className="h-3 w-3 text-[#c8bdb2]" />
+                          <span className="text-xs text-[#9a9188]">{item.neighborhood}</span>
                         </div>
-                        <span className="text-xs text-gray-400">{item.postedAt}</span>
+                        <span className="text-xs text-[#9a9188]">{item.postedAt}</span>
                       </div>
                       <div className="flex flex-col items-end justify-center px-3 gap-1">
-                        <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full" style={{ fontWeight: 500 }}>
+                        <span className="surface-earth rounded-full px-2 py-0.5 text-xs text-brand-earth" style={{ fontWeight: 500 }}>
                           Concluído
                         </span>
-                        <span className="text-xs text-green-600" style={{ fontWeight: 600 }}>
+                        <span className="text-xs text-brand" style={{ fontWeight: 600 }}>
                           -{item.wasteWeight}kg
                         </span>
                       </div>
@@ -343,21 +341,21 @@ export function UserProfilePage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-400 text-sm text-center py-4">Nenhum histórico ainda</p>
+                <p className="py-4 text-center text-sm text-[#9a9188]">Nenhum histórico ainda</p>
               )}
             </div>
             <div>
-              <p className="text-sm text-gray-500 mb-2" style={{ fontWeight: 600 }}>
+              <p className="mb-2 text-sm text-[#7e7369]" style={{ fontWeight: 600 }}>
                 🚚 Itens coletados
               </p>
-              <p className="text-gray-400 text-sm text-center py-4">Nenhum item coletado ainda</p>
+              <p className="py-4 text-center text-sm text-[#9a9188]">Nenhum item coletado ainda</p>
             </div>
           </div>
         )}
 
         {activeTab === "conquistas" && (
           <div>
-            <p className="text-gray-500 text-sm mb-4">
+            <p className="mb-4 text-sm text-[#7e7369]">
               Continue engajado para desbloquear mais conquistas! 🏆
             </p>
             <div className="grid grid-cols-3 gap-4">
@@ -383,41 +381,41 @@ export function UserProfilePage() {
               ))}
             </div>
             {/* Progress */}
-            <div className="mt-5 bg-white rounded-xl p-4 border border-gray-100">
-              <p className="text-sm text-gray-700 mb-3" style={{ fontWeight: 600 }}>Seu progresso</p>
+            <div className="mt-5 rounded-xl border border-border bg-white p-4">
+              <p className="mb-3 text-sm text-[#584d45]" style={{ fontWeight: 600 }}>Seu progresso</p>
               <div className="space-y-3">
                 <div>
-                  <div className="flex justify-between text-xs text-gray-500 mb-1">
+                  <div className="mb-1 flex justify-between text-xs text-[#7e7369]">
                     <span>Super Eco (20 descartes)</span>
                     <span style={{ fontWeight: 600 }}>{user.itemsDiscarded}/20</span>
                   </div>
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-2 overflow-hidden rounded-full bg-[#ece5dc]">
                     <div
-                      className="h-full bg-green-500 rounded-full transition-all"
+                      className="progress-brand h-full rounded-full transition-all"
                       style={{ width: `${(user.itemsDiscarded / 20) * 100}%` }}
                     />
                   </div>
                 </div>
                 <div>
-                  <div className="flex justify-between text-xs text-gray-500 mb-1">
+                  <div className="mb-1 flex justify-between text-xs text-[#7e7369]">
                     <span>5 Estrelas (50 avaliações)</span>
                     <span style={{ fontWeight: 600 }}>{user.reviewCount}/50</span>
                   </div>
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-2 overflow-hidden rounded-full bg-[#ece5dc]">
                     <div
-                      className="h-full bg-yellow-400 rounded-full transition-all"
+                      className="progress-accent h-full rounded-full transition-all"
                       style={{ width: `${(user.reviewCount / 50) * 100}%` }}
                     />
                   </div>
                 </div>
                 <div>
-                  <div className="flex justify-between text-xs text-gray-500 mb-1">
+                  <div className="mb-1 flex justify-between text-xs text-[#7e7369]">
                     <span>Mestre do Descarte (500kg)</span>
                     <span style={{ fontWeight: 600 }}>{user.wasteAvoided}/500kg</span>
                   </div>
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-2 overflow-hidden rounded-full bg-[#ece5dc]">
                     <div
-                      className="h-full bg-purple-500 rounded-full transition-all"
+                      className="progress-earth h-full rounded-full transition-all"
                       style={{ width: `${(user.wasteAvoided / 500) * 100}%` }}
                     />
                   </div>

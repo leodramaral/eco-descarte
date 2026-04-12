@@ -13,12 +13,11 @@ import {
   Shield,
   Zap,
   MessageCircle,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
 import { useAppSelector } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
+import { getBadgeChipClassName } from "../utils/badgeStyles";
 
 export function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -33,7 +32,7 @@ export function ItemDetailPage() {
     return (
       <div className="flex flex-col items-center justify-center h-64">
         <p className="text-gray-500">Item não encontrado.</p>
-        <button onClick={() => navigate("/")} className="mt-4 text-green-600" style={{ fontWeight: 600 }}>
+        <button onClick={() => navigate("/")} className="mt-4 text-brand" style={{ fontWeight: 600 }}>
           Voltar ao início
         </button>
       </div>
@@ -77,17 +76,15 @@ export function ItemDetailPage() {
         {/* Badges */}
         <div className="absolute top-3 left-3 flex gap-2">
           <span
-            className={`px-3 py-1 rounded-full text-sm ${
-              item.type === "doacao"
-                ? "bg-green-500 text-white"
-                : "bg-blue-500 text-white"
+            className={`rounded-full px-3 py-1 text-sm ${
+              item.type === "doacao" ? "tone-donation" : "tone-paid"
             }`}
             style={{ fontWeight: 700 }}
           >
             {item.type === "doacao" ? "🎁 Doação" : `💰 R$ ${item.price}`}
           </span>
           {item.urgent && (
-            <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm" style={{ fontWeight: 700 }}>
+            <span className="tone-urgent rounded-full px-3 py-1 text-sm" style={{ fontWeight: 700 }}>
               🔥 Retirar hoje
             </span>
           )}
@@ -112,56 +109,56 @@ export function ItemDetailPage() {
         {/* Title & Location */}
         <div>
           <div className="flex items-start justify-between mb-1">
-            <h1 className="text-gray-900 flex-1 pr-2" style={{ fontSize: "1.2rem" }}>{item.name}</h1>
-            <span className="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded-lg flex-shrink-0">
+            <h1 className="flex-1 pr-2 text-[#201814]" style={{ fontSize: "1.2rem" }}>{item.name}</h1>
+            <span className="surface-earth flex-shrink-0 rounded-lg px-2 py-1 text-xs text-brand-earth">
               {categoryLabel[item.category]}
             </span>
           </div>
-          <div className="flex items-center gap-1.5 text-gray-500">
-            <MapPin className="w-4 h-4 text-green-500" />
+          <div className="flex items-center gap-1.5 text-[#7e7369]">
+            <MapPin className="h-4 w-4 text-brand-primary" />
             <span className="text-sm">{item.neighborhood} • {item.distance}km de você</span>
-            <span className="text-gray-300">•</span>
-            <Clock className="w-3.5 h-3.5 text-gray-400" />
-            <span className="text-xs text-gray-400">{item.postedAt}</span>
+            <span className="text-[#c1b6ab]">•</span>
+            <Clock className="h-3.5 w-3.5 text-[#9a9188]" />
+            <span className="text-xs text-[#9a9188]">{item.postedAt}</span>
           </div>
         </div>
 
         {/* Description */}
-        <div className="bg-white rounded-xl p-4 border border-gray-100">
-          <h3 className="text-gray-800 mb-2">Descrição</h3>
-          <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
+        <div className="rounded-xl border border-border bg-white p-4 shadow-[0_10px_28px_rgba(56,45,34,0.05)]">
+          <h3 className="mb-2 text-[#2a211c]">Descrição</h3>
+          <p className="text-sm leading-relaxed text-[#655b53]">{item.description}</p>
         </div>
 
         {/* Details */}
-        <div className="bg-white rounded-xl p-4 border border-gray-100">
-          <h3 className="text-gray-800 mb-3">Detalhes do item</h3>
+        <div className="rounded-xl border border-border bg-white p-4 shadow-[0_10px_28px_rgba(56,45,34,0.05)]">
+          <h3 className="mb-3 text-[#2a211c]">Detalhes do item</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="flex items-start gap-2">
-              <Clock className="w-4 h-4 text-green-500 mt-0.5" />
+              <Clock className="mt-0.5 h-4 w-4 text-brand-primary" />
               <div>
-                <p className="text-xs text-gray-400">Tempo de uso</p>
-                <p className="text-sm text-gray-700" style={{ fontWeight: 500 }}>{item.timeOfUse}</p>
+                <p className="text-xs text-[#9a9188]">Tempo de uso</p>
+                <p className="text-sm text-[#584d45]" style={{ fontWeight: 500 }}>{item.timeOfUse}</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <Package className="w-4 h-4 text-green-500 mt-0.5" />
+              <Package className="mt-0.5 h-4 w-4 text-brand-earth" />
               <div>
-                <p className="text-xs text-gray-400">Material</p>
-                <p className="text-sm text-gray-700" style={{ fontWeight: 500 }}>{item.material}</p>
+                <p className="text-xs text-[#9a9188]">Material</p>
+                <p className="text-sm text-[#584d45]" style={{ fontWeight: 500 }}>{item.material}</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <Ruler className="w-4 h-4 text-green-500 mt-0.5" />
+              <Ruler className="mt-0.5 h-4 w-4 text-brand-primary" />
               <div>
-                <p className="text-xs text-gray-400">Peso</p>
-                <p className="text-sm text-gray-700" style={{ fontWeight: 500 }}>{item.weight}kg</p>
+                <p className="text-xs text-[#9a9188]">Peso</p>
+                <p className="text-sm text-[#584d45]" style={{ fontWeight: 500 }}>{item.weight}kg</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <Ruler className="w-4 h-4 text-green-500 mt-0.5" />
+              <Ruler className="mt-0.5 h-4 w-4 text-brand-earth" />
               <div>
-                <p className="text-xs text-gray-400">Dimensões (cm)</p>
-                <p className="text-sm text-gray-700" style={{ fontWeight: 500 }}>
+                <p className="text-xs text-[#9a9188]">Dimensões (cm)</p>
+                <p className="text-sm text-[#584d45]" style={{ fontWeight: 500 }}>
                   {item.dimensions.height}×{item.dimensions.width}×{item.dimensions.depth}
                 </p>
               </div>
@@ -170,26 +167,26 @@ export function ItemDetailPage() {
         </div>
 
         {/* Logistics */}
-        <div className="bg-white rounded-xl p-4 border border-gray-100">
-          <h3 className="text-gray-800 mb-3">Logística</h3>
+        <div className="rounded-xl border border-border bg-white p-4 shadow-[0_10px_28px_rgba(56,45,34,0.05)]">
+          <h3 className="mb-3 text-[#2a211c]">Logística</h3>
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <div
-                className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                  item.transport === "entrega" ? "bg-blue-50" : "bg-amber-50"
+                className={`flex h-10 w-10 items-center justify-center rounded-xl ${
+                  item.transport === "entrega" ? "surface-earth" : "surface-accent"
                 }`}
               >
                 {item.transport === "entrega" ? (
-                  <Truck className="w-5 h-5 text-blue-600" />
+                  <Truck className="h-5 w-5 text-brand-earth" />
                 ) : (
-                  <MapPin className="w-5 h-5 text-amber-600" />
+                  <MapPin className="h-5 w-5 text-brand-accent" />
                 )}
               </div>
               <div>
-                <p className="text-sm text-gray-800" style={{ fontWeight: 600 }}>
+                <p className="text-sm text-[#2a211c]" style={{ fontWeight: 600 }}>
                   {item.transport === "entrega" ? "Anunciante entrega" : "Coletor busca"}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-[#7e7369]">
                   {item.transport === "entrega"
                     ? "O anunciante pode entregar"
                     : "Você precisa ir buscar no local"}
@@ -198,21 +195,21 @@ export function ItemDetailPage() {
             </div>
             <div className="flex items-center gap-3">
               <div
-                className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                  item.fitsInCar ? "bg-green-50" : "bg-gray-50"
+                className={`flex h-10 w-10 items-center justify-center rounded-xl ${
+                  item.fitsInCar ? "surface-soft" : "surface-earth"
                 }`}
               >
                 {item.fitsInCar ? (
-                  <Car className="w-5 h-5 text-green-600" />
+                  <Car className="h-5 w-5 text-brand-primary-strong" />
                 ) : (
-                  <Truck className="w-5 h-5 text-gray-500" />
+                  <Truck className="h-5 w-5 text-brand-earth" />
                 )}
               </div>
               <div>
-                <p className="text-sm text-gray-800" style={{ fontWeight: 600 }}>
+                <p className="text-sm text-[#2a211c]" style={{ fontWeight: 600 }}>
                   {item.fitsInCar ? "Cabe em carro" : "Transporte necessário"}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-[#7e7369]">
                   {item.fitsInCar
                     ? "Pode ser transportado em um carro comum"
                     : "Necessário caminhão, van ou moto-frete"}
@@ -223,19 +220,20 @@ export function ItemDetailPage() {
         </div>
 
         {/* Map Placeholder */}
-        <div className="bg-white rounded-xl p-4 border border-gray-100">
-          <h3 className="text-gray-800 mb-3">Localização</h3>
-          <div className="rounded-xl overflow-hidden relative bg-green-50 h-32 flex items-center justify-center border border-green-100">
+        <div className="rounded-xl border border-border bg-white p-4 shadow-[0_10px_28px_rgba(56,45,34,0.05)]">
+          <h3 className="mb-3 text-[#2a211c]">Localização</h3>
+          <div className="surface-soft relative flex h-32 items-center justify-center overflow-hidden rounded-xl">
             <div className="absolute inset-0 opacity-20"
               style={{
-                backgroundImage: `repeating-linear-gradient(0deg, #15803d 0px, transparent 1px, transparent 40px, #15803d 40px), repeating-linear-gradient(90deg, #15803d 0px, transparent 1px, transparent 40px, #15803d 40px)`,
+                backgroundImage:
+                  "repeating-linear-gradient(0deg, var(--brand-primary) 0px, transparent 1px, transparent 40px, var(--brand-primary) 40px), repeating-linear-gradient(90deg, var(--brand-earth) 0px, transparent 1px, transparent 40px, var(--brand-earth) 40px)",
               }}
             />
             <div className="flex flex-col items-center gap-2 z-10">
-              <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center shadow-lg">
+              <div className="brand-mark flex h-10 w-10 items-center justify-center rounded-full">
                 <MapPin className="w-5 h-5 text-white" />
               </div>
-              <span className="text-sm text-green-700" style={{ fontWeight: 600 }}>
+              <span className="text-sm text-brand" style={{ fontWeight: 600 }}>
                 {item.neighborhood}, Manaus
               </span>
             </div>
@@ -243,12 +241,12 @@ export function ItemDetailPage() {
         </div>
 
         {/* Environmental Impact */}
-        <div className="bg-green-50 rounded-xl p-4 border border-green-200">
+        <div className="impact-card rounded-xl p-4">
           <div className="flex items-center gap-2 mb-1">
-            <Leaf className="w-5 h-5 text-green-600" />
-            <h3 className="text-green-800">Impacto Ambiental</h3>
+            <Leaf className="h-5 w-5 text-brand-primary-strong" />
+            <h3 className="text-brand">Impacto Ambiental</h3>
           </div>
-          <p className="text-green-700 text-sm">
+          <p className="text-sm text-[#4d6f46]">
             🌱 Este item pode evitar o descarte de{" "}
             <span style={{ fontWeight: 700 }}>{item.wasteWeight}kg de resíduos</span> no meio
             ambiente.
@@ -256,8 +254,8 @@ export function ItemDetailPage() {
         </div>
 
         {/* User Section */}
-        <div className="bg-white rounded-xl p-4 border border-gray-100">
-          <h3 className="text-gray-800 mb-3">Anunciante</h3>
+        <div className="rounded-xl border border-border bg-white p-4 shadow-[0_10px_28px_rgba(56,45,34,0.05)]">
+          <h3 className="mb-3 text-[#2a211c]">Anunciante</h3>
           <div className="flex items-center gap-3 mb-3">
             <button
               onClick={() => navigate(`/profile/${user.id}`)}
@@ -267,31 +265,31 @@ export function ItemDetailPage() {
               <img
                 src={user.photo}
                 alt={user.name}
-                className="w-14 h-14 rounded-full object-cover border-2 border-green-200"
+                className="h-14 w-14 rounded-full border-2 border-brand-primary-soft object-cover"
               />
             </button>
             <div className="flex-1">
               <div className="flex items-center gap-1.5 mb-0.5">
-                <p className="text-gray-900" style={{ fontWeight: 700 }}>{user.name}</p>
+                <p className="text-[#201814]" style={{ fontWeight: 700 }}>{user.name}</p>
                 {user.verified && (
-                  <span className="flex items-center gap-0.5 bg-blue-50 text-blue-600 text-xs px-1.5 py-0.5 rounded-full" style={{ fontWeight: 600 }}>
+                  <span className="chip-earth px-1.5 py-0.5 text-xs" style={{ fontWeight: 600 }}>
                     <CheckCircle className="w-3 h-3" /> Verificado
                   </span>
                 )}
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1">
-                  <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                  <span className="text-sm text-gray-700" style={{ fontWeight: 600 }}>
+                  <Star className="h-3.5 w-3.5 fill-brand-accent text-brand-accent" />
+                  <span className="text-sm text-[#584d45]" style={{ fontWeight: 600 }}>
                     {user.rating}
                   </span>
-                  <span className="text-xs text-gray-400">({user.reviewCount} avaliações)</span>
+                  <span className="text-xs text-[#9a9188]">({user.reviewCount} avaliações)</span>
                 </div>
               </div>
               {user.respondsQuickly && (
                 <div className="flex items-center gap-1 mt-1">
-                  <Zap className="w-3 h-3 text-yellow-500" />
-                  <span className="text-xs text-yellow-600" style={{ fontWeight: 500 }}>
+                  <Zap className="h-3 w-3 text-brand-accent" />
+                  <span className="text-xs text-accent" style={{ fontWeight: 500 }}>
                     Responde rápido
                   </span>
                 </div>
@@ -301,17 +299,17 @@ export function ItemDetailPage() {
 
           {/* User Stats */}
           <div className="grid grid-cols-3 gap-2 mb-3">
-            <div className="text-center bg-gray-50 rounded-lg p-2">
-              <p className="text-gray-800 text-sm" style={{ fontWeight: 700 }}>{user.itemsDiscarded}</p>
-              <p className="text-gray-400 text-xs">Descartados</p>
+            <div className="rounded-lg bg-[#faf7f2] p-2 text-center">
+              <p className="text-sm text-[#2a211c]" style={{ fontWeight: 700 }}>{user.itemsDiscarded}</p>
+              <p className="text-xs text-[#9a9188]">Descartados</p>
             </div>
-            <div className="text-center bg-gray-50 rounded-lg p-2">
-              <p className="text-gray-800 text-sm" style={{ fontWeight: 700 }}>{user.itemsCollected}</p>
-              <p className="text-gray-400 text-xs">Coletados</p>
+            <div className="rounded-lg bg-[#faf7f2] p-2 text-center">
+              <p className="text-sm text-[#2a211c]" style={{ fontWeight: 700 }}>{user.itemsCollected}</p>
+              <p className="text-xs text-[#9a9188]">Coletados</p>
             </div>
-            <div className="text-center bg-green-50 rounded-lg p-2">
-              <p className="text-green-700 text-sm" style={{ fontWeight: 700 }}>{user.wasteAvoided}kg</p>
-              <p className="text-green-500 text-xs">Resíduos evitados</p>
+            <div className="surface-soft rounded-lg p-2 text-center">
+              <p className="text-sm text-brand" style={{ fontWeight: 700 }}>{user.wasteAvoided}kg</p>
+              <p className="text-xs text-[#4d6f46]">Resíduos evitados</p>
             </div>
           </div>
 
@@ -320,7 +318,7 @@ export function ItemDetailPage() {
             {user.badges.slice(0, 4).map((badge) => (
               <span
                 key={badge.id}
-                className={`flex items-center gap-1 text-xs px-2 py-1 rounded-full ${badge.color}`}
+                className={`${getBadgeChipClassName(badge.color)} px-2 py-1 text-xs`}
                 style={{ fontWeight: 600 }}
               >
                 {badge.icon} {badge.label}
@@ -330,9 +328,9 @@ export function ItemDetailPage() {
         </div>
 
         {/* Contact Protected Notice */}
-        <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100">
-          <Shield className="w-4 h-4 text-gray-400" />
-          <span className="text-xs text-gray-500">Contato protegido — O número só é compartilhado quando você iniciar o contato</span>
+        <div className="surface-earth flex items-center gap-2 rounded-xl px-4 py-3">
+          <Shield className="h-4 w-4 text-brand-earth" />
+          <span className="text-xs text-brand-earth">Contato protegido — O número só é compartilhado quando você iniciar o contato</span>
         </div>
       </div>
 
@@ -343,7 +341,7 @@ export function ItemDetailPage() {
             href={whatsappUrl}
             target="_blank"
             rel="noreferrer"
-            className="w-full bg-green-500 hover:bg-green-600 active:scale-95 text-white py-4 rounded-2xl flex items-center justify-center gap-3 shadow-xl transition-all"
+            className="cta-primary flex w-full items-center justify-center gap-3 rounded-2xl py-4 active:scale-95"
             style={{ fontWeight: 700, fontSize: "1rem" }}
           >
             <MessageCircle className="w-6 h-6" />

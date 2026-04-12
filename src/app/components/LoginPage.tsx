@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
-import { ArrowLeft, Leaf, LockKeyhole, Phone, LogIn, UserPlus, Home, ChevronRight } from "lucide-react";
+import { ArrowLeft, Leaf, LockKeyhole, Phone, LogIn, UserPlus, ChevronRight } from "lucide-react";
 import { loginByPhone } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
@@ -49,35 +49,35 @@ export function LoginPage() {
     <div className="px-4 pt-6 pb-8">
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 inline-flex items-center gap-1 text-sm text-gray-600"
+        className="mb-4 inline-flex items-center gap-1 text-sm text-[#655b53]"
       >
         <ArrowLeft className="w-4 h-4" />
         Voltar
       </button>
 
-      <div className="rounded-[28px] border border-green-100 bg-gradient-to-br from-green-50 via-white to-emerald-50 p-5 shadow-sm">
+      <div className="rounded-[28px] border border-border bg-gradient-to-br from-brand-primary-soft via-white to-brand-earth-soft p-5 shadow-[0_20px_45px_rgba(56,45,34,0.08)]">
         <div className="mb-5 flex items-start justify-between gap-4">
           <div>
-            <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-green-600">
+            <div className="brand-mark mb-3 flex h-11 w-11 items-center justify-center rounded-2xl">
               <Leaf className="h-5 w-5 text-white" />
             </div>
-            <h1 className="text-gray-900" style={{ fontSize: "1.45rem", fontWeight: 700 }}>
+            <h1 className="text-[#201814]" style={{ fontSize: "1.45rem", fontWeight: 700 }}>
               {userNotFound ? "Criar cadastro" : "Entrar com telefone"}
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-gray-600">
+            <p className="mt-2 text-sm leading-relaxed text-[#655b53]">
               {userNotFound
                 ? "Não encontramos uma conta com este telefone. Crie uma agora para começar!"
                 : "Use o seu telefone para entrar localmente e continuar anunciando no Recolhe Aí."}
             </p>
           </div>
-          <div className="rounded-2xl border border-green-100 bg-white/80 p-3">
-            <LockKeyhole className="h-5 w-5 text-green-700" />
+          <div className="surface-earth rounded-2xl p-3">
+            <LockKeyhole className="h-5 w-5 text-brand-earth" />
           </div>
         </div>
 
         {userNotFound ? (
           <div className="space-y-4">
-            <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">
+            <div className="surface-earth rounded-2xl px-4 py-3 text-sm text-brand-earth">
               Para continuar com o telefone <strong>{phone}</strong>, você precisa criar uma conta nova.
             </div>
 
@@ -88,7 +88,7 @@ export function LoginPage() {
                   `/register?next=${encodeURIComponent(nextPath)}&phone=${encodeURIComponent(phone)}`
                 )
               }
-              className="group w-full rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-600 p-4 text-white transition-all hover:shadow-lg hover:from-blue-700 hover:to-cyan-700"
+              className="cta-secondary group w-full rounded-2xl p-4"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -110,7 +110,7 @@ export function LoginPage() {
                 setPhone("");
                 setUserNotFound(false);
               }}
-              className="w-full rounded-2xl border-2 border-green-200 bg-white py-3.5 px-4 font-medium text-green-700 transition-all hover:bg-green-50"
+              className="w-full rounded-2xl border border-brand-primary bg-white px-4 py-3.5 font-medium text-brand transition-colors hover:bg-brand-primary-soft"
             >
               <div className="flex items-center justify-center gap-2">
                 <Phone className="h-4 w-4" />
@@ -121,11 +121,11 @@ export function LoginPage() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="mb-1.5 block text-sm text-gray-700">
+              <label className="mb-1.5 block text-sm text-[#584d45]">
                 Telefone
               </label>
               <div className="relative">
-                <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9a9188]" />
                 <input
                   type="tel"
                   inputMode="tel"
@@ -133,7 +133,7 @@ export function LoginPage() {
                   placeholder="(92) 99123-4567"
                   value={phone}
                   onChange={(event) => setPhone(event.target.value)}
-                  className="w-full rounded-2xl border border-gray-200 bg-white py-3 pl-10 pr-4 text-sm text-gray-800 outline-none transition-all focus:border-green-400 focus:ring-2 focus:ring-green-100"
+                  className="field-brand w-full rounded-2xl bg-white py-3 pl-10 pr-4 text-sm text-gray-800"
                   required
                 />
               </div>
@@ -141,7 +141,7 @@ export function LoginPage() {
 
             <button
               type="submit"
-              className="group w-full rounded-2xl bg-green-600 p-4 text-white transition-all hover:bg-green-700 hover:shadow-lg"
+              className="cta-primary group w-full rounded-2xl p-4"
             >
               <div className="flex items-center justify-center gap-2">
                 <LogIn className="h-5 w-5" />
@@ -156,7 +156,7 @@ export function LoginPage() {
                   `/register?next=${encodeURIComponent(nextPath)}`
                 )
               }
-              className="group w-full rounded-2xl border-2 border-blue-200 bg-blue-50 p-4 font-medium text-blue-700 transition-all hover:bg-blue-100 hover:border-blue-300"
+              className="surface-accent group w-full rounded-2xl p-4 font-medium text-accent transition-colors hover:bg-[#f1d9c8]"
             >
               <div className="flex items-center justify-center gap-2">
                 <UserPlus className="h-5 w-5" />

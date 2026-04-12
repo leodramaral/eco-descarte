@@ -4,7 +4,6 @@ import {
   ArrowLeft,
   Camera,
   Leaf,
-  Upload,
   User,
   Phone,
   AlertCircle,
@@ -122,14 +121,14 @@ export function RegisterPage() {
       <div className="px-4 pt-6 pb-8 flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="mb-4 flex justify-center">
-            <div className="rounded-full bg-green-100 p-3">
-              <Check className="h-8 w-8 text-green-600" />
+            <div className="surface-soft rounded-full p-3">
+              <Check className="h-8 w-8 text-brand-primary-strong" />
             </div>
           </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
+          <h2 className="mb-2 text-xl font-bold text-[#201814]">
             Cadastro realizado com sucesso!
           </h2>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-[#655b53]">
             Redirecionando para seu perfil...
           </p>
         </div>
@@ -141,40 +140,40 @@ export function RegisterPage() {
     <div className="px-4 pt-6 pb-8">
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 inline-flex items-center gap-1 text-sm text-gray-600"
+        className="mb-4 inline-flex items-center gap-1 text-sm text-[#655b53]"
       >
         <ArrowLeft className="w-4 h-4" />
         Voltar
       </button>
 
-      <div className="rounded-[28px] border border-green-100 bg-gradient-to-br from-green-50 via-white to-emerald-50 p-5 shadow-sm">
+      <div className="rounded-[28px] border border-border bg-gradient-to-br from-brand-primary-soft via-white to-brand-earth-soft p-5 shadow-[0_20px_45px_rgba(56,45,34,0.08)]">
         <div className="mb-5 flex items-start justify-between gap-4">
           <div>
-            <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-green-600">
+            <div className="brand-mark mb-3 flex h-11 w-11 items-center justify-center rounded-2xl">
               <Leaf className="h-5 w-5 text-white" />
             </div>
-            <h1 className="text-gray-900" style={{ fontSize: "1.45rem", fontWeight: 700 }}>
+            <h1 className="text-[#201814]" style={{ fontSize: "1.45rem", fontWeight: 700 }}>
               Criar cadastro
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-gray-600">
+            <p className="mt-2 text-sm leading-relaxed text-[#655b53]">
               Complete seus dados para começar a anunciar no Recolhe Aí.
             </p>
           </div>
-          <div className="rounded-2xl border border-green-100 bg-white/80 p-3">
-            <User className="h-5 w-5 text-green-700" />
+          <div className="surface-earth rounded-2xl p-3">
+            <User className="h-5 w-5 text-brand-earth" />
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Photo Section */}
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
+            <label className="mb-2 block text-sm font-medium text-[#584d45]">
               Foto de perfil
-              <span className="ml-1 text-xs text-gray-500">(opcional)</span>
+              <span className="ml-1 text-xs text-[#8d8379]">(opcional)</span>
             </label>
 
             {photo ? (
-              <div className="relative mb-3 h-32 w-32 rounded-2xl overflow-hidden border-2 border-green-200 bg-gray-100">
+              <div className="relative mb-3 h-32 w-32 overflow-hidden rounded-2xl border-2 border-brand-primary bg-[#f2f0ec]">
                 <img
                   src={photo}
                   alt="Preview"
@@ -183,7 +182,7 @@ export function RegisterPage() {
                 <button
                   type="button"
                   onClick={handleRemovePhoto}
-                  className="absolute top-1 right-1 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+                  className="absolute right-1 top-1 rounded-full bg-brand-accent p-1 text-white transition-colors hover:bg-[#b95f2c]"
                 >
                   ✕
                 </button>
@@ -191,14 +190,14 @@ export function RegisterPage() {
             ) : (
               <div
                 onClick={() => fileInputRef.current?.click()}
-                className="mb-3 flex cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-green-200 bg-green-50 py-6 text-center transition-colors hover:border-green-400 hover:bg-green-100"
+                className="mb-3 flex cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-brand-primary bg-brand-primary-soft py-6 text-center transition-colors hover:border-brand-primary-strong hover:bg-[#dae8d5]"
               >
                 <div>
-                  <Camera className="mx-auto h-6 w-6 text-green-600 mb-2" />
-                  <p className="text-sm font-medium text-green-700">
+                  <Camera className="mx-auto mb-2 h-6 w-6 text-brand-primary-strong" />
+                  <p className="text-sm font-medium text-brand">
                     Enviar foto
                   </p>
-                  <p className="mt-1 text-xs text-green-600">
+                  <p className="mt-1 text-xs text-[#4d6f46]">
                     PNG, JPG até 5MB
                   </p>
                 </div>
@@ -217,17 +216,17 @@ export function RegisterPage() {
 
           {/* Name Field */}
           <div>
-            <label className="mb-1.5 block text-sm text-gray-700">
+            <label className="mb-1.5 block text-sm text-[#584d45]">
               Nome <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9a9188]" />
               <input
                 type="text"
                 placeholder="Seu nome completo"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                className="w-full rounded-2xl border border-gray-200 bg-white py-3 pl-10 pr-4 text-sm text-gray-800 outline-none transition-all focus:border-green-400 focus:ring-2 focus:ring-green-100"
+                className="field-brand w-full rounded-2xl bg-white py-3 pl-10 pr-4 text-sm text-gray-800"
                 required
                 disabled={isSubmitting}
               />
@@ -236,38 +235,38 @@ export function RegisterPage() {
 
           {/* Phone Field (Read-only) */}
           <div>
-            <label className="mb-1.5 block text-sm text-gray-700">
+            <label className="mb-1.5 block text-sm text-[#584d45]">
               Telefone <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9a9188]" />
               <input
                 type="tel"
                 inputMode="tel"
                 placeholder="(92) 99123-4567"
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
-                className="w-full rounded-2xl border border-gray-200 bg-white py-3 pl-10 pr-4 text-sm text-gray-800 outline-none transition-all focus:border-green-400 focus:ring-2 focus:ring-green-100"
+                className="field-brand w-full rounded-2xl bg-white py-3 pl-10 pr-4 text-sm text-gray-800"
                 required
                 disabled={isSubmitting}
               />
             </div>
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-[#8d8379]">
               Seu telefone será usado como identificador único.
             </p>
           </div>
 
           {error && (
-            <div className="flex gap-2 rounded-2xl border border-red-200 bg-red-50 px-4 py-3">
-              <AlertCircle className="h-4 w-4 flex-shrink-0 text-red-600 mt-0.5" />
-              <p className="text-sm text-red-800">{error}</p>
+            <div className="surface-accent flex gap-2 rounded-2xl px-4 py-3">
+              <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-accent" />
+              <p className="text-sm text-accent">{error}</p>
             </div>
           )}
 
           <button
             type="submit"
             disabled={!name.trim() || !phone.trim() || isSubmitting}
-            className="w-full rounded-2xl bg-green-600 py-3 font-medium text-white transition-all hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="cta-primary w-full rounded-2xl py-3 font-medium text-white disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none"
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center gap-2">
@@ -282,7 +281,7 @@ export function RegisterPage() {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="w-full rounded-2xl border border-gray-200 py-3 font-medium text-gray-700 transition-all hover:bg-gray-50"
+            className="surface-earth w-full rounded-2xl py-3 font-medium text-brand-earth transition-colors hover:bg-[#ecddcf]"
             disabled={isSubmitting}
           >
             Cancelar

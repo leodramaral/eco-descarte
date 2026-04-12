@@ -22,24 +22,27 @@ export function Layout() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Top Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+      <header className="sticky top-0 z-50 border-b border-border bg-white/95 shadow-[0_10px_30px_rgba(56,45,34,0.06)] backdrop-blur-sm">
         <div className="max-w-2xl mx-auto px-4 py-3 space-y-3">
           <div className="flex items-center justify-between">
-            <button onClick={() => navigate("/")} className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+            <button onClick={() => navigate("/")} className="flex items-center gap-3">
+              <div className="brand-mark flex h-9 w-9 items-center justify-center rounded-xl">
                 <Leaf className="w-4 h-4 text-white" />
               </div>
-              <span className="text-green-700" style={{ fontWeight: 700, fontSize: "1.1rem" }}>
-                Recolhe <span className="text-green-500">Aí</span>
+              <span className="brand-wordmark">
+                <span className="brand-wordmark-base">Recolhe </span>
+                <span className="brand-wordmark-highlight">Aí</span>
               </span>
             </button>
             <button
               onClick={() => navigate(profileTarget)}
               aria-label={currentUser ? `Abrir perfil de ${currentUser.name}` : "Entrar ou abrir perfil"}
-              className={`flex h-8 w-8 items-center justify-center rounded-full overflow-hidden border-2 transition-colors ${
-                currentUser ? "border-green-500" : "border-gray-200 bg-gray-100 text-gray-500"
+              className={`flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 transition-colors ${
+                currentUser
+                  ? "border-brand-primary bg-brand-primary-soft text-brand-primary-strong"
+                  : "border-border bg-brand-earth-soft text-brand-earth"
               }`}
             >
               {currentUser ? (
@@ -62,7 +65,7 @@ export function Layout() {
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 shadow-lg">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-white/95 shadow-[0_-10px_30px_rgba(56,45,34,0.08)] backdrop-blur-sm">
         <div className="max-w-2xl mx-auto flex">
           {navItems.map((item) => {
             const active = isActive(item.path);
@@ -71,20 +74,20 @@ export function Layout() {
               <button
                 key={item.path}
                 onClick={() => navigate(item.target)}
-                className={`flex-1 flex flex-col items-center py-2 gap-0.5 transition-colors ${
-                  active ? "text-green-600" : "text-gray-400"
+                className={`flex flex-1 flex-col items-center gap-0.5 py-2 transition-colors ${
+                  active ? "nav-active" : "text-[#8b8177]"
                 }`}
               >
                 {item.path === "/add" ? (
                   <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center -mt-6 shadow-lg transition-colors ${
-                      active ? "bg-green-700" : "bg-green-600"
+                    className={`-mt-6 flex h-12 w-12 items-center justify-center rounded-full transition-colors ${
+                      active ? "cta-secondary" : "cta-primary"
                     }`}
                   >
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                 ) : (
-                  <Icon className={`w-5 h-5 ${active ? "text-green-600" : "text-gray-400"}`} />
+                  <Icon className={`w-5 h-5 ${active ? "text-brand-primary-strong" : "text-[#9a9188]"}`} />
                 )}
                 <span
                   className="text-xs"

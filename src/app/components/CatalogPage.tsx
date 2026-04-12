@@ -65,20 +65,20 @@ export function CatalogPage() {
     <div className="px-4 pt-4 pb-4">
       {/* Search Bar */}
       <div className="relative mb-3">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9a9188]" />
         <input
           type="text"
           placeholder="Buscar item ou bairro..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-10 py-3 bg-white rounded-xl border border-gray-200 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 transition-all text-sm"
+          className="field-brand w-full rounded-xl bg-white py-3 pl-10 pr-10 text-sm text-gray-800"
         />
         {search && (
           <button
             onClick={() => setSearch("")}
             className="absolute right-3 top-1/2 -translate-y-1/2"
           >
-            <X className="w-4 h-4 text-gray-400" />
+            <X className="h-4 w-4 text-[#9a9188]" />
           </button>
         )}
       </div>
@@ -90,10 +90,10 @@ export function CatalogPage() {
             <button
               key={cat.value}
               onClick={() => setSelectedCategory(cat.value as Category | "todos")}
-              className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs transition-colors border ${
+              className={`flex-shrink-0 rounded-full border px-3 py-1.5 text-xs transition-colors ${
                 selectedCategory === cat.value
-                  ? "bg-green-600 text-white border-green-600"
-                  : "bg-white text-gray-600 border-gray-200"
+                  ? "border-brand-primary-strong bg-brand-primary-strong text-white shadow-[0_10px_22px_rgba(47,90,51,0.16)]"
+                  : "bg-white text-[#756a61] border-border"
               }`}
               style={{ fontWeight: selectedCategory === cat.value ? 600 : 400 }}
             >
@@ -103,10 +103,10 @@ export function CatalogPage() {
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center border transition-colors ${
+          className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border transition-colors ${
             showFilters || selectedType !== "todos"
-              ? "bg-green-600 border-green-600 text-white"
-              : "bg-white border-gray-200 text-gray-600"
+              ? "border-brand-earth bg-brand-earth text-white"
+              : "border-border bg-white text-[#756a61]"
           }`}
         >
           <SlidersHorizontal className="w-4 h-4" />
@@ -115,9 +115,9 @@ export function CatalogPage() {
 
       {/* Extra Filters Panel */}
       {showFilters && (
-        <div className="bg-white rounded-xl border border-gray-200 p-4 mb-4 space-y-3">
+        <div className="mb-4 space-y-3 rounded-xl border border-border bg-white p-4 shadow-[0_10px_30px_rgba(56,45,34,0.06)]">
           <div>
-            <p className="text-xs text-gray-500 mb-2" style={{ fontWeight: 600 }}>Tipo</p>
+            <p className="mb-2 text-xs text-[#7e7369]" style={{ fontWeight: 600 }}>Tipo</p>
             <div className="flex gap-2">
               {[
                 { value: "todos", label: "Todos" },
@@ -127,10 +127,10 @@ export function CatalogPage() {
                 <button
                   key={opt.value}
                   onClick={() => setSelectedType(opt.value as ItemType | "todos")}
-                  className={`px-3 py-1.5 rounded-lg text-xs border transition-colors ${
+                  className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
                     selectedType === opt.value
-                      ? "bg-green-600 text-white border-green-600"
-                      : "bg-gray-50 text-gray-600 border-gray-200"
+                      ? "border-brand-primary-strong bg-brand-primary-strong text-white"
+                      : "bg-brand-earth-soft text-brand-earth border-[#e8ddd2]"
                   }`}
                 >
                   {opt.label}
@@ -141,7 +141,7 @@ export function CatalogPage() {
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="text-xs text-red-500 flex items-center gap-1"
+              className="flex items-center gap-1 text-xs text-accent"
             >
               <X className="w-3 h-3" />
               Limpar filtros
@@ -152,23 +152,23 @@ export function CatalogPage() {
 
       {/* Header Row */}
       <div className="flex items-center justify-between mb-3">
-        <span className="text-sm text-gray-500">
-          <span style={{ fontWeight: 600 }} className="text-gray-800">{filteredItems.length}</span>{" "}
+        <span className="text-sm text-[#7e7369]">
+          <span style={{ fontWeight: 600 }} className="text-[#2a211c]">{filteredItems.length}</span>{" "}
           {filteredItems.length === 1 ? "item encontrado" : "itens encontrados"}
         </span>
-        <div className="flex items-center gap-1 bg-white rounded-lg border border-gray-200 p-1">
+        <div className="flex items-center gap-1 rounded-lg border border-border bg-white p-1">
           <button
             onClick={() => setViewMode("grid")}
-            className={`w-7 h-7 rounded flex items-center justify-center transition-colors ${
-              viewMode === "grid" ? "bg-green-600 text-white" : "text-gray-400"
+            className={`flex h-7 w-7 items-center justify-center rounded transition-colors ${
+              viewMode === "grid" ? "bg-brand-primary-strong text-white" : "text-[#9a9188]"
             }`}
           >
             <LayoutGrid className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => setViewMode("list")}
-            className={`w-7 h-7 rounded flex items-center justify-center transition-colors ${
-              viewMode === "list" ? "bg-green-600 text-white" : "text-gray-400"
+            className={`flex h-7 w-7 items-center justify-center rounded transition-colors ${
+              viewMode === "list" ? "bg-brand-primary-strong text-white" : "text-[#9a9188]"
             }`}
           >
             <List className="w-3.5 h-3.5" />
@@ -180,8 +180,8 @@ export function CatalogPage() {
       {filteredItems.length === 0 ? (
         <div className="text-center py-16">
           <div className="text-4xl mb-3">🌿</div>
-          <p className="text-gray-500 text-sm">Nenhum item encontrado</p>
-          <button onClick={clearFilters} className="mt-3 text-green-600 text-sm" style={{ fontWeight: 600 }}>
+          <p className="text-sm text-[#7e7369]">Nenhum item encontrado</p>
+          <button onClick={clearFilters} className="mt-3 text-sm text-brand" style={{ fontWeight: 600 }}>
             Limpar filtros
           </button>
         </div>
@@ -198,7 +198,7 @@ export function CatalogPage() {
               <div
                 key={item.id}
                 onClick={() => navigate(`/item/${item.id}`)}
-                className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm cursor-pointer active:scale-95 transition-transform"
+                className="cursor-pointer overflow-hidden rounded-xl border border-border bg-white shadow-[0_10px_28px_rgba(56,45,34,0.06)] transition-transform active:scale-95"
               >
                 <div className="relative">
                   <img
@@ -208,39 +208,37 @@ export function CatalogPage() {
                   />
                   <div className="absolute top-2 left-2 flex flex-col gap-1">
                     <span
-                      className={`px-2 py-0.5 rounded-full text-xs ${
-                        item.type === "doacao"
-                          ? "bg-green-500 text-white"
-                          : "bg-blue-500 text-white"
+                      className={`rounded-full px-2 py-0.5 text-xs ${
+                        item.type === "doacao" ? "tone-donation" : "tone-paid"
                       }`}
                       style={{ fontWeight: 600 }}
                     >
                       {item.type === "doacao" ? "Doação" : `R$ ${item.price}`}
                     </span>
                     {item.urgent && (
-                      <span className="bg-orange-500 text-white px-2 py-0.5 rounded-full text-xs" style={{ fontWeight: 600 }}>
+                      <span className="tone-urgent rounded-full px-2 py-0.5 text-xs" style={{ fontWeight: 600 }}>
                         🔥 Urgente
                       </span>
                     )}
                   </div>
                 </div>
                 <div className="p-2.5">
-                  <p className="text-gray-800 text-sm mb-1 line-clamp-2" style={{ fontWeight: 600, lineHeight: 1.3 }}>
+                  <p className="mb-1 line-clamp-2 text-sm text-[#2a211c]" style={{ fontWeight: 600, lineHeight: 1.3 }}>
                     {item.name}
                   </p>
-                  <div className="flex items-center gap-1 text-gray-400 mb-2">
-                    <MapPin className="w-3 h-3 text-green-500" />
+                  <div className="mb-2 flex items-center gap-1 text-[#9a9188]">
+                    <MapPin className="h-3 w-3 text-brand-primary" />
                     <span className="text-xs">{item.neighborhood} • {item.distance}km</span>
                   </div>
                   <div className="flex flex-wrap gap-1 mb-2">
-                    <span className="flex items-center gap-0.5 text-xs bg-gray-50 text-gray-600 px-1.5 py-0.5 rounded">
+                    <span className="chip-earth px-1.5 py-0.5 text-[11px]">
                       {item.transport === "entrega" ? (
                         <><Truck className="w-2.5 h-2.5" /> Entrega</>
                       ) : (
                         <><MapPin className="w-2.5 h-2.5" /> Retirada</>
                       )}
                     </span>
-                    <span className="flex items-center gap-0.5 text-xs bg-gray-50 text-gray-600 px-1.5 py-0.5 rounded">
+                    <span className="chip-brand px-1.5 py-0.5 text-[11px]">
                       {item.fitsInCar ? (
                         <><Car className="w-2.5 h-2.5" /> Cabe no carro</>
                       ) : (
@@ -250,13 +248,13 @@ export function CatalogPage() {
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1">
-                      <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                      <span className="text-xs text-gray-600" style={{ fontWeight: 600 }}>{user.rating}</span>
+                      <Star className="h-3 w-3 fill-brand-accent text-brand-accent" />
+                      <span className="text-xs text-[#645a52]" style={{ fontWeight: 600 }}>{user.rating}</span>
                       {user.verified && (
-                        <CheckCircle className="w-3 h-3 text-blue-500" />
+                        <CheckCircle className="h-3 w-3 text-brand-earth" />
                       )}
                     </div>
-                    <span className="text-xs text-gray-400">{item.postedAt}</span>
+                    <span className="text-xs text-[#9a9188]">{item.postedAt}</span>
                   </div>
                 </div>
               </div>
@@ -271,7 +269,7 @@ export function CatalogPage() {
               <div
                 key={item.id}
                 onClick={() => navigate(`/item/${item.id}`)}
-                className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm cursor-pointer active:scale-95 transition-transform flex"
+                className="flex cursor-pointer overflow-hidden rounded-xl border border-border bg-white shadow-[0_10px_28px_rgba(56,45,34,0.06)] transition-transform active:scale-95"
               >
                 <div className="relative w-28 flex-shrink-0">
                   <img
@@ -281,10 +279,8 @@ export function CatalogPage() {
                   />
                   <div className="absolute top-2 left-2">
                     <span
-                      className={`px-1.5 py-0.5 rounded-full text-xs ${
-                        item.type === "doacao"
-                          ? "bg-green-500 text-white"
-                          : "bg-blue-500 text-white"
+                      className={`rounded-full px-1.5 py-0.5 text-xs ${
+                        item.type === "doacao" ? "tone-donation" : "tone-paid"
                       }`}
                       style={{ fontWeight: 600 }}
                     >
@@ -294,28 +290,28 @@ export function CatalogPage() {
                 </div>
                 <div className="p-3 flex-1">
                   <div className="flex items-start justify-between mb-1">
-                    <p className="text-gray-800 text-sm flex-1 pr-2" style={{ fontWeight: 600 }}>
+                    <p className="flex-1 pr-2 text-sm text-[#2a211c]" style={{ fontWeight: 600 }}>
                       {item.name}
                     </p>
                     {item.urgent && (
-                      <span className="text-xs text-orange-500" style={{ fontWeight: 600 }}>
+                      <span className="text-xs text-accent" style={{ fontWeight: 600 }}>
                         🔥 Urgente
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-1 text-gray-400 mb-2">
-                    <MapPin className="w-3 h-3 text-green-500" />
+                  <div className="mb-2 flex items-center gap-1 text-[#9a9188]">
+                    <MapPin className="h-3 w-3 text-brand-primary" />
                     <span className="text-xs">{item.neighborhood} • {item.distance}km</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="flex items-center gap-0.5 text-xs bg-gray-50 text-gray-600 px-1.5 py-0.5 rounded">
+                    <span className="chip-earth px-1.5 py-0.5 text-[11px]">
                       {item.transport === "entrega" ? (
                         <><Truck className="w-2.5 h-2.5" /> Entrega</>
                       ) : (
                         <><MapPin className="w-2.5 h-2.5" /> Retirada</>
                       )}
                     </span>
-                    <span className="flex items-center gap-0.5 text-xs bg-gray-50 text-gray-600 px-1.5 py-0.5 rounded">
+                    <span className="chip-brand px-1.5 py-0.5 text-[11px]">
                       {item.fitsInCar ? (
                         <><Car className="w-2.5 h-2.5" /> No carro</>
                       ) : (
@@ -326,12 +322,12 @@ export function CatalogPage() {
                   <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center gap-1">
                       <img src={user.photo} alt={user.name} className="w-4 h-4 rounded-full object-cover" />
-                      <span className="text-xs text-gray-500">{user.name.split(" ")[0]}</span>
-                      <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                      <span className="text-xs text-gray-600" style={{ fontWeight: 600 }}>{user.rating}</span>
-                      {user.verified && <CheckCircle className="w-3 h-3 text-blue-500" />}
+                      <span className="text-xs text-[#7e7369]">{user.name.split(" ")[0]}</span>
+                      <Star className="h-3 w-3 fill-brand-accent text-brand-accent" />
+                      <span className="text-xs text-[#645a52]" style={{ fontWeight: 600 }}>{user.rating}</span>
+                      {user.verified && <CheckCircle className="h-3 w-3 text-brand-earth" />}
                     </div>
-                    <ChevronRight className="w-4 h-4 text-gray-300" />
+                    <ChevronRight className="h-4 w-4 text-[#c8bdb2]" />
                   </div>
                 </div>
               </div>
