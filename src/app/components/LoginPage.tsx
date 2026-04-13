@@ -58,20 +58,14 @@ export function LoginPage() {
       <div className="rounded-[28px] border border-border bg-gradient-to-br from-brand-primary-soft via-white to-brand-earth-soft p-5 shadow-[0_20px_45px_rgba(56,45,34,0.08)]">
         <div className="mb-5 flex items-start justify-between gap-4">
           <div>
-            <div className="brand-mark mb-3 flex h-11 w-11 items-center justify-center rounded-2xl">
-              <Leaf className="h-5 w-5 text-white" />
-            </div>
             <h1 className="text-[#201814]" style={{ fontSize: "1.45rem", fontWeight: 700 }}>
               {userNotFound ? "Criar cadastro" : "Entrar com telefone"}
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-[#655b53]">
               {userNotFound
                 ? "Não encontramos uma conta com este telefone. Crie uma agora para começar!"
-                : "Use o seu telefone para entrar localmente e continuar anunciando no Recolhe Aí."}
+                : "Use o seu telefone para logar e continuar anunciando no Recolhe Aí."}
             </p>
-          </div>
-          <div className="surface-earth rounded-2xl p-3">
-            <LockKeyhole className="h-5 w-5 text-brand-earth" />
           </div>
         </div>
 

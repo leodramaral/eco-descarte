@@ -1,5 +1,5 @@
 import { Outlet, useNavigate, useLocation } from "react-router";
-import { Home, Plus, User, Leaf } from "lucide-react";
+import { Home, Plus, User, PackageOpen } from "lucide-react";
 import { useAppSelector } from "../store/hooks";
 
 export function Layout() {
@@ -27,13 +27,16 @@ export function Layout() {
       <header className="sticky top-0 z-50 border-b border-border bg-white/95 shadow-[0_10px_30px_rgba(56,45,34,0.06)] backdrop-blur-sm">
         <div className="max-w-2xl mx-auto px-4 py-3 space-y-3">
           <div className="flex items-center justify-between">
-            <button onClick={() => navigate("/")} className="flex items-center gap-3">
-              <div className="brand-mark flex h-9 w-9 items-center justify-center rounded-xl">
-                <Leaf className="w-4 h-4 text-white" />
+            <button onClick={() => navigate("/")} className="flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#D7E4D9] bg-[#EDF4EE]">
+                <PackageOpen className="h-[17px] w-[17px] text-[#2F6B3D]" />
               </div>
-              <span className="brand-wordmark">
-                <span className="brand-wordmark-base">Recolhe </span>
-                <span className="brand-wordmark-highlight">Aí</span>
+              <span
+                className="text-[1.08rem] leading-none tracking-[-0.02em] sm:text-[1.2rem]"
+                style={{ fontFamily: "'Nunito Sans', sans-serif", fontWeight: 700 }}
+              >
+                <span className="text-[#2F6B3D]">Recolhe </span>
+                <span className="text-[#C96E2E]">Aí</span>
               </span>
             </button>
             <button
