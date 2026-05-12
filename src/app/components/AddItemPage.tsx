@@ -10,7 +10,6 @@ import {
 import { type Category, type Item } from "../data/mockData";
 import { addItem } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { useClarityEvents } from "./clarity/events";
 
 const CATEGORIES: { value: Category; label: string; icon: string }[] = [
   { value: "moveis", label: "Móveis", icon: "🪑" },
@@ -82,7 +81,6 @@ export function AddItemPage() {
   const currentUser = users.find((user) => user.id === currentUserId) ?? null;
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState<ItemFormState>(createInitialForm());
-  const { item_publish_success } = useClarityEvents();
 
   if (!currentUser) {
     return <Navigate to="/login?next=%2Fadd" replace />;
@@ -134,7 +132,6 @@ export function AddItemPage() {
     };
 
     dispatch(addItem(newItem));
-    item_publish_success(newItem.id, form.category, form.type);
     setSubmitted(true);
   };
 

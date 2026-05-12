@@ -12,7 +12,6 @@ import {
 import { createUser } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
-import { useClarityEvents } from "./clarity/events";
 
 function getNextPath(search: string) {
   const params = new URLSearchParams(search);
@@ -31,7 +30,6 @@ export function RegisterPage() {
   const dispatch = useAppDispatch();
   const { currentUserId, users } = useAppSelector((state) => state.appData);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { auth_register_success } = useClarityEvents();
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState(
@@ -101,11 +99,6 @@ export function RegisterPage() {
           photo: photo || undefined,
         })
       );
-
-      const newUser = users.find((user) => normalizePhone(user.phone) === normalizedPhone);
-      if (newUser) {
-        auth_register_success(newUser.id, phone);
-      }
 
       setSuccess(true);
 

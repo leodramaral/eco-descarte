@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import appReducer from "./appSlice";
 import { createSeedState, type AppDataState } from "../data/mockData";
+import { clarityMiddleware } from "./clarityMiddleware";
 
 const STORAGE_KEY = "recolhe-ai-redux";
 const LEGACY_STORAGE_KEY = "eco-descarte-redux";
@@ -93,6 +94,8 @@ export const store = configureStore({
     appData: appReducer,
   },
   preloadedState: loadState(),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(clarityMiddleware),
 });
 
 store.subscribe(() => {

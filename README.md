@@ -112,6 +112,29 @@ O estado da aplicação é salvo no navegador e reaproveitado entre sessões. O 
 - React Router
 - Tailwind CSS
 
+## Microsoft Clarity
+
+O projeto usa **Microsoft Clarity** para analytics, integrado de duas formas:
+
+### **Redux Middleware** (automático)
+Rastreia ações de estado automaticamente:
+- `loginByPhone` → login sucesso/falha
+- `logout` → logout
+- `createUser` → cadastro
+- `addItem` → publicação de item
+
+### **Componentes UI** (manual)
+Rastreia interações do usuário:
+- `catalog_search` - busca no catálogo
+- `catalog_filter_category` - filtros
+- `catalog_item_click` - clique em itens
+- `catalog_view_mode_change` - mudança grade/lista
+- `page_view_home` - visualização do catálogo
+- `page_view_item_detail` - detalhes de item
+- `contact_whatsapp_click` - clique no WhatsApp
+- `item_profile_click` - clique no perfil
+- `profile_tab_change` - mudança de aba no perfil
+
 ## Execução local
 
 Instale as dependências:

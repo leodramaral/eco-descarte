@@ -30,7 +30,7 @@ export function UserProfilePage() {
   const [activeTab, setActiveTab] = useState<Tab>("descartando");
   const currentUser = users.find((candidate) => candidate.id === currentUserId) ?? null;
   const isOwnProfile = !id || id === currentUser?.id;
-  const { auth_logout, profile_tab_change } = useClarityEvents();
+  const { profile_tab_change } = useClarityEvents();
 
   if (!id && !currentUser) {
     return <Navigate to="/login?next=%2Fprofile" replace />;
@@ -111,7 +111,6 @@ export function UserProfilePage() {
             {isOwnProfile ? (
               <button
                 onClick={() => {
-                  auth_logout(currentUser?.id || "");
                   dispatch(logout());
                   navigate("/", { replace: true });
                 }}
