@@ -14,16 +14,18 @@ import {
   Zap,
   MessageCircle,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppSelector } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
 import { getBadgeChipClassName } from "../utils/badgeStyles";
+import { useClarityEvents } from "./clarity/events";
 
 export function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { items, users } = useAppSelector((state) => state.appData);
   const [currentImage, setCurrentImage] = useState(0);
+  const { page_view_item_detail, contact_whatsapp_click, item_profile_click, item_detail_view } = useClarityEvents();
 
   const item = items.find((candidate) => candidate.id === id);
   const user = item ? users.find((candidate) => candidate.id === item.userId) ?? null : null;
@@ -38,6 +40,14 @@ export function ItemDetailPage() {
       </div>
     );
   }
+
+  useEffect(() => {
+    page_view_item_detail(item.id, item.category);
+  }, []);
+
+  useEffect(() => {
+    item_detail_view(item.id);
+  }, []);
 
 
   const categoryLabel: Record<string, string> = {
@@ -258,7 +268,10 @@ export function ItemDetailPage() {
           <h3 className="mb-3 text-[#2a211c]">Anunciante</h3>
           <div className="flex items-center gap-3 mb-3">
             <button
-              onClick={() => navigate(`/profile/${user.id}`)}
+              onClick={() => {
+                item_profile_click(item.id, user.id);
+                navigate(`/profile/${user.id}`);
+              }}
               className="rounded-full cursor-pointer"
               aria-label={`Ver perfil de ${user.name}`}
             >
@@ -341,6 +354,7 @@ export function ItemDetailPage() {
             href={whatsappUrl}
             target="_blank"
             rel="noreferrer"
+            onClick={() => contact_whatsapp_click(item.id, user.id)}
             className="cta-primary flex w-full items-center justify-center gap-3 rounded-2xl py-4 active:scale-95"
             style={{ fontWeight: 700, fontSize: "1rem" }}
           >

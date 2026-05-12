@@ -1,6 +1,10 @@
 import { Outlet, useNavigate, useLocation } from "react-router";
+import { useEffect } from "react";
 import { Home, Plus, User, PackageOpen } from "lucide-react";
 import { useAppSelector } from "../store/hooks";
+import { useClarityContext } from "./ClarityProvider";
+import { useClarityTags } from "./clarity";
+import { hashPhone } from "../utils/clarity";
 
 export function Layout() {
   const navigate = useNavigate();
@@ -9,6 +13,8 @@ export function Layout() {
   const currentUser = users.find((user) => user.id === currentUserId) ?? null;
   const profileTarget = currentUser ? "/profile" : "/login?next=%2Fprofile";
   const addTarget = currentUser ? "/add" : "/login?next=%2Fadd";
+  const { setUserStatus } = useClarityTags();
+  const { identifyUser } = useClarityContext();
 
   const navItems = [
     { path: "/", target: "/", icon: Home, label: "Início" },
@@ -20,6 +26,15 @@ export function Layout() {
     if (path === "/") return location.pathname === "/";
     return location.pathname.startsWith(path);
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      setUserStatus("logged_in");
+      identifyUser(hashPhone(currentUser.phone));
+    } else {
+      setUserStatus("guest");
+    }
+  }, [currentUser, setUserStatus, identifyUser]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router";
 import {
   Search,
@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { type Category, type ItemType } from "../data/mockData";
 import { useAppSelector } from "../store/hooks";
+import { useClarityEvents } from "./clarity/events";
+import { debounce } from "../utils/clarity";
 
 type ViewMode = "grid" | "list";
 
@@ -36,6 +38,7 @@ export function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState<Category | "todos">("todos");
   const [selectedType, setSelectedType] = useState<ItemType | "todos">("todos");
   const [showFilters, setShowFilters] = useState(false);
+  const { catalog_search, catalog_filter_category, catalog_view_mode_change, catalog_item_click, page_view_home } = useClarityEvents();
 
   const filteredItems = useMemo(() => {
     return items.filter((item) => {
@@ -49,6 +52,20 @@ export function CatalogPage() {
       return matchSearch && matchCategory && matchType;
     });
   }, [items, search, selectedCategory, selectedType]);
+
+  const debouncedSearch = useMemo(() => debounce((query: string) => {
+    if (query.trim()) {
+      catalog_search(query, filteredItems.length);
+    }
+  }, 500), [catalog_search, filteredItems.length]);
+
+  useMemo(() => {
+    debouncedSearch(search);
+  }, [search, debouncedSearch]);
+
+  useEffect(() => {
+    page_view_home();
+  }, []);
 
   const getUser = (userId: string) => users.find((user) => user.id === userId) ?? null;
 
@@ -89,7 +106,12 @@ export function CatalogPage() {
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
-              onClick={() => setSelectedCategory(cat.value as Category | "todos")}
+              onClick={() => {
+                setSelectedCategory(cat.value as Category | "todos");
+                if (cat.value !== "todos") {
+                  catalog_filter_category(cat.value);
+                }
+              }}
               className={`flex-shrink-0 rounded-full border px-3 py-1.5 text-xs transition-colors ${
                 selectedCategory === cat.value
                   ? "border-brand-primary-strong bg-brand-primary-strong text-white shadow-[0_10px_22px_rgba(47,90,51,0.16)]"
@@ -158,7 +180,10 @@ export function CatalogPage() {
         </span>
         <div className="flex items-center gap-1 rounded-lg border border-border bg-white p-1">
           <button
-            onClick={() => setViewMode("grid")}
+            onClick={() => {
+              setViewMode("grid");
+              catalog_view_mode_change("grid");
+            }}
             className={`flex h-7 w-7 items-center justify-center rounded transition-colors ${
               viewMode === "grid" ? "bg-brand-primary-strong text-white" : "text-[#9a9188]"
             }`}
@@ -166,7 +191,10 @@ export function CatalogPage() {
             <LayoutGrid className="w-3.5 h-3.5" />
           </button>
           <button
-            onClick={() => setViewMode("list")}
+            onClick={() => {
+              setViewMode("list");
+              catalog_view_mode_change("list");
+            }}
             className={`flex h-7 w-7 items-center justify-center rounded transition-colors ${
               viewMode === "list" ? "bg-brand-primary-strong text-white" : "text-[#9a9188]"
             }`}
@@ -187,7 +215,7 @@ export function CatalogPage() {
         </div>
       ) : viewMode === "grid" ? (
         <div className="grid grid-cols-2 gap-3">
-          {filteredItems.map((item) => {
+          {filteredItems.map((item, index) => {
             const user = getUser(item.userId);
 
             if (!user) {
@@ -197,7 +225,10 @@ export function CatalogPage() {
             return (
               <div
                 key={item.id}
-                onClick={() => navigate(`/item/${item.id}`)}
+                onClick={() => {
+                  catalog_item_click(item.id, index + 1);
+                  navigate(`/item/${item.id}`);
+                }}
                 className="cursor-pointer overflow-hidden rounded-xl border border-border bg-white shadow-[0_10px_28px_rgba(56,45,34,0.06)] transition-transform active:scale-95"
               >
                 <div className="relative">
@@ -263,12 +294,15 @@ export function CatalogPage() {
         </div>
       ) : (
         <div className="space-y-3">
-          {filteredItems.map((item) => {
+          {filteredItems.map((item, index) => {
             const user = getUser(item.userId);
             return (
               <div
                 key={item.id}
-                onClick={() => navigate(`/item/${item.id}`)}
+                onClick={() => {
+                  catalog_item_click(item.id, index + 1);
+                  navigate(`/item/${item.id}`);
+                }}
                 className="flex cursor-pointer overflow-hidden rounded-xl border border-border bg-white shadow-[0_10px_28px_rgba(56,45,34,0.06)] transition-transform active:scale-95"
               >
                 <div className="relative w-28 flex-shrink-0">
@@ -321,11 +355,11 @@ export function CatalogPage() {
                   </div>
                   <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center gap-1">
-                      <img src={user.photo} alt={user.name} className="w-4 h-4 rounded-full object-cover" />
-                      <span className="text-xs text-[#7e7369]">{user.name.split(" ")[0]}</span>
+                      <img src={user?.photo} alt={user?.name} className="w-4 h-4 rounded-full object-cover" />
+                      <span className="text-xs text-[#7e7369]">{user?.name?.split(" ")[0]}</span>
                       <Star className="h-3 w-3 fill-brand-accent text-brand-accent" />
-                      <span className="text-xs text-[#645a52]" style={{ fontWeight: 600 }}>{user.rating}</span>
-                      {user.verified && <CheckCircle className="h-3 w-3 text-brand-earth" />}
+                      <span className="text-xs text-[#645a52]" style={{ fontWeight: 600 }}>{user?.rating}</span>
+                      {user?.verified && <CheckCircle className="h-3 w-3 text-brand-earth" />}
                     </div>
                     <ChevronRight className="h-4 w-4 text-[#c8bdb2]" />
                   </div>

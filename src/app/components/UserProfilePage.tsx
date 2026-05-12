@@ -18,6 +18,7 @@ import { logout } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { formatPhoneForMask } from "../utils/phone";
 import { AchievementBadge } from "./AchievementBadge";
+import { useClarityEvents } from "./clarity/events";
 
 type Tab = "descartando" | "historico" | "conquistas";
 
@@ -29,6 +30,7 @@ export function UserProfilePage() {
   const [activeTab, setActiveTab] = useState<Tab>("descartando");
   const currentUser = users.find((candidate) => candidate.id === currentUserId) ?? null;
   const isOwnProfile = !id || id === currentUser?.id;
+  const { auth_logout, profile_tab_change } = useClarityEvents();
 
   if (!id && !currentUser) {
     return <Navigate to="/login?next=%2Fprofile" replace />;
@@ -109,6 +111,7 @@ export function UserProfilePage() {
             {isOwnProfile ? (
               <button
                 onClick={() => {
+                  auth_logout(currentUser?.id || "");
                   dispatch(logout());
                   navigate("/", { replace: true });
                 }}
@@ -222,7 +225,10 @@ export function UserProfilePage() {
           {TABS.map((tab) => (
             <button
               key={tab.value}
-              onClick={() => setActiveTab(tab.value)}
+              onClick={() => {
+                setActiveTab(tab.value);
+                profile_tab_change(tab.value);
+              }}
               className={`flex-1 py-2 rounded-lg text-sm transition-all ${
                 activeTab === tab.value
                   ? "bg-white text-brand shadow-sm"

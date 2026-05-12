@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
-import { ArrowLeft, Leaf, LockKeyhole, Phone, LogIn, UserPlus, ChevronRight } from "lucide-react";
+import { ArrowLeft, Phone, LogIn, UserPlus, ChevronRight } from "lucide-react";
 import { loginByPhone } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
+import { useClarityEvents } from "./clarity/events";
 
 function getNextPath(search: string) {
   const params = new URLSearchParams(search);
@@ -23,6 +24,7 @@ export function LoginPage() {
   const { currentUserId, users } = useAppSelector((state) => state.appData);
   const [phone, setPhone] = useState("");
   const [userNotFound, setUserNotFound] = useState(false);
+  const { auth_login_success, auth_login_failed } = useClarityEvents();
 
   const nextPath = useMemo(() => getNextPath(location.search), [location.search]);
   const currentUser = users.find((user) => user.id === currentUserId) ?? null;
@@ -37,11 +39,13 @@ export function LoginPage() {
     const matchingUser = users.find((candidate) => normalizePhone(candidate.phone) === normalizedPhone);
 
     if (!matchingUser) {
+      auth_login_failed(phone, "user_not_found");
       setUserNotFound(true);
       return;
     }
 
     dispatch(loginByPhone(phone));
+    auth_login_success(matchingUser.id, phone);
     navigate(nextPath, { replace: true });
   };
 
