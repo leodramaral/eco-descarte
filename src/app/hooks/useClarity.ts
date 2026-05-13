@@ -33,7 +33,7 @@ export const useClarity = (): ClarityHookReturn => {
   const initializationPromiseRef = useRef<Promise<void> | null>(null);
 
   const initializeClarity = useCallback(async (): Promise<void> => {
-    if (!CLARITY_ENABLED || !CLARITY_PROJECT_ID || isInitialized) {
+    if (!CLARITY_PROJECT_ID || isInitialized) {
       return;
     }
 
