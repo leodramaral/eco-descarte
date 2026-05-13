@@ -43,29 +43,31 @@ export const useClarity = (): ClarityHookReturn => {
     }
 
     initializationPromiseRef.current = (async () => {
-      return new Promise<void>((resolve) => {
-        const script = document.createElement('script');
-        script.innerHTML = `
-          (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "${CLARITY_PROJECT_ID}");
-        `;
-        
-        script.onload = () => {
-          setIsInitialized(true);
-          setIsClarityReady(true);
-          resolve();
-        };
-        
-        script.onerror = () => {
-          console.error('Failed to load Microsoft Clarity script');
-          resolve();
-        };
-        
-        document.head.appendChild(script);
-      });
+      if (document.getElementById('ms-clarity')) {
+        setIsInitialized(true);
+        setIsClarityReady(true);
+        return;
+      }
+  
+      const script = document.createElement('script');
+
+      script.async = true;
+      script.src = `https://www.clarity.ms/tag/${CLARITY_PROJECT_ID}`;
+
+      script.onload = () => {
+        setIsInitialized(true);
+        setIsClarityReady(true);
+
+        window.clarity?.('consentV2', {
+          analytics_Storage: 'granted'
+        });
+      };
+
+      script.onerror = () => {
+        console.error('Failed to load Microsoft Clarity script');
+      };
+
+      document.head.appendChild(script);
     })();
 
     await initializationPromiseRef.current;
