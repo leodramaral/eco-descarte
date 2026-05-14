@@ -38,6 +38,8 @@ export const useClarity = (): ClarityHookReturn => {
         setIsClarityReady(true);
       } catch (error) {
         console.error('Failed to initialize Microsoft Clarity:', error);
+      } finally {
+        initializationPromiseRef.current = null;
       }
     })();
 

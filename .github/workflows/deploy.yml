@@ -16,8 +16,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  VITE_CLARITY_PROJECT_ID: ${{ secrets.VITE_CLARITY_PROJECT_ID }}
-  VITE_CLARITY_ENABLED: ${{ secrets.VITE_CLARITY_ENABLED }}
+  VITE_CLARITY_PROJECT_ID: ${{ vars.VITE_CLARITY_PROJECT_ID }}
+  VITE_CLARITY_ENABLED: ${{ vars.VITE_CLARITY_ENABLED }}
 
 jobs:
   build:
@@ -36,6 +36,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Debug Clarity env (remove after troubleshooting)
+        run: |
+          echo "VITE_CLARITY_PROJECT_ID=${VITE_CLARITY_PROJECT_ID}"
+          echo "VITE_CLARITY_ENABLED=${VITE_CLARITY_ENABLED}"
 
       - name: Build app
         run: npm run build
