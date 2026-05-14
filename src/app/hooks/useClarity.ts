@@ -1,16 +1,5 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
-
-interface ClarityWindow extends Window {
-  clarity?: {
-    (e: 'start', projectId: string): void;
-    (e: 'identify', userId: string, sessionId?: string, userTag?: string): void;
-    (e: 'event', eventName: string, ...args: any[]): void;
-    (e: 'set', ...args: any[]): void;
-    (e: 'consentV2', consent: { analytics_Storage: 'granted' | 'denied' }): void;
-  };
-}
-
-declare const window: ClarityWindow;
+import Clarity from '@microsoft/clarity';
 
 export interface ClarityHookReturn {
   isClarityReady: boolean;
@@ -33,7 +22,7 @@ export const useClarity = (): ClarityHookReturn => {
   const initializationPromiseRef = useRef<Promise<void> | null>(null);
 
   const initializeClarity = useCallback(async (): Promise<void> => {
-    if (!CLARITY_PROJECT_ID || isInitialized) {
+    if (!CLARITY_ENABLED || !CLARITY_PROJECT_ID || isInitialized) {
       return;
     }
 
@@ -43,31 +32,13 @@ export const useClarity = (): ClarityHookReturn => {
     }
 
     initializationPromiseRef.current = (async () => {
-      if (document.getElementById('ms-clarity')) {
+      try {
+        Clarity.init(CLARITY_PROJECT_ID);
         setIsInitialized(true);
         setIsClarityReady(true);
-        return;
+      } catch (error) {
+        console.error('Failed to initialize Microsoft Clarity:', error);
       }
-  
-      const script = document.createElement('script');
-
-      script.async = true;
-      script.src = `https://www.clarity.ms/tag/${CLARITY_PROJECT_ID}`;
-
-      script.onload = () => {
-        setIsInitialized(true);
-        setIsClarityReady(true);
-
-        window.clarity?.('consentV2', {
-          analytics_Storage: 'granted'
-        });
-      };
-
-      script.onerror = () => {
-        console.error('Failed to load Microsoft Clarity script');
-      };
-
-      document.head.appendChild(script);
     })();
 
     await initializationPromiseRef.current;
@@ -90,27 +61,27 @@ export const useClarity = (): ClarityHookReturn => {
     }
   }, [hasConsent, initializeClarity]);
 
-  const trackEvent = useCallback((eventName: string, ...args: any[]) => {
-    if (hasConsent && window.clarity && isClarityReady) {
-      window.clarity('event', eventName, ...args);
+  const trackEvent = useCallback((eventName: string, ..._args: any[]) => {
+    if (hasConsent && isClarityReady) {
+      Clarity.event(eventName);
     }
   }, [hasConsent, isClarityReady]);
 
   const setTag = useCallback((key: string, value: string) => {
-    if (hasConsent && window.clarity && isClarityReady) {
-      window.clarity('set', key, value);
+    if (hasConsent && isClarityReady) {
+      Clarity.setTag(key, value);
     }
   }, [hasConsent, isClarityReady]);
 
   const identifyUser = useCallback((userId: string) => {
-    if (hasConsent && window.clarity && isClarityReady) {
-      window.clarity('identify', userId);
+    if (hasConsent && isClarityReady) {
+      Clarity.identify(userId);
     }
   }, [hasConsent, isClarityReady]);
 
   const grantConsent = useCallback(() => {
-    if (window.clarity && isClarityReady) {
-      window.clarity('consentV2', { analytics_Storage: 'granted' });
+    if (isClarityReady) {
+      Clarity.consentV2({ ad_Storage: 'granted', analytics_Storage: 'granted' });
     }
     localStorage.setItem('clarity_consent', 'granted');
     setHasConsent(true);
@@ -120,8 +91,8 @@ export const useClarity = (): ClarityHookReturn => {
   }, [isClarityReady, isInitialized, initializeClarity]);
 
   const revokeConsent = useCallback(() => {
-    if (window.clarity && isClarityReady) {
-      window.clarity('consentV2', { analytics_Storage: 'denied' });
+    if (isClarityReady) {
+      Clarity.consentV2({ ad_Storage: 'denied', analytics_Storage: 'denied' });
     }
     localStorage.setItem('clarity_consent', 'denied');
     setHasConsent(false);
