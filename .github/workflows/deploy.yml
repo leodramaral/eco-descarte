@@ -15,6 +15,10 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+env:
+  VITE_CLARITY_PROJECT_ID: ${{ secrets.VITE_CLARITY_PROJECT_ID }}
+  VITE_CLARITY_ENABLED: ${{ secrets.VITE_CLARITY_ENABLED }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,12 +26,12 @@ jobs:
       VITE_APP_BASE: /eco-descarte/
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -35,9 +39,6 @@ jobs:
 
       - name: Build app
         run: npm run build
-        env:
-           VITE_CLARITY_PROJECT_ID: ${{ secrets.VITE_CLARITY_PROJECT_ID }}
-           VITE_CLARITY_ENABLED: ${{ secrets.VITE_CLARITY_ENABLED }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
