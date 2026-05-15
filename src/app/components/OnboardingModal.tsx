@@ -1,4 +1,5 @@
 import { X, Leaf, PackageOpen, Users, Award } from "lucide-react";
+import { useState } from "react";
 
 interface OnboardingModalProps {
   isOpen: boolean;

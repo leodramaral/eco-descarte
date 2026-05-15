@@ -62,13 +62,27 @@ export function CatalogPage() {
   const debouncedSearch = useMemo(() => debounce((query: string) => {
     if (query.trim()) {
       catalog_search(query, filteredItems.length);
-      dispatch(addToSearchHistory(query));
     }
   }, 500), [catalog_search, filteredItems.length, dispatch]);
 
   useMemo(() => {
     debouncedSearch(search);
   }, [search, debouncedSearch]);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (search.trim().length >= 2) {
+      dispatch(addToSearchHistory(search.trim()));
+      catalog_search(search.trim(), filteredItems.length);
+    }
+  };
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && search.trim().length >= 2) {
+      dispatch(addToSearchHistory(search.trim()));
+      catalog_search(search.trim(), filteredItems.length);
+    }
+  };
 
   useEffect(() => {
     page_view_home();
@@ -100,17 +114,19 @@ export function CatalogPage() {
   return (
     <div className="px-4 pt-4 pb-4">
       {/* Search Bar */}
-      <div className="relative mb-3">
+      <form onSubmit={handleSearchSubmit} className="relative mb-3">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-primary-strong" />
         <input
           type="text"
           placeholder="Buscar item ou bairro..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleSearchKeyDown}
           className="field-brand w-full rounded-xl bg-white py-3 pl-10 pr-10 text-sm text-gray-800"
         />
         {search && (
           <button
+            type="button"
             onClick={() => setSearch("")}
             className="absolute right-3 top-1/2 -translate-y-1/2"
             aria-label="Limpar busca"
@@ -118,7 +134,7 @@ export function CatalogPage() {
             <X className="h-4 w-4 text-brand-primary-strong" />
           </button>
         )}
-      </div>
+      </form>
 
       {/* Search History */}
       <div className="mb-3">

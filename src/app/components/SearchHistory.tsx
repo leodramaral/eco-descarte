@@ -14,6 +14,11 @@ export function SearchHistory({ searchHistory, onSelectSearch, onClearHistory }:
     return null;
   }
 
+  const handleSelectSearch = (query: string) => {
+    onSelectSearch(query);
+    setIsOpen(false);
+  };
+
   return (
     <div className="relative">
       <button
@@ -41,10 +46,7 @@ export function SearchHistory({ searchHistory, onSelectSearch, onClearHistory }:
               {searchHistory.map((query, index) => (
                 <button
                   key={index}
-                  onClick={() => {
-                    onSelectSearch(query);
-                    setIsOpen(false);
-                  }}
+                  onClick={() => handleSelectSearch(query)}
                   className="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-left text-xs text-[#655b53] hover:bg-brand-primary-soft transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
                 >
                   <Search className="w-3 h-3 text-[#9a9188]" />
