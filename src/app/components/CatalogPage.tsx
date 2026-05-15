@@ -13,11 +13,15 @@ import {
   Car,
   Clock,
   X,
+  Heart,
+  HeartOff,
 } from "lucide-react";
 import { type Category, type ItemType } from "../data/mockData";
-import { useAppSelector } from "../store/hooks";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { useClarityEvents } from "./clarity/events";
 import { debounce } from "../utils/clarity";
+import { toggleFavorite } from "../store/appSlice";
+import { showItemSavedToast, showItemRemovedToast } from "../utils/toast";
 
 type ViewMode = "grid" | "list";
 
@@ -32,7 +36,8 @@ const CATEGORIES: { value: Category | "todos"; label: string }[] = [
 
 export function CatalogPage() {
   const navigate = useNavigate();
-  const { items, users } = useAppSelector((state) => state.appData);
+  const dispatch = useAppDispatch();
+  const { items, users, favoriteItems } = useAppSelector((state) => state.appData);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<Category | "todos">("todos");
@@ -77,6 +82,30 @@ export function CatalogPage() {
 
   const hasActiveFilters =
     selectedCategory !== "todos" || selectedType !== "todos" || search !== "";
+
+  const isFavorite = (itemId: string) => favoriteItems?.includes(itemId) ?? false;
+
+  const handleToggleFavorite = (e: React.MouseEvent, itemId: string) => {
+    e.stopPropagation();
+    dispatch(toggleFavorite(itemId));
+    if (isFavorite(itemId)) {
+      showItemRemovedToast();
+    } else {
+      showItemSavedToast();
+    }
+  };
+
+  const isFavorite = (itemId: string) => favoriteItems?.includes(itemId) ?? false;
+
+  const handleToggleFavorite = (e: React.MouseEvent, itemId: string) => {
+    e.stopPropagation();
+    dispatch(toggleFavorite(itemId));
+    if (isFavorite(itemId)) {
+      showItemRemovedToast();
+    } else {
+      showItemSavedToast();
+    }
+  };
 
   return (
     <div className="px-4 pt-4 pb-4">
@@ -239,8 +268,19 @@ export function CatalogPage() {
                   catalog_item_click(item.id, index + 1);
                   navigate(`/item/${item.id}`);
                 }}
-                className="cursor-pointer overflow-hidden rounded-xl border border-border bg-white shadow-[0_10px_28px_rgba(56,45,34,0.06)] transition-transform active:scale-95"
+                className="cursor-pointer overflow-hidden rounded-xl border border-border bg-white shadow-[0_10px_28px_rgba(56,45,34,0.06)] transition-transform active:scale-95 relative"
               >
+                <button
+                  onClick={(e) => handleToggleFavorite(e, item.id)}
+                  className="absolute top-2 right-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-md transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+                  aria-label={isFavorite(item.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+                >
+                  {isFavorite(item.id) ? (
+                    <Heart className="w-4 h-4 fill-brand-accent text-brand-accent" />
+                  ) : (
+                    <Heart className="w-4 h-4 text-gray-500" />
+                  )}
+                </button>
                 <div className="relative">
                   <img
                     src={item.images[0]}
@@ -313,8 +353,19 @@ export function CatalogPage() {
                   catalog_item_click(item.id, index + 1);
                   navigate(`/item/${item.id}`);
                 }}
-                className="flex cursor-pointer overflow-hidden rounded-xl border border-border bg-white shadow-[0_10px_28px_rgba(56,45,34,0.06)] transition-transform active:scale-95"
+                className="flex cursor-pointer overflow-hidden rounded-xl border border-border bg-white shadow-[0_10px_28px_rgba(56,45,34,0.06)] transition-transform active:scale-95 relative"
               >
+                <button
+                  onClick={(e) => handleToggleFavorite(e, item.id)}
+                  className="absolute top-2 right-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-md transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+                  aria-label={isFavorite(item.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+                >
+                  {isFavorite(item.id) ? (
+                    <Heart className="w-4 h-4 fill-brand-accent text-brand-accent" />
+                  ) : (
+                    <Heart className="w-4 h-4 text-gray-500" />
+                  )}
+                </button>
                 <div className="relative w-28 flex-shrink-0">
                   <img
                     src={item.images[0]}

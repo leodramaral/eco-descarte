@@ -47,6 +47,7 @@ export interface Item {
   dimensions: { height: number; width: number; depth: number };
   wasteWeight: number;
   postedAt: string;
+  viewCount?: number;
 }
 
 export interface AppDataState {
@@ -54,6 +55,8 @@ export interface AppDataState {
   users: User[];
   items: Item[];
   currentUserId: string | null;
+  favoriteItems?: string[];
+  lastImpactNudgeDate?: string;
 }
 
 export const BADGES: Record<string, Badge> = {

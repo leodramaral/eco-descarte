@@ -10,6 +10,8 @@ import {
 import { type Category, type Item } from "../data/mockData";
 import { addItem } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { showItemPublishedToast } from "../utils/toast";
+import { ConfettiCelebration } from "./ConfettiCelebration";
 
 const CATEGORIES: { value: Category; label: string; icon: string }[] = [
   { value: "moveis", label: "Móveis", icon: "🪑" },
@@ -133,11 +135,14 @@ export function AddItemPage() {
 
     dispatch(addItem(newItem));
     setSubmitted(true);
+    showItemPublishedToast();
   };
 
   if (submitted) {
     return (
-      <div className="px-4 pt-16 flex flex-col items-center text-center">
+      <>
+        <ConfettiCelebration trigger={true} />
+        <div className="px-4 pt-16 flex flex-col items-center text-center">
         <div className="surface-soft mb-6 flex h-20 w-20 items-center justify-center rounded-full">
           <CheckCircle className="h-10 w-10 text-brand-primary-strong" />
         </div>
@@ -174,6 +179,7 @@ export function AddItemPage() {
           </button>
         </div>
       </div>
+      </>
     );
   }
 

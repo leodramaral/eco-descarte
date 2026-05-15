@@ -1,15 +1,18 @@
 import { Outlet, useNavigate, useLocation } from "react-router";
 import { useEffect } from "react";
 import { Home, Plus, User, PackageOpen } from "lucide-react";
-import { useAppSelector } from "../store/hooks";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { useClarityContext } from "./ClarityProvider";
 import { useClarityTags } from "./clarity";
 import { hashPhone } from "../utils/clarity";
+import { showImpactNudge } from "../utils/toast";
+import { updateImpactNudgeShown } from "../store/appSlice";
 
 export function Layout() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const location = useLocation();
-  const { currentUserId, users } = useAppSelector((state) => state.appData);
+  const { currentUserId, users, lastImpactNudgeDate } = useAppSelector((state) => state.appData);
   const currentUser = users.find((user) => user.id === currentUserId) ?? null;
   const profileTarget = currentUser ? "/profile" : "/login?next=%2Fprofile";
   const addTarget = currentUser ? "/add" : "/login?next=%2Fadd";
@@ -35,6 +38,24 @@ export function Layout() {
       setUserStatus("guest");
     }
   }, [currentUser, setUserStatus, identifyUser]);
+
+  // Show impact nudge if user hasn't seen it today
+  useEffect(() => {
+    if (!currentUser) return;
+
+    const today = new Date().toDateString();
+    const shouldShowNudge = lastImpactNudgeDate !== today && (currentUser.wasteAvoided > 0 || currentUser.itemsDiscarded > 0);
+
+    if (shouldShowNudge && location.pathname === "/") {
+      setTimeout(() => {
+        showImpactNudge({
+          wasteAvoided: currentUser.wasteAvoided,
+          itemsDiscarded: currentUser.itemsDiscarded,
+        });
+        dispatch(updateImpactNudgeShown(today));
+      }, 2000);
+    }
+  }, [currentUser, lastImpactNudgeDate, location.pathname, dispatch]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

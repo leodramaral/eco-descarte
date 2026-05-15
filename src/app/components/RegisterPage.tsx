@@ -12,6 +12,8 @@ import {
 import { createUser } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
+import { showRegistrationSuccessToast } from "../utils/toast";
+import { ConfettiCelebration } from "./ConfettiCelebration";
 
 function getNextPath(search: string) {
   const params = new URLSearchParams(search);
@@ -102,6 +104,8 @@ export function RegisterPage() {
 
       setSuccess(true);
 
+      showRegistrationSuccessToast();
+
       // Redirect after success
       setTimeout(() => {
         navigate(nextPath, { replace: true });
@@ -118,7 +122,9 @@ export function RegisterPage() {
 
   if (success) {
     return (
-      <div className="px-4 pt-6 pb-8 flex items-center justify-center min-h-screen">
+      <>
+        <ConfettiCelebration trigger={true} />
+        <div className="px-4 pt-6 pb-8 flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="mb-4 flex justify-center">
             <div className="surface-soft rounded-full p-3">
@@ -133,6 +139,7 @@ export function RegisterPage() {
           </p>
         </div>
       </div>
+      </>
     );
   }
 
