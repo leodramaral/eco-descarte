@@ -26,7 +26,7 @@ export function UserProfilePage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
-  const { currentUserId, items, users } = useAppSelector((state) => state.appData);
+  const { currentUserId, items, users, streakData } = useAppSelector((state) => state.appData);
   const [activeTab, setActiveTab] = useState<Tab>("descartando");
   const currentUser = users.find((candidate) => candidate.id === currentUserId) ?? null;
   const isOwnProfile = !id || id === currentUser?.id;
@@ -128,12 +128,22 @@ export function UserProfilePage() {
           </div>
 
           <div className="mb-3 rounded-xl border border-border bg-[#faf7f2] px-3 py-2.5">
-            <div className="flex items-center gap-1.5">
-              <Star className="h-4 w-4 fill-brand-accent text-brand-accent" />
-              <span className="text-sm text-[#2a211c]" style={{ fontWeight: 700 }}>
-                {user.rating.toFixed(1)}
-              </span>
-              <span className="text-xs text-[#8d8379]">({user.reviewCount} avaliações)</span>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5">
+                <Star className="h-4 w-4 fill-brand-accent text-brand-accent" />
+                <span className="text-sm text-[#2a211c]" style={{ fontWeight: 700 }}>
+                  {user.rating.toFixed(1)}
+                </span>
+                <span className="text-xs text-[#8d8379]">({user.reviewCount} avaliações)</span>
+              </div>
+              {isOwnProfile && streakData && streakData.streakCount > 0 && (
+                <div className="flex items-center gap-1">
+                  <span className="text-2xl">🔥</span>
+                  <span className="text-xs font-bold text-brand-accent">
+                    {streakData.streakCount} dia{streakData.streakCount !== 1 ? "s" : ""}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 

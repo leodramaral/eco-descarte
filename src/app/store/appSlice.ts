@@ -46,6 +46,59 @@ const appSlice = createSlice({
     updateImpactNudgeShown(state, action: PayloadAction<string>) {
       state.lastImpactNudgeDate = action.payload;
     },
+    addToSearchHistory(state, action: PayloadAction<string>) {
+      if (!state.searchHistory) {
+        state.searchHistory = [];
+      }
+
+      const searchQuery = action.payload.trim().toLowerCase();
+      if (!searchQuery) return;
+
+      // Remove if already exists
+      const existingIndex = state.searchHistory.indexOf(searchQuery);
+      if (existingIndex > -1) {
+        state.searchHistory.splice(existingIndex, 1);
+      }
+
+      // Add to beginning
+      state.searchHistory.unshift(searchQuery);
+
+      // Keep only last 5 searches
+      if (state.searchHistory.length > 5) {
+        state.searchHistory = state.searchHistory.slice(0, 5);
+      }
+    },
+    clearSearchHistory(state) {
+      state.searchHistory = [];
+    },
+    markOnboardingSeen(state) {
+      state.hasSeenOnboarding = true;
+    },
+    updateStreak(state) {
+      const today = new Date().toDateString();
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+
+      if (!state.streakData) {
+        state.streakData = {
+          lastActiveDate: today,
+          streakCount: 1,
+        };
+        return;
+      }
+
+      if (state.streakData.lastActiveDate === today) {
+        // Already logged in today, do nothing
+        return;
+      } else if (state.streakData.lastActiveDate === yesterday) {
+        // Consecutive day, increment streak
+        state.streakData.streakCount += 1;
+        state.streakData.lastActiveDate = today;
+      } else {
+        // Streak broken, reset to 1
+        state.streakData.streakCount = 1;
+        state.streakData.lastActiveDate = today;
+      }
+    },
     createUser(
       state,
       action: PayloadAction<{
@@ -91,6 +144,6 @@ const appSlice = createSlice({
   },
 });
 
-export const { addItem, loginByPhone, logout, setCurrentUser, createUser, toggleFavorite, updateImpactNudgeShown } = appSlice.actions;
+export const { addItem, loginByPhone, logout, setCurrentUser, createUser, toggleFavorite, updateImpactNudgeShown, addToSearchHistory, clearSearchHistory, markOnboardingSeen, updateStreak } = appSlice.actions;
 export { initialState as appInitialState };
 export default appSlice.reducer;

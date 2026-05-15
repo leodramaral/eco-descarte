@@ -11,15 +11,18 @@ import {
   ChevronRight,
   Truck,
   Car,
+  Clock,
   X,
   Heart,
+  HeartOff,
 } from "lucide-react";
 import { type Category, type ItemType } from "../data/mockData";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { useClarityEvents } from "./clarity/events";
 import { debounce } from "../utils/clarity";
-import { toggleFavorite } from "../store/appSlice";
+import { toggleFavorite, addToSearchHistory, clearSearchHistory } from "../store/appSlice";
 import { showItemSavedToast, showItemRemovedToast } from "../utils/toast";
+import { SearchHistory } from "./SearchHistory";
 
 type ViewMode = "grid" | "list";
 
@@ -35,7 +38,7 @@ const CATEGORIES: { value: Category | "todos"; label: string }[] = [
 export function CatalogPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { items, users, favoriteItems } = useAppSelector((state) => state.appData);
+  const { items, users, favoriteItems, searchHistory } = useAppSelector((state) => state.appData);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<Category | "todos">("todos");
@@ -59,8 +62,9 @@ export function CatalogPage() {
   const debouncedSearch = useMemo(() => debounce((query: string) => {
     if (query.trim()) {
       catalog_search(query, filteredItems.length);
+      dispatch(addToSearchHistory(query));
     }
-  }, 500), [catalog_search, filteredItems.length]);
+  }, 500), [catalog_search, filteredItems.length, dispatch]);
 
   useMemo(() => {
     debouncedSearch(search);
@@ -109,10 +113,20 @@ export function CatalogPage() {
           <button
             onClick={() => setSearch("")}
             className="absolute right-3 top-1/2 -translate-y-1/2"
+            aria-label="Limpar busca"
           >
             <X className="h-4 w-4 text-brand-primary-strong" />
           </button>
         )}
+      </div>
+
+      {/* Search History */}
+      <div className="mb-3">
+        <SearchHistory
+          searchHistory={searchHistory || []}
+          onSelectSearch={(query) => setSearch(query)}
+          onClearHistory={() => dispatch(clearSearchHistory())}
+        />
       </div>
 
       {/* Filter Row */}

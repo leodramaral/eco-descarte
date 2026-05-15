@@ -56,6 +56,12 @@ export interface AppDataState {
   currentUserId: string | null;
   favoriteItems?: string[];
   lastImpactNudgeDate?: string;
+  searchHistory?: string[];
+  hasSeenOnboarding?: boolean;
+  streakData?: {
+    lastActiveDate: string;
+    streakCount: number;
+  };
 }
 
 export const BADGES: Record<string, Badge> = {

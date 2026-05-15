@@ -16,7 +16,7 @@ import {
   Heart,
   Eye,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
 import { getBadgeChipClassName } from "../utils/badgeStyles";
@@ -49,10 +49,6 @@ export function ItemDetailPage() {
 
   useEffect(() => {
     page_view_item_detail(item.id, item.category);
-  }, []);
-
-  useEffect(() => {
-    item_detail_view(item.id);
   }, []);
 
   const categoryLabel: Record<string, string> = {
