@@ -49,7 +49,8 @@ export function LoginPage() {
     <div className="px-4 pt-6 pb-8">
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 inline-flex items-center gap-1 text-sm text-[#655b53]"
+        className="mb-4 inline-flex items-center gap-1 text-sm text-[#655b53] focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 rounded px-2 py-1"
+        aria-label="Voltar para página anterior"
       >
         <ArrowLeft className="w-4 h-4" />
         Voltar
@@ -82,7 +83,8 @@ export function LoginPage() {
                   `/register?next=${encodeURIComponent(nextPath)}&phone=${encodeURIComponent(phone)}`
                 )
               }
-              className="cta-secondary group w-full rounded-2xl p-4"
+              className="cta-secondary group w-full rounded-2xl p-4 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2"
+              aria-label="Criar nova conta"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -104,7 +106,8 @@ export function LoginPage() {
                 setPhone("");
                 setUserNotFound(false);
               }}
-              className="w-full rounded-2xl border border-brand-primary bg-white px-4 py-3.5 font-medium text-brand transition-colors hover:bg-brand-primary-soft"
+              className="w-full rounded-2xl border border-brand-primary bg-white px-4 py-3.5 font-medium text-brand-primary-strong transition-colors hover:bg-brand-primary-soft focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+              aria-label="Tentar com outro número de telefone"
             >
               <div className="flex items-center justify-center gap-2">
                 <Phone className="h-4 w-4" />
@@ -135,7 +138,8 @@ export function LoginPage() {
 
             <button
               type="submit"
-              className="cta-primary group w-full rounded-2xl p-4"
+              className="cta-primary group w-full rounded-2xl p-4 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+              aria-label="Entrar no sistema"
             >
               <div className="flex items-center justify-center gap-2">
                 <LogIn className="h-5 w-5" />
@@ -150,7 +154,9 @@ export function LoginPage() {
                   `/register?next=${encodeURIComponent(nextPath)}`
                 )
               }
-              className="surface-accent group w-full rounded-2xl p-4 font-medium text-accent transition-colors hover:bg-[#f1d9c8]"
+              className="surface-accent group w-full rounded-2xl p-4 font-medium text-brand-accent-strong transition-colors hover:bg-[#f1d9c8] focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2"
+              aria-label="Criar nova conta"
+              style={{ color: '#a85d2e' }}
             >
               <div className="flex items-center justify-center gap-2">
                 <UserPlus className="h-5 w-5" />

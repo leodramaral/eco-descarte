@@ -96,7 +96,7 @@ export function UserProfilePage() {
                 <p className="mt-0.5 text-xs text-[#8d8379]">Perfil público</p>
                 <div className="flex flex-wrap items-center gap-1.5 mt-2">
                   {user.verified && (
-                    <span className="chip-earth px-2 py-1 text-xs" style={{ fontWeight: 600 }}>
+                    <span className="chip-brand px-2 py-1 text-xs" style={{ fontWeight: 600 }}>
                       <CheckCircle className="w-3 h-3" /> Conta verificada
                     </span>
                   )}
@@ -121,8 +121,8 @@ export function UserProfilePage() {
                 Sair
               </button>
             ) : (
-              <button className="surface-earth flex h-9 w-9 items-center justify-center rounded-xl">
-                <Edit3 className="w-4 h-4 text-brand-earth" />
+              <button className="surface-earth flex h-9 w-9 items-center justify-center rounded-xl" aria-label="Editar perfil">
+                <Edit3 className="w-4 h-4 text-brand-primary-strong" />
               </button>
             )}
           </div>
@@ -163,7 +163,7 @@ export function UserProfilePage() {
                 </p>
               </div>
               <p className="text-xs text-[#7e7369]">Itens descartados</p>
-              <p className="mt-0.5 text-[10px] text-[#a0978d]">Papel Anunciante</p>
+              <p className="mt-0.5 text-[10px] text-[#6d6259]">Papel Anunciante</p>
             </div>
 
             <div className="rounded-xl border border-border bg-[#faf7f2] p-3">

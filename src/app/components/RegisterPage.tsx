@@ -140,7 +140,8 @@ export function RegisterPage() {
     <div className="px-4 pt-6 pb-8">
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 inline-flex items-center gap-1 text-sm text-[#655b53]"
+        className="mb-4 inline-flex items-center gap-1 text-sm text-[#655b53] focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 rounded px-2 py-1"
+        aria-label="Voltar para página anterior"
       >
         <ArrowLeft className="w-4 h-4" />
         Voltar
@@ -182,7 +183,8 @@ export function RegisterPage() {
                 <button
                   type="button"
                   onClick={handleRemovePhoto}
-                  className="absolute right-1 top-1 rounded-full bg-brand-accent p-1 text-white transition-colors hover:bg-[#b95f2c]"
+                  className="absolute right-1 top-1 rounded-full bg-brand-accent p-1 text-white transition-colors hover:bg-[#b95f2c] focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2"
+                  aria-label="Remover foto de perfil"
                 >
                   ✕
                 </button>
@@ -266,7 +268,8 @@ export function RegisterPage() {
           <button
             type="submit"
             disabled={!name.trim() || !phone.trim() || isSubmitting}
-            className="cta-primary w-full rounded-2xl py-3 font-medium text-white disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none"
+            className="cta-primary w-full rounded-2xl py-3 font-medium text-white disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+            aria-label="Criar cadastro"
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center gap-2">
@@ -281,8 +284,9 @@ export function RegisterPage() {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="surface-earth w-full rounded-2xl py-3 font-medium text-brand-earth transition-colors hover:bg-[#ecddcf]"
+            className="surface-earth w-full rounded-2xl py-3 font-medium text-brand-earth transition-colors hover:bg-[#ecddcf] disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-brand-earth focus:ring-offset-2"
             disabled={isSubmitting}
+            aria-label="Cancelar cadastro"
           >
             Cancelar
           </button>

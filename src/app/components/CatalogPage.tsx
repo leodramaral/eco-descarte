@@ -82,7 +82,7 @@ export function CatalogPage() {
     <div className="px-4 pt-4 pb-4">
       {/* Search Bar */}
       <div className="relative mb-3">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9a9188]" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-primary-strong" />
         <input
           type="text"
           placeholder="Buscar item ou bairro..."
@@ -95,7 +95,7 @@ export function CatalogPage() {
             onClick={() => setSearch("")}
             className="absolute right-3 top-1/2 -translate-y-1/2"
           >
-            <X className="h-4 w-4 text-[#9a9188]" />
+            <X className="h-4 w-4 text-brand-primary-strong" />
           </button>
         )}
       </div>
@@ -104,19 +104,21 @@ export function CatalogPage() {
       <div className="flex items-center gap-2 mb-4">
         <div className="flex-1 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {CATEGORIES.map((cat) => (
-            <button
-              key={cat.value}
-              onClick={() => {
-                setSelectedCategory(cat.value as Category | "todos");
-                if (cat.value !== "todos") {
-                  catalog_filter_category(cat.value);
-                }
-              }}
-              className={`flex-shrink-0 rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                selectedCategory === cat.value
-                  ? "border-brand-primary-strong bg-brand-primary-strong text-white shadow-[0_10px_22px_rgba(47,90,51,0.16)]"
-                  : "bg-white text-[#756a61] border-border"
-              }`}
+              <button
+                key={cat.value}
+                onClick={() => {
+                  setSelectedCategory(cat.value as Category | "todos");
+                  if (cat.value !== "todos") {
+                    catalog_filter_category(cat.value);
+                  }
+                }}
+                aria-label={`Filtrar por ${cat.label}`}
+                aria-pressed={selectedCategory === cat.value}
+                className={`flex-shrink-0 rounded-full border px-3 py-1.5 text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 ${
+                  selectedCategory === cat.value
+                    ? "border-brand-primary-strong bg-brand-primary-strong text-white shadow-[0_10px_22px_rgba(47,90,51,0.16)]"
+                    : "bg-white text-brand-primary border-border"
+                }`}
               style={{ fontWeight: selectedCategory === cat.value ? 600 : 400 }}
             >
               {cat.label}
@@ -125,10 +127,12 @@ export function CatalogPage() {
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border transition-colors ${
+          aria-label={showFilters ? "Fechar filtros" : "Abrir filtros"}
+          aria-expanded={showFilters}
+          className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 ${
             showFilters || selectedType !== "todos"
               ? "border-brand-earth bg-brand-earth text-white"
-              : "border-border bg-white text-[#756a61]"
+              : "border-border bg-white text-brand-primary-strong"
           }`}
         >
           <SlidersHorizontal className="w-4 h-4" />
@@ -149,10 +153,12 @@ export function CatalogPage() {
                 <button
                   key={opt.value}
                   onClick={() => setSelectedType(opt.value as ItemType | "todos")}
-                  className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
+                  aria-label={`Filtrar por ${opt.label}`}
+                  aria-pressed={selectedType === opt.value}
+                  className={`rounded-lg border px-3 py-1.5 text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 ${
                     selectedType === opt.value
                       ? "border-brand-primary-strong bg-brand-primary-strong text-white"
-                      : "bg-brand-earth-soft text-brand-earth border-[#e8ddd2]"
+                      : "bg-white text-brand-primary-strong border-border"
                   }`}
                 >
                   {opt.label}
@@ -184,8 +190,10 @@ export function CatalogPage() {
               setViewMode("grid");
               catalog_view_mode_change("grid");
             }}
-            className={`flex h-7 w-7 items-center justify-center rounded transition-colors ${
-              viewMode === "grid" ? "bg-brand-primary-strong text-white" : "text-[#9a9188]"
+            aria-label="Visualização em grade"
+            aria-pressed={viewMode === "grid"}
+            className={`flex h-7 w-7 items-center justify-center rounded transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 ${
+              viewMode === "grid" ? "bg-brand-primary-strong text-white" : "text-brand-primary-strong"
             }`}
           >
             <LayoutGrid className="w-3.5 h-3.5" />
@@ -195,8 +203,10 @@ export function CatalogPage() {
               setViewMode("list");
               catalog_view_mode_change("list");
             }}
-            className={`flex h-7 w-7 items-center justify-center rounded transition-colors ${
-              viewMode === "list" ? "bg-brand-primary-strong text-white" : "text-[#9a9188]"
+            aria-label="Visualização em lista"
+            aria-pressed={viewMode === "list"}
+            className={`flex h-7 w-7 items-center justify-center rounded transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 ${
+              viewMode === "list" ? "bg-brand-primary-strong text-white" : "text-brand-primary-strong"
             }`}
           >
             <List className="w-3.5 h-3.5" />

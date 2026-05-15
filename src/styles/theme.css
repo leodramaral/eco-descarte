@@ -253,21 +253,21 @@
   }
 
   .chip-brand {
-    background-color: rgba(79, 122, 70, 0.12);
-    border-color: rgba(79, 122, 70, 0.14);
+    background-color: var(--brand-primary-soft);
+    border-color: var(--brand-primary);
     color: var(--brand-primary-strong);
   }
 
   .chip-accent {
-    background-color: var(--brand-accent-soft);
-    border-color: rgba(201, 111, 60, 0.16);
-    color: var(--brand-accent);
+    background-color: #fef0e9;
+    border-color: var(--brand-accent);
+    color: #a85d2e;
   }
 
   .chip-earth {
-    background-color: var(--brand-earth-soft);
-    border-color: rgba(122, 93, 70, 0.16);
-    color: var(--brand-earth);
+    background-color: #f5ebe0;
+    border-color: var(--brand-earth);
+    color: #5d4532;
   }
 
   .nav-active {

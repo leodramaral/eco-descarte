@@ -69,7 +69,8 @@ export function ItemDetailPage() {
       <div className="px-4 pt-4 pb-2">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-1 text-gray-600"
+          className="flex items-center gap-1 text-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 rounded px-2 py-1"
+          aria-label="Voltar para página anterior"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="text-sm">Voltar</span>
@@ -355,8 +356,9 @@ export function ItemDetailPage() {
             target="_blank"
             rel="noreferrer"
             onClick={() => contact_whatsapp_click(item.id, user.id)}
-            className="cta-primary flex w-full items-center justify-center gap-3 rounded-2xl py-4 active:scale-95"
+            className="cta-primary flex w-full items-center justify-center gap-3 rounded-2xl py-4 active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
             style={{ fontWeight: 700, fontSize: "1rem" }}
+            aria-label="Entrar em contato pelo WhatsApp"
           >
             <MessageCircle className="w-6 h-6" />
             Falar no WhatsApp
