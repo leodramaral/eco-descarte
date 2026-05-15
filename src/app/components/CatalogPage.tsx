@@ -11,10 +11,8 @@ import {
   ChevronRight,
   Truck,
   Car,
-  Clock,
   X,
   Heart,
-  HeartOff,
 } from "lucide-react";
 import { type Category, type ItemType } from "../data/mockData";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
@@ -82,18 +80,6 @@ export function CatalogPage() {
 
   const hasActiveFilters =
     selectedCategory !== "todos" || selectedType !== "todos" || search !== "";
-
-  const isFavorite = (itemId: string) => favoriteItems?.includes(itemId) ?? false;
-
-  const handleToggleFavorite = (e: React.MouseEvent, itemId: string) => {
-    e.stopPropagation();
-    dispatch(toggleFavorite(itemId));
-    if (isFavorite(itemId)) {
-      showItemRemovedToast();
-    } else {
-      showItemSavedToast();
-    }
-  };
 
   const isFavorite = (itemId: string) => favoriteItems?.includes(itemId) ?? false;
 

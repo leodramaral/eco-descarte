@@ -1,4 +1,4 @@
-import { useParams, useNavigate, useEffect } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import {
   ArrowLeft,
   Star,
@@ -22,7 +22,7 @@ import { normalizePhone } from "../utils/phone";
 import { getBadgeChipClassName } from "../utils/badgeStyles";
 import { useClarityEvents } from "./clarity/events";
 import { showContactStartedToast } from "../utils/toast";
-import { toggleFavorite, incrementItemViews } from "../store/appSlice";
+import { toggleFavorite } from "../store/appSlice";
 
 export function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -35,13 +35,6 @@ export function ItemDetailPage() {
   const item = items.find((candidate) => candidate.id === id);
   const user = item ? users.find((candidate) => candidate.id === item.userId) ?? null : null;
   const isFavorite = favoriteItems?.includes(item?.id ?? "") ?? false;
-
-  // Increment view count on mount
-  useEffect(() => {
-    if (item) {
-      dispatch(incrementItemViews(item.id));
-    }
-  }, [item, dispatch]);
 
   if (!item || !user) {
     return (
@@ -121,7 +114,7 @@ export function ItemDetailPage() {
         <div className="absolute bottom-3 left-3 flex items-center gap-1 bg-white/90 rounded-full px-2.5 py-1 shadow-md">
           <Eye className="w-3 h-3 text-[#7e7369]" />
           <span className="text-xs font-semibold text-[#2a211c]">
-            {item.viewCount || Math.floor(Math.random() * 200) + 20}
+            {Math.floor(Math.random() * 200) + 20}
           </span>
         </div>
         {/* Badges */}

@@ -1,4 +1,4 @@
-import toast from "sonner";
+import { toast } from "sonner";
 
 export function showToast(
   type: "success" | "error" | "info",

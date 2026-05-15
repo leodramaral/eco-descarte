@@ -47,7 +47,6 @@ export interface Item {
   dimensions: { height: number; width: number; depth: number };
   wasteWeight: number;
   postedAt: string;
-  viewCount?: number;
 }
 
 export interface AppDataState {

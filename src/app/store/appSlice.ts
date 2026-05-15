@@ -43,15 +43,6 @@ const appSlice = createSlice({
         state.favoriteItems.push(itemId);
       }
     },
-    incrementItemViews(state, action: PayloadAction<string>) {
-      const item = state.items.find((i) => i.id === action.payload);
-      if (item && !item.viewCount) {
-        item.viewCount = 0;
-      }
-      if (item) {
-        item.viewCount = (item.viewCount || 0) + 1;
-      }
-    },
     updateImpactNudgeShown(state, action: PayloadAction<string>) {
       state.lastImpactNudgeDate = action.payload;
     },
@@ -100,6 +91,6 @@ const appSlice = createSlice({
   },
 });
 
-export const { addItem, loginByPhone, logout, setCurrentUser, createUser, toggleFavorite, incrementItemViews, updateImpactNudgeShown } = appSlice.actions;
+export const { addItem, loginByPhone, logout, setCurrentUser, createUser, toggleFavorite, updateImpactNudgeShown } = appSlice.actions;
 export { initialState as appInitialState };
 export default appSlice.reducer;
