@@ -5,13 +5,14 @@ import {
   Camera,
   Leaf,
   User,
-  Phone,
   AlertCircle,
   Check,
 } from "lucide-react";
 import { createUser } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
+import { usePhoneInput } from "../hooks/usePhoneInput";
+import { PhoneInput } from "./PhoneInput";
 import { ConfettiCelebration } from "./ConfettiCelebration";
 
 function getNextPath(search: string) {
@@ -33,8 +34,8 @@ export function RegisterPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState(
-    () => new URLSearchParams(location.search).get("phone") || ""
+  const phone = usePhoneInput(
+    new URLSearchParams(location.search).get("phone") || ""
   );
   const [photo, setPhoto] = useState<string | null>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -79,7 +80,7 @@ export function RegisterPage() {
     setIsSubmitting(true);
 
     try {
-      const normalizedPhone = normalizePhone(phone);
+      const normalizedPhone = normalizePhone(phone.rawDigits);
 
       // Validate phone uniqueness
       const existingUser = users.find(
@@ -96,7 +97,7 @@ export function RegisterPage() {
       dispatch(
         createUser({
           name: name.trim(),
-          phone: phone.trim(),
+          phone: phone.rawDigits,
           photo: photo || undefined,
         })
       );
@@ -239,28 +240,17 @@ export function RegisterPage() {
             </div>
           </div>
 
-          {/* Phone Field (Read-only) */}
-          <div>
-            <label className="mb-1.5 block text-sm text-[#584d45]">
-              Telefone <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9a9188]" />
-              <input
-                type="tel"
-                inputMode="tel"
-                placeholder="(92) 99123-4567"
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-                className="field-brand w-full rounded-2xl bg-white py-3 pl-10 pr-4 text-sm text-gray-800"
-                required
-                disabled={isSubmitting}
-              />
-            </div>
-            <p className="mt-1 text-xs text-[#8d8379]">
-              Seu telefone será usado como identificador único.
-            </p>
-          </div>
+          {/* Phone Field */}
+          <PhoneInput
+            maskedValue={phone.maskedValue}
+            onChange={phone.handleChange}
+            onBlur={phone.handleBlur}
+            error={phone.validationError}
+            disabled={isSubmitting}
+          />
+          <p className="mt-1 text-xs text-[#8d8379]">
+            Seu telefone será usado como identificador único.
+          </p>
 
           {error && (
             <div className="surface-accent flex gap-2 rounded-2xl px-4 py-3">
@@ -271,7 +261,7 @@ export function RegisterPage() {
 
           <button
             type="submit"
-            disabled={!name.trim() || !phone.trim() || isSubmitting}
+            disabled={!name.trim() || !phone.isValid || isSubmitting}
             className="cta-primary w-full rounded-2xl py-3 font-medium text-white disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
             aria-label="Criar cadastro"
           >

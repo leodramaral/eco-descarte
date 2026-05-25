@@ -4,6 +4,8 @@ import { ArrowLeft, Phone, LogIn, UserPlus, ChevronRight } from "lucide-react";
 import { loginByPhone } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
+import { usePhoneInput } from "../hooks/usePhoneInput";
+import { PhoneInput } from "./PhoneInput";
 
 function getNextPath(search: string) {
   const params = new URLSearchParams(search);
@@ -21,7 +23,7 @@ export function LoginPage() {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const { currentUserId, users } = useAppSelector((state) => state.appData);
-  const [phone, setPhone] = useState("");
+  const phone = usePhoneInput();
   const [userNotFound, setUserNotFound] = useState(false);
 
   const nextPath = useMemo(() => getNextPath(location.search), [location.search]);
@@ -33,7 +35,7 @@ export function LoginPage() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const normalizedPhone = normalizePhone(phone);
+    const normalizedPhone = normalizePhone(phone.rawDigits);
     const matchingUser = users.find((candidate) => normalizePhone(candidate.phone) === normalizedPhone);
 
     if (!matchingUser) {
@@ -41,7 +43,7 @@ export function LoginPage() {
       return;
     }
 
-    dispatch(loginByPhone(phone));
+    dispatch(loginByPhone(phone.rawDigits));
     navigate(nextPath, { replace: true });
   };
 
@@ -73,14 +75,14 @@ export function LoginPage() {
         {userNotFound ? (
           <div className="space-y-4">
             <div className="surface-earth rounded-2xl px-4 py-3 text-sm text-brand-earth">
-              Para continuar com o telefone <strong>{phone}</strong>, você precisa criar uma conta nova.
+              Para continuar com o telefone <strong>{phone.maskedValue}</strong>, você precisa criar uma conta nova.
             </div>
 
             <button
               type="button"
               onClick={() =>
                 navigate(
-                  `/register?next=${encodeURIComponent(nextPath)}&phone=${encodeURIComponent(phone)}`
+                  `/register?next=${encodeURIComponent(nextPath)}&phone=${encodeURIComponent(phone.rawDigits)}`
                 )
               }
               className="cta-secondary group w-full rounded-2xl p-4 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2"
@@ -103,7 +105,7 @@ export function LoginPage() {
             <button
               type="button"
               onClick={() => {
-                setPhone("");
+                phone.reset();
                 setUserNotFound(false);
               }}
               className="w-full rounded-2xl border border-brand-primary bg-white px-4 py-3.5 font-medium text-brand-primary-strong transition-colors hover:bg-brand-primary-soft focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
@@ -117,28 +119,17 @@ export function LoginPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="mb-1.5 block text-sm text-[#584d45]">
-                Telefone
-              </label>
-              <div className="relative">
-                <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9a9188]" />
-                <input
-                  type="tel"
-                  inputMode="tel"
-                  autoComplete="tel"
-                  placeholder="(92) 99123-4567"
-                  value={phone}
-                  onChange={(event) => setPhone(event.target.value)}
-                  className="field-brand w-full rounded-2xl bg-white py-3 pl-10 pr-4 text-sm text-gray-800"
-                  required
-                />
-              </div>
-            </div>
+            <PhoneInput
+              maskedValue={phone.maskedValue}
+              onChange={phone.handleChange}
+              onBlur={phone.handleBlur}
+              error={phone.validationError}
+            />
 
             <button
               type="submit"
-              className="cta-primary group w-full rounded-2xl p-4 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+              disabled={!phone.isValid}
+              className="cta-primary group w-full rounded-2xl p-4 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none"
               aria-label="Entrar no sistema"
             >
               <div className="flex items-center justify-center gap-2">
