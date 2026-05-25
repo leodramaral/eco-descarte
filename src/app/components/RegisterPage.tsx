@@ -129,10 +129,10 @@ export function RegisterPage() {
               <Check className="h-8 w-8 text-brand-primary-strong" />
             </div>
           </div>
-          <h2 className="mb-2 text-xl font-bold text-[#201814]">
-            Cadastro realizado com sucesso!
-          </h2>
-          <p className="text-sm text-[#655b53]">
+            <h2 className="mb-2 text-xl font-bold text-foreground">
+              Cadastro realizado com sucesso!
+            </h2>
+            <p className="text-sm text-muted-foreground">
             Redirecionando para seu perfil...
           </p>
         </div>
@@ -145,7 +145,7 @@ export function RegisterPage() {
     <div className="px-4 pt-6 pb-8">
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 inline-flex items-center gap-1 text-sm text-[#655b53] focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 rounded px-2 py-1"
+        className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 rounded px-2 py-1"
         aria-label="Voltar para página anterior"
       >
         <ArrowLeft className="w-4 h-4" />
@@ -158,10 +158,10 @@ export function RegisterPage() {
             <div className="brand-mark mb-3 flex h-11 w-11 items-center justify-center rounded-2xl">
               <Leaf className="h-5 w-5 text-white" />
             </div>
-            <h1 className="text-[#201814]" style={{ fontSize: "1.45rem", fontWeight: 700 }}>
+            <h1 className="text-foreground" style={{ fontSize: "1.45rem", fontWeight: 700 }}>
               Criar cadastro
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-[#655b53]">
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               Complete seus dados para começar a anunciar no Recolhe Aí.
             </p>
           </div>
@@ -173,9 +173,9 @@ export function RegisterPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Photo Section */}
           <div>
-            <label className="mb-2 block text-sm font-medium text-[#584d45]">
+            <label className="mb-2 block text-sm font-medium text-foreground">
               Foto de perfil
-              <span className="ml-1 text-xs text-[#8d8379]">(opcional)</span>
+              <span className="ml-1 text-xs text-muted-foreground">(opcional)</span>
             </label>
 
             {photo ? (
@@ -204,7 +204,7 @@ export function RegisterPage() {
                   <p className="text-sm font-medium text-brand">
                     Enviar foto
                   </p>
-                  <p className="mt-1 text-xs text-[#4d6f46]">
+                  <p className="mt-1 text-xs text-brand-primary-strong">
                     PNG, JPG até 5MB
                   </p>
                 </div>
@@ -223,17 +223,17 @@ export function RegisterPage() {
 
           {/* Name Field */}
           <div>
-            <label className="mb-1.5 block text-sm text-[#584d45]">
+            <label className="mb-1.5 block text-sm text-foreground">
               Nome <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9a9188]" />
+              <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 type="text"
                 placeholder="Seu nome completo"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                className="field-brand w-full rounded-2xl bg-white py-3 pl-10 pr-4 text-sm text-gray-800"
+                className="field-brand w-full rounded-2xl bg-white py-3 pl-10 pr-4 text-sm text-foreground"
                 required
                 disabled={isSubmitting}
               />
@@ -248,7 +248,7 @@ export function RegisterPage() {
             error={phone.validationError}
             disabled={isSubmitting}
           />
-          <p className="mt-1 text-xs text-[#8d8379]">
+          <p className="mt-1 text-xs text-muted-foreground">
             Seu telefone será usado como identificador único.
           </p>
 

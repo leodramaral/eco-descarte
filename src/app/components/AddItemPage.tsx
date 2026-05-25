@@ -146,8 +146,8 @@ export function AddItemPage() {
         <div className="surface-soft mb-6 flex h-20 w-20 items-center justify-center rounded-full">
           <CheckCircle className="h-10 w-10 text-brand-primary-strong" />
         </div>
-        <h2 className="mb-2 text-[#2a211c]" style={{ fontSize: "1.3rem" }}>Anúncio publicado!</h2>
-        <p className="mb-3 max-w-xs text-sm text-[#7e7369]">
+        <h2 className="mb-2 text-foreground" style={{ fontSize: "1.3rem" }}>Anúncio publicado!</h2>
+        <p className="mb-3 max-w-xs text-sm text-muted-foreground">
           Seu item foi anunciado com sucesso. Pessoas no modo coletor poderão entrar em contato pelo chat.
         </p>
         <div className="impact-card mb-8 w-full max-w-xs rounded-xl p-4">
@@ -155,7 +155,7 @@ export function AddItemPage() {
             <Leaf className="h-4 w-4 text-brand-primary-strong" />
             <span className="text-sm text-brand" style={{ fontWeight: 600 }}>Impacto positivo!</span>
           </div>
-          <p className="text-xs text-[#4d6f46]">
+          <p className="text-xs text-brand-primary-strong">
             Ao descartar corretamente, você ajuda a reduzir o impacto ambiental e contribui para a comunidade.
           </p>
         </div>
@@ -186,8 +186,8 @@ export function AddItemPage() {
   return (
     <div className="px-4 pt-4 pb-8">
       <div className="mb-6">
-        <h1 className="text-[#2a211c]" style={{ fontSize: "1.3rem" }}>Anunciar item</h1>
-        <p className="mt-1 text-sm text-[#7e7369]">Preencha os dados do item que deseja descartar</p>
+        <h1 className="text-foreground" style={{ fontSize: "1.3rem" }}>Anunciar item</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Preencha os dados do item que deseja descartar</p>
         <div className="surface-earth mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1">
           <span className="text-[11px] text-brand-earth" style={{ fontWeight: 600 }}>
             Seu perfil também pode coletar itens no catálogo
@@ -198,7 +198,7 @@ export function AddItemPage() {
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Photo Upload */}
         <div>
-          <label className="mb-2 block text-sm text-[#584d45]">Fotos do item</label>
+          <label className="mb-2 block text-sm text-foreground">Fotos do item</label>
           <div className="grid grid-cols-3 gap-2">
             {[0, 1, 2].map((i) => (
               <div
@@ -209,8 +209,8 @@ export function AddItemPage() {
                     : "border-border bg-[#fbf8f4]"
                 }`}
               >
-                <Camera className={`mb-1 h-5 w-5 ${i === 0 ? "text-brand-primary" : "text-[#b9afa6]"}`} />
-                <span className={`text-xs ${i === 0 ? "text-brand" : "text-[#b9afa6]"}`} style={{ fontWeight: 500 }}>
+                <Camera className={`mb-1 h-5 w-5 ${i === 0 ? "text-brand-primary" : "text-muted-foreground"}`} />
+                <span className={`text-xs ${i === 0 ? "text-brand" : "text-muted-foreground"}`} style={{ fontWeight: 500 }}>
                   {i === 0 ? "Principal" : "Adicionar"}
                 </span>
               </div>
@@ -220,7 +220,7 @@ export function AddItemPage() {
 
         {/* Name */}
         <div>
-          <label className="mb-1.5 block text-sm text-[#584d45]">
+          <label className="mb-1.5 block text-sm text-foreground">
             Nome do item <span className="text-red-400">*</span>
           </label>
           <input
@@ -235,7 +235,7 @@ export function AddItemPage() {
 
         {/* Description */}
         <div>
-          <label className="mb-1.5 block text-sm text-[#584d45]">
+          <label className="mb-1.5 block text-sm text-foreground">
             Descrição <span className="text-red-400">*</span>
           </label>
           <textarea
@@ -250,7 +250,7 @@ export function AddItemPage() {
 
         {/* Category */}
         <div>
-          <label className="mb-1.5 block text-sm text-[#584d45]">
+          <label className="mb-1.5 block text-sm text-foreground">
             Categoria <span className="text-red-400">*</span>
           </label>
           <div className="grid grid-cols-3 gap-2">
@@ -262,7 +262,7 @@ export function AddItemPage() {
                 className={`flex flex-col items-center gap-1 rounded-xl border px-2 py-2.5 text-xs transition-colors ${
                   form.category === cat.value
                     ? "border-brand-primary bg-brand-primary-soft text-brand"
-                    : "border-border bg-white text-[#6f655c]"
+                    : "border-border bg-white text-muted-foreground"
                 }`}
                 style={{ fontWeight: form.category === cat.value ? 600 : 400 }}
               >
@@ -276,7 +276,7 @@ export function AddItemPage() {
         {/* Details Row */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="mb-1.5 block text-sm text-[#584d45]">Tempo de uso</label>
+            <label className="mb-1.5 block text-sm text-foreground">Tempo de uso</label>
             <input
               type="text"
               placeholder="Ex: 2 anos"
@@ -286,7 +286,7 @@ export function AddItemPage() {
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm text-[#584d45]">Material</label>
+            <label className="mb-1.5 block text-sm text-foreground">Material</label>
             <input
               type="text"
               placeholder="Ex: Aço e plástico"
@@ -299,7 +299,7 @@ export function AddItemPage() {
 
         {/* Weight & Dimensions */}
         <div>
-          <label className="mb-1.5 block text-sm text-[#584d45]">Peso e dimensões (cm)</label>
+          <label className="mb-1.5 block text-sm text-foreground">Peso e dimensões (cm)</label>
           <div className="grid grid-cols-4 gap-2">
             <div>
               <input
@@ -309,7 +309,7 @@ export function AddItemPage() {
                 onChange={(e) => handleChange("weight", e.target.value)}
                 className="field-brand w-full rounded-xl bg-white px-3 py-3 text-center text-sm"
               />
-              <p className="mt-1 text-center text-xs text-[#9a9188]">Peso</p>
+              <p className="mt-1 text-center text-xs text-muted-foreground">Peso</p>
             </div>
             <div>
               <input
@@ -319,7 +319,7 @@ export function AddItemPage() {
                 onChange={(e) => handleChange("height", e.target.value)}
                 className="field-brand w-full rounded-xl bg-white px-3 py-3 text-center text-sm"
               />
-              <p className="mt-1 text-center text-xs text-[#9a9188]">Altura</p>
+              <p className="mt-1 text-center text-xs text-muted-foreground">Altura</p>
             </div>
             <div>
               <input
@@ -329,7 +329,7 @@ export function AddItemPage() {
                 onChange={(e) => handleChange("width", e.target.value)}
                 className="field-brand w-full rounded-xl bg-white px-3 py-3 text-center text-sm"
               />
-              <p className="mt-1 text-center text-xs text-[#9a9188]">Largura</p>
+              <p className="mt-1 text-center text-xs text-muted-foreground">Largura</p>
             </div>
             <div>
               <input
@@ -339,14 +339,14 @@ export function AddItemPage() {
                 onChange={(e) => handleChange("depth", e.target.value)}
                 className="field-brand w-full rounded-xl bg-white px-3 py-3 text-center text-sm"
               />
-              <p className="mt-1 text-center text-xs text-[#9a9188]">Profund.</p>
+              <p className="mt-1 text-center text-xs text-muted-foreground">Profund.</p>
             </div>
           </div>
         </div>
 
         {/* Neighborhood */}
         <div>
-          <label className="mb-1.5 block text-sm text-[#584d45]">
+          <label className="mb-1.5 block text-sm text-foreground">
             Bairro <span className="text-red-400">*</span>
           </label>
           <div className="relative">
@@ -361,13 +361,13 @@ export function AddItemPage() {
                 <option key={n} value={n}>{n}</option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9a9188]" />
+            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           </div>
         </div>
 
         {/* Type */}
         <div>
-          <label className="mb-2 block text-sm text-[#584d45]">
+          <label className="mb-2 block text-sm text-foreground">
             Tipo <span className="text-red-400">*</span>
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -377,7 +377,7 @@ export function AddItemPage() {
               className={`flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
                 form.type === "doacao"
                   ? "border-brand-primary bg-brand-primary-soft text-brand"
-                  : "border-border bg-white text-[#6f655c]"
+                  : "border-border bg-white text-muted-foreground"
               }`}
               style={{ fontWeight: form.type === "doacao" ? 700 : 400 }}
             >
@@ -390,7 +390,7 @@ export function AddItemPage() {
               className={`flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
                 form.type === "pago"
                   ? "border-brand-earth bg-brand-earth-soft text-brand-earth"
-                  : "border-border bg-white text-[#6f655c]"
+                  : "border-border bg-white text-muted-foreground"
               }`}
               style={{ fontWeight: form.type === "pago" ? 700 : 400 }}
             >
@@ -414,7 +414,7 @@ export function AddItemPage() {
 
         {/* Transport */}
         <div>
-          <label className="mb-2 block text-sm text-[#584d45]">Transporte</label>
+          <label className="mb-2 block text-sm text-foreground">Transporte</label>
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
@@ -422,7 +422,7 @@ export function AddItemPage() {
               className={`flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
                 form.transport === "retirada"
                   ? "border-brand-accent bg-brand-accent-soft text-brand-accent"
-                  : "border-border bg-white text-[#6f655c]"
+                  : "border-border bg-white text-muted-foreground"
               }`}
               style={{ fontWeight: form.transport === "retirada" ? 700 : 400 }}
             >
@@ -435,7 +435,7 @@ export function AddItemPage() {
               className={`flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
                 form.transport === "entrega"
                   ? "border-brand-earth bg-brand-earth-soft text-brand-earth"
-                  : "border-border bg-white text-[#6f655c]"
+                  : "border-border bg-white text-muted-foreground"
               }`}
               style={{ fontWeight: form.transport === "entrega" ? 700 : 400 }}
             >
@@ -464,23 +464,15 @@ export function AddItemPage() {
               {form.urgent && <CheckCircle className="w-3.5 h-3.5 text-white" />}
             </div>
             <div className="flex-1 text-left">
-              <p className={`text-sm ${form.urgent ? "text-accent" : "text-[#584d45]"}`} style={{ fontWeight: 600 }}>
+              <p className={`text-sm ${form.urgent ? "text-accent" : "text-foreground"}`} style={{ fontWeight: 600 }}>
                 🔥 Precisa retirar com urgência
               </p>
-              <p className={`text-xs ${form.urgent ? "text-[#b5663b]" : "text-[#9a9188]"}`}>
+              <p className={`text-xs ${form.urgent ? "text-brand-accent" : "text-muted-foreground"}`}>
                 O item aparecerá com destaque "Retirar hoje"
               </p>
             </div>
           </button>
         </div>
-
-        {/* Validation Warning */}
-        {!isFormValid && (
-          <div className="surface-accent flex items-center gap-2 rounded-xl px-4 py-3">
-            <AlertCircle className="h-4 w-4 flex-shrink-0 text-brand-accent" />
-            <span className="text-xs text-accent">Preencha os campos obrigatórios (marcados com *)</span>
-          </div>
-        )}
 
         {/* Submit */}
         <button
