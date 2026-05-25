@@ -6,6 +6,7 @@ import {
   CheckCircle,
   Leaf,
   AlertCircle,
+  Info,
 } from "lucide-react";
 import {
   IconArmchair,
@@ -213,11 +214,22 @@ export function AddItemPage() {
         {/* Photo Upload */}
         <div>
           <label className="mb-2 block text-sm text-foreground">Fotos do item</label>
+
+          <div className="mb-3 flex gap-3 rounded-xl border border-amber-200 bg-amber-50 p-3">
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+            <div>
+              <p className="text-sm font-medium text-amber-800">Modo demonstração</p>
+              <p className="mt-0.5 text-xs text-amber-700">
+                Não é possível importar imagens. Serão usadas imagens demonstrativas automaticamente.
+              </p>
+            </div>
+          </div>
+
           <div className="grid grid-cols-3 gap-2">
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className={`flex h-24 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed transition-colors ${
+                className={`flex h-24 flex-col items-center justify-center rounded-xl border-2 border-dashed opacity-60 ${
                   i === 0
                     ? "border-brand-primary bg-brand-primary-soft"
                     : "border-border bg-[#fbf8f4]"

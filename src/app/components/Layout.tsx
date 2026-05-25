@@ -30,6 +30,10 @@ export function Layout() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  useEffect(() => {
     if (currentUser) {
       setUserStatus("logged_in");
       identifyUser(hashPhone(currentUser.phone));

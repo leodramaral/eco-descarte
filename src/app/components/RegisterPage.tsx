@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
 import {
   ArrowLeft,
@@ -7,6 +7,7 @@ import {
   User,
   AlertCircle,
   Check,
+  Info,
 } from "lucide-react";
 import { createUser } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -31,14 +32,10 @@ export function RegisterPage() {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const { currentUserId, users } = useAppSelector((state) => state.appData);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const [name, setName] = useState("");
   const phone = usePhoneInput(
     new URLSearchParams(location.search).get("phone") || ""
   );
-  const [photo, setPhoto] = useState<string | null>(null);
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,29 +47,6 @@ export function RegisterPage() {
   if (currentUser) {
     return <Navigate to={nextPath} replace />;
   }
-
-  const handlePhotoSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
-    if (file) {
-      setPhotoFile(file);
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        setPhoto(e.target?.result as string);
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleRemovePhoto = () => {
-    setPhoto(null);
-    setPhotoFile(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -98,7 +72,6 @@ export function RegisterPage() {
         createUser({
           name: name.trim(),
           phone: phone.rawDigits,
-          photo: photo || undefined,
         })
       );
 
@@ -178,47 +151,27 @@ export function RegisterPage() {
               <span className="ml-1 text-xs text-muted-foreground">(opcional)</span>
             </label>
 
-            {photo ? (
-              <div className="relative mb-3 h-32 w-32 overflow-hidden rounded-2xl border-2 border-brand-primary bg-[#f2f0ec]">
-                <img
-                  src={photo}
-                  alt="Preview"
-                  className="h-full w-full object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={handleRemovePhoto}
-                  className="absolute right-1 top-1 rounded-full bg-brand-accent p-1 text-white transition-colors hover:bg-[#b95f2c] focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2"
-                  aria-label="Remover foto de perfil"
-                >
-                  ✕
-                </button>
+            <div className="mb-3 flex gap-3 rounded-xl border border-amber-200 bg-amber-50 p-3">
+              <Info className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+              <div>
+                <p className="text-sm font-medium text-amber-800">Modo demonstração</p>
+                <p className="mt-0.5 text-xs text-amber-700">
+                  Não é possível importar imagens. Será usada uma imagem demonstrativa automaticamente.
+                </p>
               </div>
-            ) : (
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="mb-3 flex cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-brand-primary bg-brand-primary-soft py-6 text-center transition-colors hover:border-brand-primary-strong hover:bg-[#dae8d5]"
-              >
-                <div>
-                  <Camera className="mx-auto mb-2 h-6 w-6 text-brand-primary-strong" />
-                  <p className="text-sm font-medium text-brand">
-                    Enviar foto
-                  </p>
-                  <p className="mt-1 text-xs text-brand-primary-strong">
-                    PNG, JPG até 5MB
-                  </p>
-                </div>
-              </div>
-            )}
+            </div>
 
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handlePhotoSelect}
-              className="hidden"
-              disabled={isSubmitting}
-            />
+            <div className="flex cursor-default items-center justify-center rounded-2xl border-2 border-dashed border-brand-primary bg-brand-primary-soft py-6 text-center opacity-60">
+              <div>
+                <Camera className="mx-auto mb-2 h-6 w-6 text-brand-primary-strong" />
+                <p className="text-sm font-medium text-brand">
+                  Enviar foto
+                </p>
+                <p className="mt-1 text-xs text-brand-primary-strong">
+                  PNG, JPG até 5MB
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Name Field */}
