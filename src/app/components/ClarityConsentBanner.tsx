@@ -21,11 +21,6 @@ export const ClarityConsentBanner = () => {
     handleHide();
   };
 
-  const handleAcceptEssential = () => {
-    localStorage.setItem('clarity_consent', 'essential');
-    handleHide();
-  };
-
   const handleReject = () => {
     revokeConsent();
     handleHide();
@@ -46,11 +41,18 @@ export const ClarityConsentBanner = () => {
         <div className="space-y-4">
           <div className="space-y-2">
             <h3 className="text-lg font-semibold text-green-900 dark:text-green-100">
-              Privacidade e Cookies
+              Privacidade e Dados de Uso
             </h3>
             <p className="text-sm text-green-800 dark:text-green-200 leading-relaxed">
-              Usamos cookies para melhorar sua experiência e analisar o uso do app. 
-              Ao continuar, você concorda com nossa política de privacidade.
+              Este sistema é um projeto acadêmico desenvolvido para a disciplina de{' '}
+              <strong>Design Thinking</strong>, do curso de{' '}
+              <strong>Análise e Desenvolvimento de Sistemas</strong> do{' '}
+              <strong>CIESA</strong>, sem fins lucrativos. Utilizamos o Microsoft
+              Clarity para gravar sessões de navegação e gerar mapas de calor, com o
+              objetivo de analisar a usabilidade e melhorar a experiência do usuário.
+              Nenhum dado pessoal é comercializado ou compartilhado com terceiros. Ao
+              continuar, você concorda com essa coleta para fins exclusivamente
+              acadêmicos.
             </p>
           </div>
           
@@ -60,13 +62,6 @@ export const ClarityConsentBanner = () => {
               className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium shadow-md transition-all duration-200 hover:scale-105"
             >
               Aceitar tudo
-            </Button>
-            <Button
-              onClick={handleAcceptEssential}
-              variant="outline"
-              className="flex-1 border-green-600 text-green-700 hover:bg-green-50 hover:text-green-800 font-medium transition-all duration-200"
-            >
-              Apenas essencial
             </Button>
             <Button
               onClick={handleReject}
