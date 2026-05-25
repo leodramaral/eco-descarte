@@ -1,26 +1,23 @@
 import { Outlet, useNavigate, useLocation } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Home, Plus, User, PackageOpen } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { useClarityContext } from "./ClarityProvider";
 import { useClarityTags } from "./clarity";
 import { hashPhone } from "../utils/clarity";
 import { showImpactNudge } from "../utils/toast";
-import { updateImpactNudgeShown, markOnboardingSeen, updateStreak } from "../store/appSlice";
-import { OnboardingModal } from "./OnboardingModal";
+import { updateImpactNudgeShown, updateStreak } from "../store/appSlice";
 
 export function Layout() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { currentUserId, users, lastImpactNudgeDate, hasSeenOnboarding, streakData } = useAppSelector((state) => state.appData);
+  const { currentUserId, users, lastImpactNudgeDate } = useAppSelector((state) => state.appData);
   const currentUser = users.find((user) => user.id === currentUserId) ?? null;
   const profileTarget = currentUser ? "/profile" : "/login?next=%2Fprofile";
   const addTarget = currentUser ? "/add" : "/login?next=%2Fadd";
   const { setUserStatus } = useClarityTags();
   const { identifyUser } = useClarityContext();
-  const [showOnboarding, setShowOnboarding] = useState(false);
-
   const navItems = [
     { path: "/", target: "/", icon: Home, label: "Início" },
     { path: "/add", target: addTarget, icon: Plus, label: "Anunciar" },
@@ -41,15 +38,6 @@ export function Layout() {
       setUserStatus("guest");
     }
   }, [currentUser, setUserStatus, identifyUser, dispatch]);
-
-  // Show onboarding if first time user
-  useEffect(() => {
-    if (currentUser && !hasSeenOnboarding) {
-      setTimeout(() => {
-        setShowOnboarding(true);
-      }, 1000);
-    }
-  }, [currentUser, hasSeenOnboarding]);
 
   // Show impact nudge if user hasn't seen it today
   useEffect(() => {
@@ -157,15 +145,6 @@ export function Layout() {
           })}
         </div>
       </nav>
-
-      {/* Onboarding Modal */}
-      <OnboardingModal
-        isOpen={showOnboarding}
-        onClose={() => {
-          setShowOnboarding(false);
-          dispatch(markOnboardingSeen());
-        }}
-      />
     </div>
   );
 }

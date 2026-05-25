@@ -12,7 +12,6 @@ import {
 import { createUser } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
-import { showRegistrationSuccessToast } from "../utils/toast";
 import { ConfettiCelebration } from "./ConfettiCelebration";
 
 function getNextPath(search: string) {
@@ -103,8 +102,6 @@ export function RegisterPage() {
       );
 
       setSuccess(true);
-
-      showRegistrationSuccessToast();
 
       // Redirect after success
       setTimeout(() => {
