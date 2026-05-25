@@ -16,6 +16,13 @@ import {
   Heart,
   Eye,
 } from "lucide-react";
+import {
+  IconGift,
+  IconCoin,
+  IconFlame,
+  IconSeedling,
+} from "@tabler/icons-react";
+import { BADGE_ICONS } from "../data/mockData";
 import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
@@ -121,11 +128,11 @@ export function ItemDetailPage() {
             }`}
             style={{ fontWeight: 700 }}
           >
-            {item.type === "doacao" ? "🎁 Doação" : `💰 R$ ${item.price}`}
+            {item.type === "doacao" ? <span className="flex items-center gap-1"><IconGift size={14} /> Doação</span> : <span className="flex items-center gap-1"><IconCoin size={14} /> R$ {item.price}</span>}
           </span>
           {item.urgent && (
-            <span className="tone-urgent rounded-full px-3 py-1 text-sm" style={{ fontWeight: 700 }}>
-              🔥 Retirar hoje
+            <span className="tone-urgent rounded-full px-3 py-1 text-sm flex items-center gap-1" style={{ fontWeight: 700 }}>
+              <IconFlame size={14} /> Retirar hoje
             </span>
           )}
         </div>
@@ -287,7 +294,7 @@ export function ItemDetailPage() {
             <h3 className="text-brand">Impacto Ambiental</h3>
           </div>
           <p className="text-sm text-[#4d6f46]">
-            🌱 Este item pode evitar o descarte de{" "}
+            <span className="inline-flex items-center gap-1"><IconSeedling size={16} /> Este item pode evitar o descarte de{" "}</span>
             <span style={{ fontWeight: 700 }}>{item.wasteWeight}kg de resíduos</span> no meio
             ambiente.
           </p>
@@ -364,7 +371,7 @@ export function ItemDetailPage() {
                 className={`${getBadgeChipClassName(badge.color)} px-2 py-1 text-xs`}
                 style={{ fontWeight: 600 }}
               >
-                {badge.icon} {badge.label}
+                {(() => { const BIcon = BADGE_ICONS[badge.icon]; return BIcon ? <><BIcon size={12} /> {badge.label}</> : badge.label; })()}
               </span>
             ))}
           </div>

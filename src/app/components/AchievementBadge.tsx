@@ -1,3 +1,5 @@
+import { IconLock } from "@tabler/icons-react";
+import { BADGE_ICONS } from "../data/mockData";
 import { getBadgeMedalClassName } from "../utils/badgeStyles";
 
 interface AchievementBadgeProps {
@@ -10,16 +12,17 @@ interface AchievementBadgeProps {
 
 export function AchievementBadge({ icon, label, color, unlocked, description }: AchievementBadgeProps) {
   const medalClass = getBadgeMedalClassName(color);
+  const Icon = BADGE_ICONS[icon];
 
   if (!unlocked) {
     return (
       <div className="flex flex-col items-center gap-3">
         <div className="relative">
           <div className="absolute -top-1 -right-1 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-[#998e84]">
-            <span className="text-white text-xs">🔒</span>
+            <IconLock size={12} className="text-white" />
           </div>
           <div className="flex h-20 w-20 items-center justify-center rounded-full border-3 border-dashed border-[#d7cec4] bg-[#f3efe9]">
-            <span className="text-3xl grayscale opacity-30">{icon}</span>
+            {Icon && <Icon size={28} className="grayscale opacity-30" />}
           </div>
         </div>
         <div className="text-center">
@@ -40,7 +43,7 @@ export function AchievementBadge({ icon, label, color, unlocked, description }: 
           className={`flex h-20 w-20 items-center justify-center rounded-full border-3 border-white ${medalClass}`}
           style={{ borderWidth: 3 }}
         >
-          <span className="text-3xl filter drop-shadow-md">{icon}</span>
+          {Icon && <Icon size={28} stroke={1.5} className="text-white drop-shadow-md" />}
         </div>
       </div>
       <div className="text-center">

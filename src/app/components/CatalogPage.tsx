@@ -16,6 +16,7 @@ import {
   Heart,
   HeartOff,
 } from "lucide-react";
+import { IconPlant2, IconFlame } from "@tabler/icons-react";
 import { type Category, type ItemType } from "../data/mockData";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { useClarityEvents } from "./clarity/events";
@@ -262,7 +263,7 @@ export function CatalogPage() {
       {/* Items Grid/List */}
       {filteredItems.length === 0 ? (
         <div className="text-center py-16">
-          <div className="text-4xl mb-3">🌿</div>
+          <div className="text-4xl mb-3"><IconPlant2 size={40} /></div>
           <p className="text-sm text-[#7e7369]">Nenhum item encontrado</p>
           <button onClick={clearFilters} className="mt-3 text-sm text-brand" style={{ fontWeight: 600 }}>
             Limpar filtros
@@ -313,8 +314,8 @@ export function CatalogPage() {
                       {item.type === "doacao" ? "Doação" : `R$ ${item.price}`}
                     </span>
                     {item.urgent && (
-                      <span className="tone-urgent rounded-full px-2 py-0.5 text-xs" style={{ fontWeight: 600 }}>
-                        🔥 Urgente
+                      <span className="tone-urgent rounded-full px-2 py-0.5 text-xs flex items-center gap-0.5" style={{ fontWeight: 600 }}>
+                        <IconFlame size={12} /> Urgente
                       </span>
                     )}
                   </div>
@@ -405,8 +406,8 @@ export function CatalogPage() {
                       {item.name}
                     </p>
                     {item.urgent && (
-                      <span className="text-xs text-accent" style={{ fontWeight: 600 }}>
-                        🔥 Urgente
+                      <span className="text-xs text-accent flex items-center gap-0.5" style={{ fontWeight: 600 }}>
+                        <IconFlame size={12} /> Urgente
                       </span>
                     )}
                   </div>

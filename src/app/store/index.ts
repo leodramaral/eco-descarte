@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import appReducer from "./appSlice";
-import { createSeedState, type AppDataState } from "../data/mockData";
+import { createSeedState, type AppDataState, BADGES } from "../data/mockData";
 import { clarityMiddleware } from "./clarityMiddleware";
 
 const STORAGE_KEY = "recolhe-ai-redux";
@@ -28,11 +28,22 @@ function isValidPersistedState(value: unknown): value is PersistedState {
 function migratePersistedState(state: PersistedState): { appData: AppDataState } {
   const isLegacyState = typeof state.appData.appInitialized !== "boolean";
 
+  const rehydratedUsers = state.appData.users.map((user) => ({
+    ...user,
+    badges: user.badges
+      .map((badge) => BADGES[badge.id] ?? badge)
+      .filter((badge) => BADGES[badge.id]),
+    badgesLocked: user.badgesLocked
+      ?.map((badge) => BADGES[badge.id] ?? badge)
+      .filter((badge) => BADGES[badge.id]),
+  }));
+
   return {
     appData: {
       ...state.appData,
       appInitialized: true,
       currentUserId: isLegacyState ? null : state.appData.currentUserId,
+      users: rehydratedUsers,
     },
   };
 }

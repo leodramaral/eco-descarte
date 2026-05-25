@@ -14,6 +14,12 @@ import {
   Calendar,
   LogOut,
 } from "lucide-react";
+import {
+  IconFlame,
+  IconPackage as IconBox,
+  IconTruckDelivery,
+  IconTrophy,
+} from "@tabler/icons-react";
 import { logout } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { formatPhoneForMask } from "../utils/phone";
@@ -138,7 +144,7 @@ export function UserProfilePage() {
               </div>
               {isOwnProfile && streakData && streakData.streakCount > 0 && (
                 <div className="flex items-center gap-1">
-                  <span className="text-2xl">🔥</span>
+                  <span className="text-2xl"><IconFlame size={24} /></span>
                   <span className="text-xs font-bold text-brand-accent">
                     {streakData.streakCount} dia{streakData.streakCount !== 1 ? "s" : ""}
                   </span>
@@ -257,7 +263,7 @@ export function UserProfilePage() {
           <div>
             {activeItems.length === 0 ? (
               <div className="text-center py-10">
-                <div className="text-4xl mb-3">📦</div>
+                <div className="text-4xl mb-3"><IconBox size={40} /></div>
                 <p className="text-sm text-[#7e7369]">Nenhum item ativo no momento</p>
                 <button
                   onClick={() => navigate("/add")}
@@ -296,7 +302,7 @@ export function UserProfilePage() {
                           {item.type === "doacao" ? "Doação" : `R$ ${item.price}`}
                         </span>
                         {item.urgent && (
-                          <span className="text-xs text-accent" style={{ fontWeight: 600 }}>🔥 Urgente</span>
+                          <span className="text-xs text-accent flex items-center gap-0.5" style={{ fontWeight: 600 }}><IconFlame size={12} /> Urgente</span>
                         )}
                       </div>
                     </div>
@@ -321,7 +327,7 @@ export function UserProfilePage() {
           <div>
             <div className="mb-4">
               <p className="mb-2 text-sm text-[#7e7369]" style={{ fontWeight: 600 }}>
-                📦 Histórico de anúncios
+                <span className="flex items-center gap-1"><IconBox size={14} /> Histórico de anúncios</span>
               </p>
               {historyItems.length > 0 ? (
                 <div className="space-y-2">
@@ -361,7 +367,7 @@ export function UserProfilePage() {
             </div>
             <div>
               <p className="mb-2 text-sm text-[#7e7369]" style={{ fontWeight: 600 }}>
-                🚚 Itens coletados
+                <span className="flex items-center gap-1"><IconTruckDelivery size={14} /> Itens coletados</span>
               </p>
               <p className="py-4 text-center text-sm text-[#9a9188]">Nenhum item coletado ainda</p>
             </div>
@@ -371,7 +377,7 @@ export function UserProfilePage() {
         {activeTab === "conquistas" && (
           <div>
             <p className="mb-4 text-sm text-[#7e7369]">
-              Continue engajado para desbloquear mais conquistas! 🏆
+              Continue engajado para desbloquear mais conquistas! <IconTrophy size={14} className="inline" />
             </p>
             <div className="grid grid-cols-3 gap-4">
               {user.badges.map((badge) => (

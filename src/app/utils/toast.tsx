@@ -1,9 +1,19 @@
+import type { ReactNode } from "react";
 import { toast } from "sonner";
+import {
+  IconSeedling,
+  IconStar,
+  IconPin,
+  IconMessage,
+  IconConfetti,
+  IconPlant2,
+  IconTrophy,
+} from "@tabler/icons-react";
 
 export function showToast(
   type: "success" | "error" | "info",
-  message: string,
-  description?: string
+  message: ReactNode,
+  description?: ReactNode
 ) {
   switch (type) {
     case "success":
@@ -31,19 +41,19 @@ export function showToast(
 }
 
 export function showItemPublishedToast() {
-  showToast("success", "🌱 Anúncio publicado!", "Seu item agora está visível no catálogo.");
+  showToast("success", <span className="flex items-center gap-1.5"><IconSeedling size={16} /> Anúncio publicado!</span>, "Seu item agora está visível no catálogo.");
 }
 
 export function showItemSavedToast() {
-  showToast("success", "⭐ Item salvo!", "Adicionado aos seus favoritos.");
+  showToast("success", <span className="flex items-center gap-1.5"><IconStar size={16} /> Item salvo!</span>, "Adicionado aos seus favoritos.");
 }
 
 export function showItemRemovedToast() {
-  showToast("info", "📌 Item removido", "Removido dos seus favoritos.");
+  showToast("info", <span className="flex items-center gap-1.5"><IconPin size={16} /> Item removido</span>, "Removido dos seus favoritos.");
 }
 
 export function showContactStartedToast() {
-  showToast("success", "💬 Contato iniciado!", "Redirecionando para o WhatsApp...");
+  showToast("success", <span className="flex items-center gap-1.5"><IconMessage size={16} /> Contato iniciado!</span>, "Redirecionando para o WhatsApp...");
 }
 
 export function showLoginSuccessToast(name: string) {
@@ -55,14 +65,14 @@ export function showLogoutToast() {
 }
 
 export function showRegistrationSuccessToast() {
-  showToast("success", "🎉 Cadastro realizado!", "Bem-vindo ao Recolhe Aí!");
+  showToast("success", <span className="flex items-center gap-1.5"><IconConfetti size={16} /> Cadastro realizado!</span>, "Bem-vindo ao Recolhe Aí!");
 }
 
 export function showImpactNudge(impact: { wasteAvoided: number; itemsDiscarded: number }) {
-  const messages = [
-    `🌿 Você evitou ${impact.wasteAvoided}kg de resíduos!`,
-    `⭐ ${impact.itemsDiscarded} itens descartados com sucesso!`,
-    `🏆 Continue assim, você está salvando o planeta!`,
+  const messages: ReactNode[] = [
+    <span key="1" className="flex items-center gap-1.5"><IconPlant2 size={16} /> Você evitou {impact.wasteAvoided}kg de resíduos!</span>,
+    <span key="2" className="flex items-center gap-1.5"><IconStar size={16} /> {impact.itemsDiscarded} itens descartados com sucesso!</span>,
+    <span key="3" className="flex items-center gap-1.5"><IconTrophy size={16} /> Continue assim, você está salvando o planeta!</span>,
   ];
 
   const randomMessage = messages[Math.floor(Math.random() * messages.length)];

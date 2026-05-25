@@ -7,18 +7,32 @@ import {
   Leaf,
   AlertCircle,
 } from "lucide-react";
+import {
+  IconArmchair,
+  IconSnowflake,
+  IconDeviceTv,
+  IconBolt,
+  IconPackage,
+  IconGift,
+  IconCoin,
+  IconMapPin,
+  IconTruckDelivery,
+  IconFlame,
+  IconSeedling,
+} from "@tabler/icons-react";
+import type { TablerIcon } from "@tabler/icons-react";
 import { type Category, type Item } from "../data/mockData";
 import { addItem } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { showItemPublishedToast } from "../utils/toast";
 import { ConfettiCelebration } from "./ConfettiCelebration";
 
-const CATEGORIES: { value: Category; label: string; icon: string }[] = [
-  { value: "moveis", label: "Móveis", icon: "🪑" },
-  { value: "geladeiras", label: "Geladeiras", icon: "🧊" },
-  { value: "tvs", label: "TVs", icon: "📺" },
-  { value: "eletrodomesticos", label: "Eletrodomésticos", icon: "⚡" },
-  { value: "outros", label: "Outros", icon: "📦" },
+const CATEGORIES: { value: Category; label: string; icon: TablerIcon }[] = [
+  { value: "moveis", label: "Móveis", icon: IconArmchair },
+  { value: "geladeiras", label: "Geladeiras", icon: IconSnowflake },
+  { value: "tvs", label: "TVs", icon: IconDeviceTv },
+  { value: "eletrodomesticos", label: "Eletrodomésticos", icon: IconBolt },
+  { value: "outros", label: "Outros", icon: IconPackage },
 ];
 
 const NEIGHBORHOODS = [
@@ -266,7 +280,7 @@ export function AddItemPage() {
                 }`}
                 style={{ fontWeight: form.category === cat.value ? 600 : 400 }}
               >
-                <span className="text-lg">{cat.icon}</span>
+                <cat.icon size={20} />
                 {cat.label}
               </button>
             ))}
@@ -381,7 +395,7 @@ export function AddItemPage() {
               }`}
               style={{ fontWeight: form.type === "doacao" ? 700 : 400 }}
             >
-              🎁 Doação
+              <span className="flex items-center gap-1"><IconGift size={16} /> Doação</span>
               <span className="text-xs opacity-70">Sem custo</span>
             </button>
             <button
@@ -394,7 +408,7 @@ export function AddItemPage() {
               }`}
               style={{ fontWeight: form.type === "pago" ? 700 : 400 }}
             >
-              💰 Remunerado
+              <span className="flex items-center gap-1"><IconCoin size={16} /> Remunerado</span>
               <span className="text-xs opacity-70">Com valor</span>
             </button>
           </div>
@@ -426,7 +440,7 @@ export function AddItemPage() {
               }`}
               style={{ fontWeight: form.transport === "retirada" ? 700 : 400 }}
             >
-              📍 Retirada no local
+              <span className="flex items-center gap-1"><IconMapPin size={16} /> Retirada no local</span>
               <span className="text-xs opacity-70">Coletor busca</span>
             </button>
             <button
@@ -439,7 +453,7 @@ export function AddItemPage() {
               }`}
               style={{ fontWeight: form.transport === "entrega" ? 700 : 400 }}
             >
-              🚚 Posso entregar
+              <span className="flex items-center gap-1"><IconTruckDelivery size={16} /> Posso entregar</span>
               <span className="text-xs opacity-70">Você entrega</span>
             </button>
           </div>
@@ -465,7 +479,7 @@ export function AddItemPage() {
             </div>
             <div className="flex-1 text-left">
               <p className={`text-sm ${form.urgent ? "text-accent" : "text-foreground"}`} style={{ fontWeight: 600 }}>
-                🔥 Precisa retirar com urgência
+                <span className="flex items-center gap-1"><IconFlame size={14} /> Precisa retirar com urgência</span>
               </p>
               <p className={`text-xs ${form.urgent ? "text-brand-accent" : "text-muted-foreground"}`}>
                 O item aparecerá com destaque "Retirar hoje"
@@ -487,7 +501,7 @@ export function AddItemPage() {
         >
           {currentUser
             ? isFormValid
-              ? "🌱 Publicar Anúncio"
+              ? <span className="flex items-center justify-center gap-1.5"><IconSeedling size={18} /> Publicar Anúncio</span>
               : "Preencha os campos obrigatórios"
             : "Perfil necessário para publicar"}
         </button>
