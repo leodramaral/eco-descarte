@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
-import { ArrowLeft, Phone, LogIn, UserPlus, ChevronRight } from "lucide-react";
+import { ArrowLeft, LogIn, UserPlus } from "lucide-react";
 import { loginByPhone } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { normalizePhone } from "../utils/phone";
@@ -24,7 +24,6 @@ export function LoginPage() {
   const dispatch = useAppDispatch();
   const { currentUserId, users } = useAppSelector((state) => state.appData);
   const phone = usePhoneInput();
-  const [userNotFound, setUserNotFound] = useState(false);
 
   const nextPath = useMemo(() => getNextPath(location.search), [location.search]);
   const currentUser = users.find((user) => user.id === currentUserId) ?? null;
@@ -39,7 +38,9 @@ export function LoginPage() {
     const matchingUser = users.find((candidate) => normalizePhone(candidate.phone) === normalizedPhone);
 
     if (!matchingUser) {
-      setUserNotFound(true);
+      navigate(
+        `/register?next=${encodeURIComponent(nextPath)}&phone=${encodeURIComponent(phone.rawDigits)}`
+      );
       return;
     }
 
@@ -62,63 +63,15 @@ export function LoginPage() {
         <div className="mb-5 flex items-start justify-between gap-4">
           <div>
             <h1 className="text-[#201814]" style={{ fontSize: "1.45rem", fontWeight: 700 }}>
-              {userNotFound ? "Criar cadastro" : "Entrar com telefone"}
+              Entrar com telefone
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-[#655b53]">
-              {userNotFound
-                ? "Não encontramos uma conta com este telefone. Crie uma agora para começar!"
-                : "Use o seu telefone para logar e continuar anunciando no Recolhe Aí."}
+              Use o seu telefone para logar e continuar anunciando no Recolhe Aí.
             </p>
           </div>
         </div>
 
-        {userNotFound ? (
-          <div className="space-y-4">
-            <div className="surface-earth rounded-2xl px-4 py-3 text-sm text-brand-earth">
-              Para continuar com o telefone <strong>{phone.maskedValue}</strong>, você precisa criar uma conta nova.
-            </div>
-
-            <button
-              type="button"
-              onClick={() =>
-                navigate(
-                  `/register?next=${encodeURIComponent(nextPath)}&phone=${encodeURIComponent(phone.rawDigits)}`
-                )
-              }
-              className="cta-secondary group w-full rounded-2xl p-4 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2"
-              aria-label="Criar nova conta"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="rounded-xl bg-white/20 p-2.5">
-                    <UserPlus className="h-5 w-5" />
-                  </div>
-                  <div className="text-left">
-                    <div className="font-bold text-sm">Criar cadastro</div>
-                    <div className="text-xs opacity-90">Nova conta no Recolhe Aí</div>
-                  </div>
-                </div>
-                <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                phone.reset();
-                setUserNotFound(false);
-              }}
-              className="w-full rounded-2xl border border-brand-primary bg-white px-4 py-3.5 font-medium text-brand-primary-strong transition-colors hover:bg-brand-primary-soft focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
-              aria-label="Tentar com outro número de telefone"
-            >
-              <div className="flex items-center justify-center gap-2">
-                <Phone className="h-4 w-4" />
-                Tentar outro telefone
-              </div>
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
             <PhoneInput
               maskedValue={phone.maskedValue}
               onChange={phone.handleChange}
@@ -155,7 +108,6 @@ export function LoginPage() {
               </div>
             </button>
           </form>
-        )}
       </div>
     </div>
   );
