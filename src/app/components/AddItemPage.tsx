@@ -484,7 +484,13 @@ export function AddItemPage() {
               className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${
                 form.urgent ? "border-[#76371b] bg-[#a85d2e]" : "border-[#cabeb4] bg-white"
               }`}
-            />
+            >
+              {form.urgent && (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              )}
+            </div>
             <div className="flex-1 text-left">
               <p className={`text-sm ${form.urgent ? "text-[#a85d2e]" : "text-foreground"}`} style={{ fontWeight: 600 }}>
                 <span>Precisa retirar com urgência</span>
