@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { createSeedState, type AppDataState, type Item, type User } from "../data/mockData";
+import { createSeedState, type Item, type User } from "../data/mockData";
 import { normalizePhone } from "../utils/phone";
 
 const initialState = createSeedState();

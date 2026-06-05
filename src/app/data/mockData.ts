@@ -539,9 +539,9 @@ export const ITEMS: Item[] = [
   },
   {
     id: 'i15',
-    name: 'Criado-Mudo',
+    name: 'Cômoda',
     description:
-      'Criado-mudo com duas gavetas, trilhos funcionando e pintura preservada. Perfeito para quarto ou escritório.',
+      'Cômoda com duas gavetas, trilhos funcionando e pintura preservada. Perfeito para quarto ou escritório.',
     category: 'moveis',
     images: [
       'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',

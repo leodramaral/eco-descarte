@@ -260,7 +260,7 @@ export function UserProfilePage() {
                 <p className="text-sm text-[#7e7369]">Nenhum item ativo no momento</p>
                 <button
                   onClick={() => navigate("/add")}
-                  className="cta-primary mt-4 rounded-xl px-6 py-2 text-sm"
+                  className="cursor-pointer cta-primary mt-4 rounded-xl px-6 py-2 text-sm"
                   style={{ fontWeight: 600 }}
                 >
                   Anunciar item

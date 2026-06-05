@@ -82,7 +82,7 @@ export function LoginPage() {
             <button
               type="submit"
               disabled={!phone.isValid}
-              className="cta-primary group w-full rounded-2xl p-4 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none"
+              className="cursor-pointer cta-primary group w-full rounded-2xl p-4 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none"
               aria-label="Entrar no sistema"
             >
               <div className="flex items-center justify-center gap-2">
@@ -102,7 +102,7 @@ export function LoginPage() {
               aria-label="Criar nova conta"
               style={{ color: '#a85d2e' }}
             >
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-2 cursor-pointer">
                 <UserPlus className="h-5 w-5" />
                 <span>Criar cadastro</span>
               </div>

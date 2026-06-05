@@ -116,30 +116,15 @@ export function RegisterPage() {
 
   return (
     <div className="px-4 pt-6 pb-8">
-      <button
-        onClick={() => navigate(-1)}
-        className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 rounded px-2 py-1"
-        aria-label="Voltar para página anterior"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Voltar
-      </button>
-
-      <div className="rounded-[28px] border border-border bg-gradient-to-br from-brand-primary-soft via-white to-brand-earth-soft p-5 shadow-[0_20px_45px_rgba(56,45,34,0.08)]">
+      <div className="rounded-[28px] border border-border p-5 shadow-[0_20px_45px_rgba(56,45,34,0.08)]">
         <div className="mb-5 flex items-start justify-between gap-4">
           <div>
-            <div className="brand-mark mb-3 flex h-11 w-11 items-center justify-center rounded-2xl">
-              <Leaf className="h-5 w-5 text-white" />
-            </div>
             <h1 className="text-foreground" style={{ fontSize: "1.45rem", fontWeight: 700 }}>
               Criar cadastro
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               Complete seus dados para começar a anunciar no Recolhe Aí.
             </p>
-          </div>
-          <div className="surface-earth rounded-2xl p-3">
-            <User className="h-5 w-5 text-brand-earth" />
           </div>
         </div>
 
@@ -215,7 +200,7 @@ export function RegisterPage() {
           <button
             type="submit"
             disabled={!name.trim() || !phone.isValid || isSubmitting}
-            className="cta-primary w-full rounded-2xl py-3 font-medium text-white disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+            className="cursor-pointer cta-primary w-full rounded-2xl py-3 font-medium text-white disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
             aria-label="Criar cadastro"
           >
             {isSubmitting ? (
@@ -231,7 +216,7 @@ export function RegisterPage() {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="surface-earth w-full rounded-2xl py-3 font-medium text-brand-earth transition-colors hover:bg-[#ecddcf] disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-brand-earth focus:ring-offset-2"
+            className="cursor-pointer surface-earth w-full rounded-2xl py-3 font-medium text-brand-earth transition-colors hover:bg-[#ecddcf] disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-brand-earth focus:ring-offset-2"
             disabled={isSubmitting}
             aria-label="Cancelar cadastro"
           >
