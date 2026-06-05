@@ -301,12 +301,17 @@ export function ItemDetailPage() {
         </div>
 
         {/* User Section */}
-        <div className="rounded-xl border border-border bg-white p-4 shadow-[0_10px_28px_rgba(56,45,34,0.05)]">
+        <div
+          onClick={() => {
+            item_profile_click(item.id, user.id);
+            navigate(`/profile/${user.id}`);
+          }}
+          className="cursor-pointer rounded-xl border border-border bg-white p-4 shadow-[0_10px_28px_rgba(56,45,34,0.05)]"
           <h3 className="mb-3 text-[#2a211c]">Anunciante</h3>
           <div className="flex items-center gap-3 mb-3">
             <button
-              onClick={() => {
-                item_profile_click(item.id, user.id);
+              onClick={(e) => {
+                e.stopPropagation();
                 navigate(`/profile/${user.id}`);
               }}
               className="rounded-full cursor-pointer"

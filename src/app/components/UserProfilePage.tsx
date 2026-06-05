@@ -9,7 +9,6 @@ import {
   Truck,
   ChevronRight,
   MapPin,
-  Edit3,
   Phone,
   Calendar,
   LogOut,
@@ -65,7 +64,6 @@ export function UserProfilePage() {
   const discardedItemsCount = user.itemsDiscarded;
   const collectedItemsCount = user.itemsCollected;
   const wasteAvoidedKg = user.wasteAvoided;
-  const superEcoProgress = Math.min((discardedItemsCount / 20) * 100, 100);
   const formattedPhone = formatPhoneForMask(user.phone);
   const userNeighborhoods = [...new Set(userItems.map((item) => item.neighborhood))];
   const neighborhoodsSummary =
@@ -114,7 +112,7 @@ export function UserProfilePage() {
                 </div>
               </div>
             </div>
-            {isOwnProfile ? (
+            {isOwnProfile && (
               <button
                 onClick={() => {
                   dispatch(logout());
@@ -125,10 +123,6 @@ export function UserProfilePage() {
               >
                 <LogOut className="w-4 h-4" />
                 Sair
-              </button>
-            ) : (
-              <button className="surface-earth flex h-9 w-9 items-center justify-center rounded-xl" aria-label="Editar perfil">
-                <Edit3 className="w-4 h-4 text-brand-primary-strong" />
               </button>
             )}
           </div>
@@ -263,7 +257,6 @@ export function UserProfilePage() {
           <div>
             {activeItems.length === 0 ? (
               <div className="text-center py-10">
-                <div className="text-4xl mb-3"><IconBox size={40} /></div>
                 <p className="text-sm text-[#7e7369]">Nenhum item ativo no momento</p>
                 <button
                   onClick={() => navigate("/add")}
