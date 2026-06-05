@@ -11,10 +11,8 @@ import {
   ChevronRight,
   Truck,
   Car,
-  Clock,
   X,
   Heart,
-  HeartOff,
 } from "lucide-react";
 import { IconPlant2, IconFlame } from "@tabler/icons-react";
 import { type Category, type ItemType } from "../data/mockData";
@@ -129,7 +127,7 @@ export function CatalogPage() {
           <button
             type="button"
             onClick={() => setSearch("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2"
+            className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2"
             aria-label="Limpar busca"
           >
             <X className="h-4 w-4 text-brand-primary-strong" />

@@ -118,7 +118,7 @@ export function UserProfilePage() {
                   dispatch(logout());
                   navigate("/", { replace: true });
                 }}
-                className="surface-earth inline-flex h-9 items-center gap-1 rounded-xl px-3 text-sm text-brand-earth"
+                className="cursor-pointer surface-earth inline-flex h-9 items-center gap-1 rounded-xl px-3 text-sm text-brand-earth"
                 style={{ fontWeight: 600 }}
               >
                 <LogOut className="w-4 h-4" />
@@ -238,7 +238,7 @@ export function UserProfilePage() {
                 setActiveTab(tab.value);
                 profile_tab_change(tab.value);
               }}
-              className={`flex-1 py-2 rounded-lg text-sm transition-all ${
+              className={`cursor-pointer flex-1 py-2 rounded-lg text-sm transition-all ${
                 activeTab === tab.value
                   ? "bg-white text-brand shadow-sm"
                   : "text-[#7e7369]"

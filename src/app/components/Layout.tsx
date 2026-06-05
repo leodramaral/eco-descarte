@@ -67,7 +67,7 @@ export function Layout() {
       <header className="sticky top-0 z-50 border-b border-border bg-white/95 shadow-[0_10px_30px_rgba(56,45,34,0.06)] backdrop-blur-sm">
         <div className="max-w-2xl mx-auto px-4 py-3 space-y-3">
           <div className="flex items-center justify-between">
-            <button onClick={() => navigate("/")} className="flex items-center gap-2.5 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 rounded px-2 py-1" aria-label="Voltar para a página inicial">
+            <button onClick={() => navigate("/")} className="cursor-pointer flex items-center gap-2.5 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 rounded px-2 py-1" aria-label="Voltar para a página inicial">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#D7E4D9] bg-[#EDF4EE]">
                 <PackageOpen className="h-[17px] w-[17px] text-[#2F6B3D]" />
               </div>
@@ -83,7 +83,7 @@ export function Layout() {
               onClick={() => navigate(profileTarget)}
               aria-label={currentUser ? `Abrir perfil de ${currentUser.name}` : "Entrar ou abrir perfil"}
               aria-current={location.pathname === "/profile" || location.pathname.startsWith("/profile/") ? "page" : undefined}
-              className={`flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 ${
+              className={`cursor-pointer flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 ${
                 currentUser
                   ? "border-brand-primary bg-brand-primary-soft text-brand-primary-strong"
                   : "border-border bg-brand-earth-soft text-brand-earth"
@@ -120,7 +120,7 @@ export function Layout() {
                 onClick={() => navigate(item.target)}
                 aria-label={item.label}
                 aria-current={active ? "page" : undefined}
-                className={`flex flex-1 flex-col items-center gap-0.5 py-2 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 ${
+                className={`cursor-pointer flex flex-1 flex-col items-center gap-0.5 py-2 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 ${
                   active ? "nav-active" : "text-[#8b8177]"
                 }`}
               >
