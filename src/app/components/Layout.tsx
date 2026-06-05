@@ -111,7 +111,9 @@ export function Layout() {
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-white/95 shadow-[0_-10px_30px_rgba(56,45,34,0.08)] backdrop-blur-sm">
         <div className="max-w-2xl mx-auto flex">
-          {navItems.map((item) => {
+          {navItems
+            .filter((item) => !(location.pathname === "/add" && item.path === "/add"))
+            .map((item) => {
             const active = isActive(item.path);
             const Icon = item.icon;
             return (

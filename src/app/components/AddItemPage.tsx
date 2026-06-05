@@ -5,7 +5,6 @@ import {
   ChevronDown,
   CheckCircle,
   Leaf,
-  AlertCircle,
   Info,
 } from "lucide-react";
 import {
@@ -18,7 +17,6 @@ import {
   IconCoin,
   IconMapPin,
   IconTruckDelivery,
-  IconFlame,
   IconSeedling,
 } from "@tabler/icons-react";
 import type { TablerIcon } from "@tabler/icons-react";
@@ -285,7 +283,7 @@ export function AddItemPage() {
                 key={cat.value}
                 type="button"
                 onClick={() => handleChange("category", cat.value)}
-                className={`flex flex-col items-center gap-1 rounded-xl border px-2 py-2.5 text-xs transition-colors ${
+                className={`cursor-pointer flex flex-col items-center gap-1 rounded-xl border px-2 py-2.5 text-xs transition-colors ${
                   form.category === cat.value
                     ? "border-brand-primary bg-brand-primary-soft text-brand"
                     : "border-border bg-white text-muted-foreground"
@@ -400,7 +398,7 @@ export function AddItemPage() {
             <button
               type="button"
               onClick={() => handleChange("type", "doacao")}
-              className={`flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
+              className={`cursor-pointer flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
                 form.type === "doacao"
                   ? "border-brand-primary bg-brand-primary-soft text-brand"
                   : "border-border bg-white text-muted-foreground"
@@ -413,7 +411,7 @@ export function AddItemPage() {
             <button
               type="button"
               onClick={() => handleChange("type", "pago")}
-              className={`flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
+              className={`cursor-pointer flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
                 form.type === "pago"
                   ? "border-brand-earth bg-brand-earth-soft text-brand-earth"
                   : "border-border bg-white text-muted-foreground"
@@ -445,7 +443,7 @@ export function AddItemPage() {
             <button
               type="button"
               onClick={() => handleChange("transport", "retirada")}
-              className={`flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
+              className={`cursor-pointer flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
                 form.transport === "retirada"
                   ? "border-brand-accent bg-brand-accent-soft text-brand-accent"
                   : "border-border bg-white text-muted-foreground"
@@ -458,7 +456,7 @@ export function AddItemPage() {
             <button
               type="button"
               onClick={() => handleChange("transport", "entrega")}
-              className={`flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
+              className={`cursor-pointer flex flex-col items-center gap-1 rounded-xl border-2 py-3 text-sm transition-colors ${
                 form.transport === "entrega"
                   ? "border-brand-earth bg-brand-earth-soft text-brand-earth"
                   : "border-border bg-white text-muted-foreground"
@@ -476,7 +474,7 @@ export function AddItemPage() {
           <button
             type="button"
             onClick={() => handleChange("urgent", !form.urgent)}
-            className={`flex w-full items-center gap-3 rounded-xl border-2 p-4 transition-colors ${
+            className={`cursor-pointer flex w-full items-center gap-3 rounded-xl border-2 p-4 transition-colors ${
               form.urgent
                 ? "border-brand-accent bg-brand-accent-soft"
                 : "border-border bg-white"
@@ -484,14 +482,12 @@ export function AddItemPage() {
           >
             <div
               className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${
-                form.urgent ? "border-brand-accent bg-brand-accent" : "border-[#cabeb4]"
+                form.urgent ? "border-[#a85d2e] bg-brand-accent" : "border-[#cabeb4]"
               }`}
-            >
-              {form.urgent && <CheckCircle className="w-3.5 h-3.5 text-white" />}
-            </div>
+            />
             <div className="flex-1 text-left">
               <p className={`text-sm ${form.urgent ? "text-accent" : "text-foreground"}`} style={{ fontWeight: 600 }}>
-                <span className="flex items-center gap-1"><IconFlame size={14} /> Precisa retirar com urgência</span>
+                <span>Precisa retirar com urgência</span>
               </p>
               <p className={`text-xs ${form.urgent ? "text-brand-accent" : "text-muted-foreground"}`}>
                 O item aparecerá com destaque "Retirar hoje"
