@@ -482,14 +482,14 @@ export function AddItemPage() {
           >
             <div
               className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${
-                form.urgent ? "border-[#a85d2e] bg-brand-accent" : "border-[#cabeb4]"
+                form.urgent ? "border-[#76371b] bg-[#a85d2e]" : "border-[#cabeb4] bg-white"
               }`}
             />
             <div className="flex-1 text-left">
-              <p className={`text-sm ${form.urgent ? "text-accent" : "text-foreground"}`} style={{ fontWeight: 600 }}>
+              <p className={`text-sm ${form.urgent ? "text-[#a85d2e]" : "text-foreground"}`} style={{ fontWeight: 600 }}>
                 <span>Precisa retirar com urgência</span>
               </p>
-              <p className={`text-xs ${form.urgent ? "text-brand-accent" : "text-muted-foreground"}`}>
+              <p className={`text-xs ${form.urgent ? "text-[#a85d2e]" : "text-muted-foreground"}`}>
                 O item aparecerá com destaque "Retirar hoje"
               </p>
             </div>
